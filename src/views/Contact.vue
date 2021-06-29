@@ -1,5 +1,5 @@
 <template>
- <h2>Contact ange</h2>
+ <h2>Contact Test</h2>
 </template>
 <style scoped>
 </style>
