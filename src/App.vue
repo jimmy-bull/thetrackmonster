@@ -1,14 +1,10 @@
 <template>
   <div id="nav">
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> -->
      <Header></Header>
   </div>
   <router-view />
 
   <div id="footer">
-    <!-- <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> -->
     <Footer></Footer>
   </div>
 </template>
