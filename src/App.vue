@@ -3,8 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view />
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <router-view/>
+  <img alt="Vue logo" src="./assets/logo.png">
   <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
 </template>
 
@@ -12,11 +12,11 @@
 // import HelloWorld from './components/HelloWorld.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     // HelloWorld
-  },
-};
+  }
+}
 </script>
 
 <style>
