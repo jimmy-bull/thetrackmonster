@@ -1,10 +1,16 @@
-<template>
+<template style=" display: flex;
+  flex-direction: column;">
   <div id="nav">
     <Header></Header>
   </div>
-  <router-view />
+  <div>
+    <router-view />
+  </div>
+  <div>
+    <Player></Player>
+  </div>
 
-  <div id="footer">
+  <div id="footer" style="flex-shrink: 0">
     <Footer></Footer>
   </div>
 </template>
@@ -12,11 +18,13 @@
 <script>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import Player from "@/components/Player.vue";
 export default {
   name: "App",
   components: {
     Header,
     Footer,
+    Player,
   },
 };
 </script>
@@ -52,6 +60,11 @@ body {
   font-family: "Noto Serif JP", serif;
   max-width: 100%;
   color: #2c3e50;
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
 }
 *:focus {
   outline: 0 !important;

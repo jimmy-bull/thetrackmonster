@@ -1,188 +1,178 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Contact</title>
-</head>
-
-<body>
-
-
-<div class="flex-container" >
-
+<template>
+  <div class="flex-container">
     <div class="contact_title">
-        <h1> CONTACT </h1>
+      <h1>CONTACT</h1>
+    </div>
+    <div class="input_side">
+      <div>
+        <input type="text" i name="name" class="animation_input" />
+        <label for="Post-name" class="text_input animation_champ"> Nom </label>
+      </div>
+      <div style="margin-left: 20px">
+        <input type="text" name="email" class="animation_input" />
+        <label for="Post-name" class="text_input animation_champ">
+          E-mail
+        </label>
+      </div>
+    </div>
+    <div class="box_objet">
+      <input type="text" name="subject" class="animation_input" />
+
+      <label for="Post-name" class="text_input animation_champ">
+        Subject
+      </label>
     </div>
 
-    <div class="box_nom_email">
+    <div class="box_objet">
+      <input type="text" name="message" class="animation_input" />
 
-            <div class="width_inputs">
-
-                <input type="text" id="name" name="name" required
-                minlength="4" maxlength="8" size="38" class="animation_input">
-
-                <label for="Post-name" class="text_input animation_champ"> VOTRE NOM </label>
-
-            </div>
-
-
-            <div class="width_inputs email_width">
-                
-                <input type="text" id="E-mail" name="name" required
-                minlength="4" maxlength="8" size="38" class="animation_input">
-           
-                <label for="Post-name" class="text_input animation_champ"> ADRESSE E-MAIL </label>
-
-            </div>
+      <label for="Post-name" class="text_input animation_champ">
+        MESSAGE
+      </label>
     </div>
-
-
-            <div class="box_objet width_inputs">
-
-                <input type="text" id="E-mail" name="name" required
-                minlength="4" maxlength="8" size="84" class="animation_input">
-
-                <label for="Post-name" class="text_input animation_champ"> OBJET </label>
-            </div>
-
-
-            <div class="width_inputs">
-
-                <input type="text" id="E-mail" name="name" required
-                minlength="4" maxlength="8" size="84" class="animation_input">
-
-                <label for="Post-name" class="text_input animation_champ"> MESSAGE </label>
-            </div>
-
-
-            <input class="envoi-btn" type="submit" value="ENVOYER MESSAGE">
-
-</div>
-
-
-
-<style> 
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
-
-.contact_title{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Noto Serif JP', serif;
-    position: relative;
-    top: -100px;;
-    margin-bottom: -90px;;
+    <div style="display: flex; justify-content: flex-end; width: 100%">
+      <input class="envoi-btn" type="submit" value="ENVOYER MESSAGE" />
+    </div>
+  </div>
+</template>
+<style scoped>
+.contact_title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Noto Serif JP", serif;
+  position: relative;
+  top: -100px;
+  margin-bottom: -90px;
+}
+.input_side {
+  display: flex;
+}
+.input_side > div {
+  width: 100%;
+}
+.flex-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 150px 25% 0 25%;
 }
 
-
-.flex-container{
-    border: 1px solid green;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    border-radius: 2px;
+.box_nom_email {
+  display: flex;
+}
+.box_nom_email > div {
+  margin: 0px 20px 0px 20px;
+}
+input[type="text"] {
+  width: 100%;
+}
+.box_objet {
+  width: 100%;
+}
+.email_width {
+  margin-left: 20px;
 }
 
-
-.box_nom_email{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-
-.email_width{
-    margin-left: 20px;
-}
-
-
-.box_envoi_message{
-    background-color: #42b983;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-top: 30px;
-    padding-left: 7px;
-    padding-right: 7px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    opacity:0.9;
-    transition: 0.4s ease;
+.box_envoi_message {
+  background-color: #42b983;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 30px;
+  padding-left: 7px;
+  padding-right: 7px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  opacity: 0.9;
+  transition: 0.4s ease;
 }
 
 .envoi-btn {
-            margin: 20px 0px;
-            background-color: #42b983;
-            color: black;
-            padding: 20px 30px;
-            border-radius: 5px;
-            font-weight: 700;
-            border: none;
-            cursor: pointer;
-            margin-left: 28em;
-            opacity:0.9;
-            transition: 0.4s ease;
-        }
-
-
-.envoi-btn:hover{
-    background-color: black;
-    color: white;
-    opacity:1;
-    transition: 0.4s ease;
+  margin: 20px 0px;
+  background-color: #42b983;
+  color: black;
+  padding: 20px 30px;
+  border-radius: 5px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: 0.4s ease;
+  color: white;
 }
 
+.envoi-btn:hover {
+  background-color: #2c3e50;
+  color: white;
+  opacity: 1;
+  transition: 0.4s ease;
+}
 
-input{
+input {
   outline: 0;
-  border-width: 0 0 2px;
-  border-color:#f5f5f5;
+  /* border-width: 0 0 3px; */
+  /* border-color: #f5f5f5; */
   background-color: black;
-  border-top-style: hidden;
+  /* border-top-style: hidden;
   border-right-style: hidden;
-  border-left-style: hidden;
-  border-bottom-style: groove;
+  border-left-style: hidden; */
+  /* border-bottom-style: groove; */
   background-color: #eee;
   margin-top: 6vh;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+  padding: 10px 0px 10px 10px;
+  color: #2c3e50;
+  border-width: 0px;
 }
 
-
-.text_input{
-    margin-bottom: -2px;
-    margin-top: 2em;
-    font-family: 'Noto Serif JP', serif;
-    font-size: 13px;
-    position: relative;
-    top: -20px;
-    margin-bottom: -20px;
+.text_input {
+  margin-bottom: -2px;
+  margin-top: 2em;
+  /* font-family: "Noto Serif JP", serif; */
+  font-size: 13px;
+  position: relative;
+  top: -20px;
+  margin-bottom: -20px;
 }
 
-.animation_champ{
-    color:black;
-    pointer-events: none;
-    transition: 0.3s;
+.animation_champ {
+  color: black;
+  pointer-events: none;
+  transition: 0.3s;
 }
 
-.animation_input{
-    background-color: inherit;
-    display: block;
-    transition: 0.2s;
+.animation_input {
+  background-color: inherit;
+  display: block;
+  transition: 0.2s;
 }
 
-.animation_input:focus~label {
-    top: -50px;
-    font-size: 12px;
-    color:#42b983;
-    font-weight: bold;
+.animation_input:focus ~ label {
+  top: -60px !important;
+  font-size: 12px;
+  color: #42b983;
+  font-weight: bold;
 }
-
-
-
+label {
+  font-size: 12px !important;
+  text-transform: uppercase;
+  top: -30px !important;
+  left: 10px;
+}
+@media only screen and (max-width: 768px) {
+  .flex-container {
+    margin: 150px 15% 0 15%;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .flex-container {
+    margin: 150px 5% 0 5%;
+  }
+}
 </style>
-
-
-</body>
-
-
-</html>
+<script>
+export default {
+  name: "Contact",
+};
+</script>

@@ -9,6 +9,10 @@
     <div class="hide_on_767">
       <router-link to="/beats">Beats</router-link>
     </div>
+     <div class="hide_on_767">
+      <router-link to="/shop">Shop</router-link>
+    </div>
+    
     <div class="hide_on_767">
       <router-link to="/contact">Contact</router-link>
     </div>
@@ -33,12 +37,12 @@
         id=""
       />
     </div>
-    <div class="with_up hide_on_767">
+    <!-- <div class="with_up hide_on_767">
       <div class="count_number"><span>0</span></div>
       <router-link to="/cart">
         <unicon name="bell" fill="#2c3e50"
       /></router-link>
-    </div>
+    </div> -->
     <div class="with_up hide_on_767">
       <router-link to="/cart">
         <unicon name="user" fill="#2c3e50"
@@ -87,7 +91,7 @@
       </div>
 
       <hr />
-      <div class="with_up link_block_mobile">
+      <!-- <div class="with_up link_block_mobile">
         <div class="count_number_phone"><span>0</span></div>
         <router-link to="/wishlist">
           <unicon name="bell" fill="#2c3e50"
@@ -95,7 +99,7 @@
         <div style="text-indent: 10px">
           <router-link to="/wishlist">Notification</router-link>
         </div>
-      </div>
+      </div> -->
       <hr />
 
       <div class="with_up link_block_mobile">
