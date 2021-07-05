@@ -1180,9 +1180,9 @@ export default {
     // //   });
     // //   this.wavesurfer.load(require("../../public/calboy-12-offical-video.mp3"));
     // }
-    document.querySelector(
-      ".categories_block"
-    ).children[0].style.borderBottomStyle = "solid";
+     document.querySelector('.categories_block').children[0].style.borderBottomStyle =
+          "solid";
+    
   },
   methods: {
     // play() {

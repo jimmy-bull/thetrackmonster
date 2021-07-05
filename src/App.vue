@@ -10,8 +10,11 @@
     <Player></Player>
   </div>
 
-  <div id="footer" style="flex-shrink: 0">
+  <div id="footer">
     <Footer></Footer>
+  </div>
+  <div>
+    <Playlist></Playlist>
   </div>
 </template>
 
@@ -19,12 +22,14 @@
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Player from "@/components/Player.vue";
+import Playlist from "@/components/Playlist.vue";
 export default {
   name: "App",
   components: {
     Header,
     Footer,
     Player,
+    Playlist,
   },
 };
 </script>
@@ -61,6 +66,7 @@ body {
   max-width: 100%;
   color: #2c3e50;
   height: 100%;
+  position: relative;
 }
 body {
   display: flex;

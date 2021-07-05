@@ -291,11 +291,13 @@
           <div class="price_block_input">
             <div class="input_price" style="width: 100%">
               <Slider
+      
                 :max="max_bpm"
                 v-model="bpm"
                 :min="min_bpm"
                 ref="slider_bpm"
                 @change="getBpmValue"
+                 
               ></Slider>
             </div>
           </div>
