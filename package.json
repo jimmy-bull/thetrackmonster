@@ -13,6 +13,7 @@
     "@vueform/slider": "^2.0.3",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "jquery": "^3.6.0",
     "swiper": "^6.7.5",
     "vue": "^3.0.0",
     "vue-audio-visual": "^2.2.2",

@@ -754,6 +754,10 @@
 .title_zone_carou {
   text-align: center;
 }
+.title_zone_carou h4 {
+  font-size: 18px !important;
+  margin-top:10px
+}
 .splide_parent {
   margin: 2%;
 }
@@ -1180,9 +1184,9 @@ export default {
     // //   });
     // //   this.wavesurfer.load(require("../../public/calboy-12-offical-video.mp3"));
     // }
-     document.querySelector('.categories_block').children[0].style.borderBottomStyle =
-          "solid";
-    
+    document.querySelector(
+      ".categories_block"
+    ).children[0].style.borderBottomStyle = "solid";
   },
   methods: {
     // play() {

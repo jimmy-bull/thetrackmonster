@@ -9,10 +9,10 @@
     <div class="hide_on_767">
       <router-link to="/beats">Beats</router-link>
     </div>
-     <div class="hide_on_767">
+    <div class="hide_on_767">
       <router-link to="/shop">Shop</router-link>
     </div>
-    
+
     <div class="hide_on_767">
       <router-link to="/contact">Contact</router-link>
     </div>

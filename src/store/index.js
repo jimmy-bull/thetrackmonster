@@ -5,7 +5,8 @@ export default createStore({
     play_current: {},
     play_list: {},
     has_created_playlist: false,
-    wavesurferState: false
+    wavesurferState: false,
+    domain_for_external_js_css_file: 'http://127.0.0.1:8000/'
   },
   mutations: {
     wavesurferState(state) {
