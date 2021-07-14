@@ -249,7 +249,6 @@
   </div>
 </template>
 <style scoped>
-
 .btn_buy_player {
   background: #42b983;
   display: flex;

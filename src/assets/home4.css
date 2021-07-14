@@ -401,7 +401,7 @@ body {
 
 .txt_email_footer {
     padding      : 10px;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     box-shadow   : 0 10px 15px rgba(25, 25, 25, 0.1);
     border-width : 0px;
 }

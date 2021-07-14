@@ -44,7 +44,7 @@
       /></router-link>
     </div> -->
     <div class="with_up hide_on_767">
-      <router-link to="/cart">
+      <router-link to="/account">
         <unicon name="user" fill="#2c3e50"
       /></router-link>
     </div>

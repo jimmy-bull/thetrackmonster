@@ -3,11 +3,13 @@
     <div class="player">
       <div class="silder_progress_block">
         <Slider
-          tooltip="none"
-          v-model="value_volume"
-          :max="max_volume"
-          :min="min_volume"
-          :tooltips="false"
+          v-model="TrackCurentTime"
+          :max="TrackDuration"
+          :min="0"
+          ref="slider_Player"
+          @change="updtateAudioCurrentTime"
+          showTooltip="drag"
+          @drag="test"
         ></Slider>
       </div>
       <div class="player_image_box hide_on_576">
@@ -40,18 +42,43 @@
         <div>
           <unicon name="step-backward" width="15" height="15" fill="#42b983" />
         </div>
-        <div>
+        <div v-if="playing == false" @click="play_pause_player">
           <unicon name="play" width="35" height="35" fill="#42b983" />
+        </div>
+        <div v-if="playing" @click="play_pause_player">
+          <unicon name="pause" width="35" height="35" fill="#42b983" />
         </div>
         <div>
           <unicon name="skip-forward" width="15" height="15" fill="#42b983" />
         </div>
-        <div>
+        <div @click="repeat" v-if="loop" style="cursor: pointer">
+          <unicon name="repeat" width="18" height="18" fill="orangered" />
+        </div>
+        <div @click="repeat" v-if="!loop" style="cursor: pointer">
           <unicon name="repeat" width="18" height="18" fill="#42b983" />
         </div>
       </div>
-      <div class="hide_on_768">
-        <unicon name="volume" width="18" height="18" fill="#42b983" />
+      <div
+        v-if="volume_mute == false"
+        @click="volume_state"
+        class="hide_on_768"
+      >
+        <unicon
+          name="volume"
+          style="cursor: pointer"
+          width="18"
+          height="18"
+          fill="#42b983"
+        />
+      </div>
+      <div v-if="volume_mute == true" @click="volume_state">
+        <unicon
+          name="volume-mute"
+          style="cursor: pointer"
+          width="18"
+          height="18"
+          fill="#42b983"
+        />
       </div>
       <div style="width: 100px" class="hide_on_768">
         <Slider
@@ -60,6 +87,7 @@
           :max="max_volume"
           :min="min_volume"
           :tooltips="false"
+          @change="update_volume"
         ></Slider>
       </div>
       <div @click="open_playlist" style="cursor: pointer">
@@ -157,6 +185,7 @@
 <script>
 import Slider from "@vueform/slider";
 import Playlist from "@/components/Playlist.vue";
+import { mapState } from "vuex";
 export default {
   name: "Player",
   components: {
@@ -169,7 +198,12 @@ export default {
       max_volume: 10,
       min_volume: 0,
       is_open: false,
+      volume_mute: false,
+      loop: false,
     };
+  },
+  computed: {
+    ...mapState(["TrackDuration", "TrackCurentTime", "playing", "TrackMax"]),
   },
   mounted() {},
   methods: {
@@ -184,6 +218,49 @@ export default {
         document.querySelector(".play_list_block").style.height = 0 + "px";
         document.querySelector(".play_list_block").style.borderStyle = "none";
         this.is_open = false;
+      }
+    },
+    play_pause_player() {
+      this.$store.dispatch(
+        "play_pause_player",
+        document.querySelector(".track")
+      );
+    },
+    updtateAudioCurrentTime(event) {
+      console.log(event);
+      document.querySelector(".track").currentTime = event;
+    },
+    update_volume(event) {
+      if (event == 0) {
+        this.volume_mute = true;
+        document.querySelector(".track").volume = 0;
+        document.querySelector(".track").muted = true;
+      } else {
+        this.volume_mute = false;
+        document.querySelector(".track").volume = event / 10;
+        document.querySelector(".track").muted = false;
+      }
+    },
+    volume_state() {
+      if (this.volume_mute == false) {
+        this.volume_mute = true;
+        document.querySelector(".track").muted = true;
+        document.querySelector(".track").volume = 0;
+        this.value_volume = 0;
+      } else {
+        this.volume_mute = false;
+        document.querySelector(".track").muted = false;
+        document.querySelector(".track").volume = 1;
+        this.value_volume = 10;
+      }
+    },
+    repeat() {
+      if (this.loop == false) {
+        this.loop = true;
+        document.querySelector(".track").loop = true;
+      } else {
+        this.loop = false;
+        document.querySelector(".track").loop = false;
       }
     },
   },

@@ -1,27 +1,33 @@
 <template>
+  <div></div>
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
         <div>
-          <div class="first_block_first">
-            <div>
-              <img
-                class="img_last_added"
-                src="https://variety.com/wp-content/uploads/2020/12/Roddy-Ricch-Variety-Hitmakers-4-16x9-1.jpg?w=1024"
-                alt=""
-              />
+          <div
+            class="first_block_first"
+            v-for="(item, index) in latest_beat.data"
+            :key="index"
+          >
+            <div v-if="isloading_latest_beat == false">
+              <div class="loader"></div>
             </div>
+            <div v-if="isloading_latest_beat">
+              <img class="img_last_added" :src="item.image_link" alt="" />
+            </div>
+
             <div>
-              <span>Roddy rich x Lil Wayne Type Beats</span>
+              <span>{{ item.title }}</span>
               <div class="tags">
-                <div>
-                  <span>Energetique</span>
-                </div>
-                <div>
-                  <span>Trap</span>
-                </div>
-                <div>
-                  <span>Roddy Rich</span>
+                <div v-for="(tags_item, tags_index) in tags" :key="tags_index">
+                  <span>
+                    <router-link
+                      style="color: #42b983"
+                      class="link"
+                      :to="{ path: '/beats', query: { q: tags_item } }"
+                      >{{ tags_item }}
+                    </router-link>
+                  </span>
                 </div>
               </div>
               <div class="play_zone_first_block">
@@ -38,6 +44,7 @@
               </div>
             </div>
           </div>
+
           <div>
             <h3>Hot Artist Type Beats</h3>
             <div class="hot_artist">
@@ -99,24 +106,28 @@
   </div>
   <div class="splide_parent">
     <div class="categories_block">
-      <div @click="search_by_genre">
-        <span>Drill</span>
-      </div>
-      <div @click="search_by_genre">
-        <span>Trap Soul</span>
-      </div>
-      <div @click="search_by_genre">
-        <span>Hip Hop</span>
-      </div>
-      <div @click="search_by_genre">
-        <span>Trap</span>
-      </div>
-      <div @click="search_by_genre">
-        <span>Afro Beats</span>
+      <div
+        v-for="(item, index) in beats_genre.data"
+        :key="index"
+        @click="search_by_genre"
+      >
+        <span
+          ><router-link :to="{ path: 'beats', query: { genre: item.genre } }">{{
+            item.genre
+          }}</router-link></span
+        >
       </div>
     </div>
-    <splide class="splide" :options="options">
-      <splide-slide class="img_items">
+    <splide
+      class="splide"
+      :options="options"
+      v-if="isLoading_genre_filters == true"
+    >
+      <splide-slide
+        class="img_items"
+        v-for="(itemCarou, indexCarou) in carou_beats_data.data"
+        :key="indexCarou"
+      >
         <div>
           <div class="favoris_carou">
             <unicon
@@ -129,204 +140,15 @@
           <div class="play_btn_carou">
             <unicon name="play" height="15" fill="#fff" />
           </div>
-          <img
-            class="image_carou"
-            src="https://en.pressemag.fr/wp-content/uploads/2021/01/DaBaby-Press-Photo-1_Photo-Credit_Jackie-Dimailig.jpg"
-          />
+          <img class="image_carou" :src="itemCarou.image_link" />
           <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
+            <h4>{{ itemCarou.title }}</h4>
             <div class="price_block">
               <div>
                 <unicon name="shopping-bag" height="20" fill="#42b983" />
               </div>
               <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="https://generations.fr/media/news/thumb/870x489_5f809d337f97a-polo-g-696x442.jpg"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="https://www.rap-up.com/app/uploads/2019/11/tory-lanez-chanel.jpg"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFO9Yl5y2P3t9FAqwz2P_H1nxCOxQ45HnmbnaSiSp0NfeWM9_Ndt6C34TuKHOfjr8SU8g&usqp=CAU"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="http://image-api.nrj.fr/medias/2018/09/drake_5ba8a8c8494ff.jpg"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="https://yt3.ggpht.com/ytc/AAUvwnhaDKV5AgvI8gW1Ez314ZiXybmjJL5GvUdmdtNOLA=s900-c-k-c0x00ffffff-no-rj"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </splide-slide>
-
-      <splide-slide class="img_items">
-        <div>
-          <div class="favoris_carou">
-            <unicon
-              name="heart"
-              height="15"
-              style="margin-top: 7px"
-              fill="#42b983"
-            />
-          </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
-          </div>
-          <img
-            class="image_carou"
-            src="https://views.fr/wp-content/uploads/2020/01/migos.jpg"
-          />
-          <div class="title_zone_carou">
-            <h4>Dababy Type beats</h4>
-            <div class="price_block">
-              <div>
-                <unicon name="shopping-bag" height="20" fill="#42b983" />
-              </div>
-              <div>
-                <span class="price_carou">$24.99</span>
+                <span class="price_carou">${{ itemCarou.price }}</span>
               </div>
             </div>
           </div>
@@ -354,7 +176,7 @@
             </div>
             <img
               class="img_cate_gorie_carou"
-              src="https://images.frandroid.com/wp-content/uploads/2020/04/pikachu-ecouteurs-sans-fil-razer.jpg"
+              src="https://static.lexpress.fr/medias_12180/w_1000,c_fill,g_north/apple-airpods-pro_6236430.jpg"
             />
             <div class="bottom_effect_block_txt">
               <div>
@@ -374,7 +196,7 @@
           <div
             class="blur_ground_carou"
             style="
-              background: url('https://images.frandroid.com/wp-content/uploads/2020/04/pikachu-ecouteurs-sans-fil-razer.jpg');
+              background: url('https://static.lexpress.fr/medias_12180/w_1000,c_fill,g_north/apple-airpods-pro_6236430.jpg');
             "
           ></div>
         </div>
@@ -420,11 +242,11 @@
         <div style="overflow: hidden">
           <div class="img_cate_gorie_carou_block">
             <div class="top_effect_block_txt">
-              <h3>In earheadset</h3>
+              <h3>In earheadset 2</h3>
             </div>
             <div class="top_effect_block" style=""></div>
             <div class="title_on_blur">
-              <h3>In earheadset</h3>
+              <h3>In earheadset 1</h3>
             </div>
             <img
               class="img_cate_gorie_carou"
@@ -500,7 +322,7 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou"
+            class="image_carou" style="border-radius:3px"
             src="https://img.redbull.com/images/c_crop,w_2100,h_1400,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2020/1/22/pxdp8bfw4cobruzwobjm/uk_drill_artists_2020"
           />
           <div class="title_zone_carou">
@@ -521,7 +343,7 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou"
+            class="image_carou" style="border-radius:3px"
             src="https://i.scdn.co/image/ab67706c0000bebb1f4d6d643db0a0f2b84bceaa"
           />
           <div class="title_zone_carou">
@@ -543,7 +365,7 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou"
+            class="image_carou" style="border-radius:3px"
             src="https://cdn.shopify.com/s/files/1/2312/4771/products/TRAPSOUL-DADCAP-FRONT_1024x.png?v=1600976888"
           />
           <div class="title_zone_carou">
@@ -612,10 +434,10 @@
 .blur_ground_carou {
   height: 600px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
-  filter: blur(8px);
-  -webkit-filter: blur(8px);
+  filter: blur(3px);
+  -webkit-filter: blur(5px);
 }
 .top_effect_block {
   position: absolute;
@@ -687,6 +509,7 @@
   align-items: center;
   height: 600px;
   cursor: pointer;
+  width:100%;
 }
 .img_cate_gorie_carou {
   width: 80%;
@@ -755,8 +578,7 @@
   text-align: center;
 }
 .title_zone_carou h4 {
-  font-size: 18px !important;
-  margin-top:10px
+  margin-top: 10px;
 }
 .splide_parent {
   margin: 2%;
@@ -860,6 +682,7 @@
   width: 300px;
   border-radius: 10px;
   cursor: pointer;
+  background: #f5f5f5;
 }
 .tags {
   display: flex;
@@ -1090,12 +913,40 @@ label {
     margin: 150px 5% 0 5%;
   }
 }
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #42b983;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
 <script>
 import { mapState } from "vuex";
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
-import "@splidejs/splide/dist/css/themes/splide-skyblue.min.css";
+import Axios from "axios";
 // import axios from "axios";
 export default {
   name: "Home",
@@ -1104,13 +955,12 @@ export default {
     Splide,
     SplideSlide,
   },
-  directives: {},
   computed: {
-    ...mapState(["wavesurferState"]),
+    ...mapState(["domain_for_external_js_css_file"]),
   },
   data() {
     return {
-      info: "",
+      beats_genre: "",
       wavesurfer: "",
       options: {
         rewind: true,
@@ -1157,48 +1007,80 @@ export default {
           },
         },
       },
+      genre: [],
+      refCount: 0,
+      isLoading_genre_filters: false,
+      carou_beats_data: "",
+      latest_beat: "",
+      isloading_latest_beat: false,
+      tags: [],
     };
   },
-  // created() {
-  //   axios
-  //     .get("http://127.0.0.1:8000/api/allbeats/")
-  //     .then((response) => (this.info = response));
-  // },
+  methods: {
+    search_by_genre() {
+      // for (let i = 0; i < event.currentTarget.parentNode.children.length; i++) {
+      //   event.currentTarget.parentNode.children[i].style.borderBottomStyle =
+      //     "none";
+      // }
+      // event.currentTarget.style.borderBottomStyle = "solid";
+      // Axios.get(
+      //   this.domain_for_external_js_css_file +
+      //     "api/select_depending_on_genre/" +
+      //     event.currentTarget.textContent
+      // )
+      //   .then((response) => {
+      //     this.carou_beats_data = response;
+      //     console.log(this.carou_beats_data);
+      //   })
+      //   .catch((err) => console.log(err));
+    },
+    play() {
+      this.$emit("open_playlist_box");
+    },
+  },
 
-  mounted() {
-    // // if (this.wavesurferState == false) {
-    // //   let xhr = {
-    // //     mode: "no-cors",
-    // //   };
-    // //   this.wavesurfer = WaveSurfer.create({
-    // //     container: "#waveform",
-    // //     scrollParent: true,
-    // //     hideScrollbar: true,
-    // //     progressColor: "#42b983",
-    // //     waveColor: "#f5f5f5",
-    // //     barGap: 2,
-    // //     cursorColor: "#fff",
-    // //     xhr: xhr,
-    // //     barHeight: 0.5,
-    // //     height: 100,
-    // //   });
-    // //   this.wavesurfer.load(require("../../public/calboy-12-offical-video.mp3"));
-    // }
+  created() {
+    Axios.get(this.domain_for_external_js_css_file + "api/genre/")
+      .then((response) => {
+        this.beats_genre = response;
+      })
+      .catch((err) => console.log(err));
+
+    Axios.get(this.domain_for_external_js_css_file + "api/newestbeats/")
+      .then((response) => {
+        this.latest_beat = response;
+        if (this.latest_beat != "") {
+          this.isloading_latest_beat = true;
+        }
+
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/tags/" +
+            this.latest_beat.data[0].id
+        ).then((response) => {
+          response.data.forEach((element) => {
+            this.tags.push(element.tags);
+          });
+          console.log(this.tags);
+        });
+      })
+      .catch((err) => console.log(err));
+  },
+  updated() {
     document.querySelector(
       ".categories_block"
     ).children[0].style.borderBottomStyle = "solid";
-  },
-  methods: {
-    // play() {
-    //   this.wavesurfer.play();
-    // }, git clone ssh://u104441536@access867887356.webspace-data.io/~/repositories/my_repo.git
-    search_by_genre(event) {
-      for (let i = 0; i < event.currentTarget.parentNode.children.length; i++) {
-        event.currentTarget.parentNode.children[i].style.borderBottomStyle =
-          "none";
-      }
-      event.currentTarget.style.borderBottomStyle = "solid";
-    },
+
+    Axios.get(
+      this.domain_for_external_js_css_file +
+        "api/select_depending_on_genre/" +
+        document.querySelector(".categories_block").children[1].textContent
+    )
+      .then((response) => {
+        this.carou_beats_data = response;
+        this.isLoading_genre_filters = true;
+      })
+      .catch((err) => console.log(err));
   },
 };
 </script>
