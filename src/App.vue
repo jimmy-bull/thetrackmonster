@@ -1,9 +1,5 @@
 <template>
-  <audio
-    @timeupdate="timeupdate"
-    src="http://127.0.0.1:8000/audio/free-jack-harlow-x-dababy-type-beat-racks-dababy.mp3"
-    class="track"
-  ></audio>
+  <audio @timeupdate="timeupdate" @ended=" endPlay" src="" class="track"></audio>
   <div class="appp">
     <div id="nav">
       <Header></Header>
@@ -37,14 +33,43 @@ export default {
     Player,
   },
   computed: {
-    ...mapState(["TrackCurentTime"]),
+    ...mapState(["TrackCurentTime", "TrackDuration","item_id","play_list"]),
   },
   methods: {
+    formatTime(sec) {
+      let minutes = Math.floor(sec / 60);
+      let seconds = Math.floor(sec - minutes * 60);
+      if (seconds < 10) {
+        seconds = `0${seconds}`;
+      }
+      return `${minutes}:${seconds}`;
+    },
     open_playlist_box() {
       document.querySelector(".player_parent").style.display = "block";
     },
     timeupdate() {
       this.$store.dispatch("timeupdate", document.querySelector(".track"));
+      document.querySelector(".slider_tomb_progress").style.width =
+        Math.ceil((this.TrackCurentTime / this.TrackDuration) * 100) + "%";
+      document.querySelector(".minute_block").style.left =
+        Math.ceil((this.TrackCurentTime / this.TrackDuration) * 100) + "%";
+      document.querySelector(".minute").textContent = this.formatTime(
+        this.TrackCurentTime
+      );
+    },
+    endPlay() { // THE FUTURE IS FASTER THAN YOU THINK
+      if (this.item_id <= this.play_list.length - 1) {
+        let iteme_id = parseInt(this.item_id) + 1;
+        this.$store.dispatch("play_from_elements", {
+          class_reference: document
+            .querySelector(".pindex--" + iteme_id)
+            .getAttribute("class_referenceP"),
+          audio: document.querySelector(".track"),
+          play_current: this.play_list[iteme_id],
+          play_list: this.play_list,
+          item_id: iteme_id,
+        });
+      }
     },
   },
 };
@@ -52,7 +77,7 @@ export default {
 
 <style>
 .player_parent {
-  /* display: none; */
+  display: none;
 }
 .appp {
   display: flex;

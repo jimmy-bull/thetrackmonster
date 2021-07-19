@@ -2,25 +2,28 @@
   <div class="player_block">
     <div class="player">
       <div class="silder_progress_block">
-        <Slider
-          v-model="TrackCurentTime"
+        <input
+          type="range"
+          min="0"
           :max="TrackDuration"
-          :min="0"
-          ref="slider_Player"
-          @change="updtateAudioCurrentTime"
-          showTooltip="drag"
-          @drag="test"
-        ></Slider>
+          :value="TrackCurentTime"
+          class="slider"
+          id="myRange"
+          @input="rangeEvent"
+        />
+        <div class="slider_tomb_progress"></div>
+        <div class="slider_tomb_progress_parent"></div>
+        <div class="minute_block">
+          <div><span class="minute">0</span></div>
+        </div>
       </div>
       <div class="player_image_box hide_on_576">
-        <img
-          class="player_image"
-          src="https://en.pressemag.fr/wp-content/uploads/2021/01/DaBaby-Press-Photo-1_Photo-Credit_Jackie-Dimailig.jpg"
-          alt=""
-        />
+        <img class="player_image" :src="play_current.image_link" alt="" />
       </div>
       <div class="title">
-        <div><span class="title">Dababy type beat</span></div>
+        <div>
+          <span class="title">{{ play_current.title }}</span>
+        </div>
         <div style="font-size: 11px; margin-top: 5px; color: #ccc">
           TheTrackMonster
         </div>
@@ -35,21 +38,41 @@
           </div>
         </div>
         <div class="hide_on_576">
-          <span style="color: white; font-size: 15px">$29.99</span>
+          <span style="color: white; font-size: 15px"
+            >${{ play_current.price }}</span
+          >
         </div>
       </div>
       <div class="play_zone">
         <div>
-          <unicon name="step-backward" width="15" height="15" fill="#42b983" />
+          <unicon
+            name="step-backward"
+            style="cursor: pointer"
+            @click.stop="prevPlay"
+            width="15"
+            height="15"
+            fill="#42b983"
+          />
         </div>
-        <div v-if="playing == false" @click="play_pause_player">
+        <div
+          v-if="playing == false"
+          @click="play_pause_player"
+          style="cursor: pointer"
+        >
           <unicon name="play" width="35" height="35" fill="#42b983" />
         </div>
-        <div v-if="playing" @click="play_pause_player">
+        <div v-if="playing" @click="play_pause_player" style="cursor: pointer">
           <unicon name="pause" width="35" height="35" fill="#42b983" />
         </div>
         <div>
-          <unicon name="skip-forward" width="15" height="15" fill="#42b983" />
+          <unicon
+            name="skip-forward"
+            @click.stop="nextPlay"
+            width="15"
+            height="15"
+            style="cursor: pointer"
+            fill="#42b983"
+          />
         </div>
         <div @click="repeat" v-if="loop" style="cursor: pointer">
           <unicon name="repeat" width="18" height="18" fill="orangered" />
@@ -96,15 +119,90 @@
     </div>
   </div>
 
-  <Playlist class="play_list_block"></Playlist>
+  <Playlist
+    class="play_list_block"
+    :class_referenceProps="class_reference"
+  ></Playlist>
 </template>
 <style scoped>
-.silder_progress_block {
+.minute_block {
+  position: absolute;
+  top: -15px;
+  border-style: solid;
+  height: 10px;
+  width: 10px;
+  font-size: 10px;
+  padding: 0px 10px 8px 10px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-width: 1px;
+  background: #42b983;
+  border-width: 0px;
+  color: white;
+  border-radius: 3px;
+}
+.slider_tomb_progress {
+  position: absolute;
+  margin: 0 !important;
+  border-width: 0px;
+  height: 5px;
+  top: 12px;
+  background: #42b983;
+  z-index: 2;
+  border-radius: 3px;
+  max-width: 100%;
+  width: 0%;
+}
+.slider_tomb_progress_parent {
+  position: absolute;
+  margin: 0 !important;
+  border-width: 0px;
+  height: 5px;
+  top: 12px;
+  background: lightgray;
+  z-index: 1;
+  border-radius: 3px;
   width: 100%;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  z-index: 3;
+  height: 10px;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  top: 0;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.slider::-moz-range-thumb {
+  position: relative;
+  height: 18px;
+  width: 18px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  border-width: 0px;
+}
+.silder_progress_block {
+  width: 95%;
   z-index: 10000000;
   position: absolute;
-  top: 0;
+  top: -15px;
+  margin: 0 !important;
 }
+
 .play_list_block {
   position: fixed;
   bottom: 0;
@@ -136,7 +234,7 @@
   border-radius: 3px;
   cursor: pointer;
 }
-.btn_buy_player > div {
+.btn_buy_player div {
   margin: 0 2px 0 2px;
 }
 .player {
@@ -203,7 +301,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["TrackDuration", "TrackCurentTime", "playing", "TrackMax"]),
+    ...mapState([
+      "TrackDuration",
+      "TrackCurentTime",
+      "playing",
+      "TrackMax",
+      "play_current",
+      "class_reference",
+      "play_list",
+      "item_id",
+    ]),
   },
   mounted() {},
   methods: {
@@ -227,7 +334,6 @@ export default {
       );
     },
     updtateAudioCurrentTime(event) {
-      console.log(event);
       document.querySelector(".track").currentTime = event;
     },
     update_volume(event) {
@@ -261,6 +367,39 @@ export default {
       } else {
         this.loop = false;
         document.querySelector(".track").loop = false;
+      }
+    },
+    rangeEvent(event) {
+      document.querySelector(".track").currentTime = event.currentTarget.value;
+      document.querySelector(".slider_tomb_progress").style.width =
+        Math.ceil((this.TrackCurentTime / this.TrackDuration) * 100) + "%";
+    },
+    nextPlay() {
+      if (this.item_id <= this.play_list.length - 1) {
+        let iteme_id = parseInt(this.item_id) + 1;
+        this.$store.dispatch("play_from_elements", {
+          class_reference: document
+            .querySelector(".pindex--" + iteme_id)
+            .getAttribute("class_referenceP"),
+          audio: document.querySelector(".track"),
+          play_current: this.play_list[iteme_id],
+          play_list: this.play_list,
+          item_id: iteme_id,
+        });
+      }
+    },
+    prevPlay() {
+      if (this.item_id > 0) {
+        let iteme_id = parseInt(this.item_id) - 1;
+        this.$store.dispatch("play_from_elements", {
+          class_reference: document
+            .querySelector(".pindex--" + iteme_id)
+            .getAttribute("class_referenceP"),
+          audio: document.querySelector(".track"),
+          play_current: this.play_list[iteme_id],
+          play_list: this.play_list,
+          item_id: iteme_id,
+        });
       }
     },
   },

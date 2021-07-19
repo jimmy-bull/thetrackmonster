@@ -443,9 +443,9 @@ export default {
     return {
       value_genre: "",
       options_genre: ["Trap", "hip hop"],
-      price: [10, 50],
-      max_price: 50,
-      min_price: 10,
+      price: [20, 70],
+      max_price: 70,
+      min_price: 20,
     };
   },
   computed: {},

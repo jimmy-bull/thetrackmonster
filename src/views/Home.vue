@@ -1,5 +1,4 @@
 <template>
-  <div></div>
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
@@ -25,16 +24,25 @@
                       style="color: #42b983"
                       class="link"
                       :to="{ path: '/beats', query: { q: tags_item } }"
-                      >{{ tags_item }}
+                      >#{{ tags_item }}
                     </router-link>
                   </span>
                 </div>
               </div>
               <div class="play_zone_first_block">
-                <div class="btn_play" @click="play">
-                  <span style="margin-top: 5px">
-                    <unicon name="play" fill="#fff"
-                  /></span>
+                <div
+                  class="btn_play"
+                  @click="play"
+                  :item_id="index"
+                  :class_reference="item.id"
+                >
+                  <span>
+                    <i
+                      class="fa fa-play"
+                      :class="`index--${item.id}`"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
                 </div>
                 <div>
                   <span style="margin-top: 5px">
@@ -137,8 +145,17 @@
               fill="#42b983"
             />
           </div>
-          <div class="play_btn_carou">
-            <unicon name="play" height="15" fill="#fff" />
+          <div
+            class="play_btn_carou"
+            @click="play_carou"
+            :item_id="indexCarou"
+            :class_reference="itemCarou.id"
+          >
+            <i
+              class="fa fa-play"
+              :class="`index--${itemCarou.id}`"
+              aria-hidden="true"
+            ></i>
           </div>
           <img class="image_carou" :src="itemCarou.image_link" />
           <div class="title_zone_carou">
@@ -322,7 +339,8 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou" style="border-radius:3px"
+            class="image_carou"
+            style="border-radius: 3px"
             src="https://img.redbull.com/images/c_crop,w_2100,h_1400,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2020/1/22/pxdp8bfw4cobruzwobjm/uk_drill_artists_2020"
           />
           <div class="title_zone_carou">
@@ -343,7 +361,8 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou" style="border-radius:3px"
+            class="image_carou"
+            style="border-radius: 3px"
             src="https://i.scdn.co/image/ab67706c0000bebb1f4d6d643db0a0f2b84bceaa"
           />
           <div class="title_zone_carou">
@@ -365,7 +384,8 @@
       <div class="blog_items">
         <div>
           <img
-            class="image_carou" style="border-radius:3px"
+            class="image_carou"
+            style="border-radius: 3px"
             src="https://cdn.shopify.com/s/files/1/2312/4771/products/TRAPSOUL-DADCAP-FRONT_1024x.png?v=1600976888"
           />
           <div class="title_zone_carou">
@@ -423,6 +443,10 @@
 </template>
 
 <style scoped>
+.fa-play,
+.fa-pause {
+  color: #fff;
+}
 .blog_grid {
   display: flex;
   justify-content: center;
@@ -509,7 +533,7 @@
   align-items: center;
   height: 600px;
   cursor: pointer;
-  width:100%;
+  width: 100%;
 }
 .img_cate_gorie_carou {
   width: 80%;
@@ -956,7 +980,12 @@ export default {
     SplideSlide,
   },
   computed: {
-    ...mapState(["domain_for_external_js_css_file"]),
+    ...mapState([
+      "domain_for_external_js_css_file",
+      "play_current",
+      "playing",
+      "play_list",
+    ]),
   },
   data() {
     return {
@@ -1016,6 +1045,49 @@ export default {
       tags: [],
     };
   },
+
+  created() {
+    Axios.get(this.domain_for_external_js_css_file + "api/genre/")
+      .then((response) => {
+        this.beats_genre = response;
+      })
+      .catch((err) => console.log(err));
+
+    Axios.get(this.domain_for_external_js_css_file + "api/newestbeats/")
+      .then((response) => {
+        this.latest_beat = response;
+        if (this.latest_beat != "") {
+          this.isloading_latest_beat = true;
+        }
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/tags/" +
+            this.latest_beat.data[0].id
+        ).then((response) => {
+          response.data.forEach((element) => {
+            this.tags.push(element.tags);
+          });
+          // console.log(this.tags);
+        });
+      })
+      .catch((err) => console.log(err));
+  },
+  updated() {
+    document.querySelector(
+      ".categories_block"
+    ).children[0].style.borderBottomStyle = "solid";
+
+    Axios.get(
+      this.domain_for_external_js_css_file +
+        "api/select_depending_on_genre/" +
+        document.querySelector(".categories_block").children[0].textContent
+    )
+      .then((response) => {
+        this.carou_beats_data = response;
+        this.isLoading_genre_filters = true;
+      })
+      .catch((err) => console.log(err));
+  },
   methods: {
     search_by_genre() {
       // for (let i = 0; i < event.currentTarget.parentNode.children.length; i++) {
@@ -1034,53 +1106,42 @@ export default {
       //   })
       //   .catch((err) => console.log(err));
     },
-    play() {
+    play(event) {
+      let item_id = event.currentTarget.getAttribute("item_id");
+      let class_reference = event.currentTarget.getAttribute("class_reference");
+
+      this.$store.dispatch("play_from_elements", {
+        class_reference: class_reference,
+        audio: document.querySelector(".track"),
+        play_current: this.latest_beat.data[item_id],
+        play_list: this.carou_beats_data.data,
+        item_id: item_id,
+      });
       this.$emit("open_playlist_box");
     },
-  },
+    play_carou(event) {
+      let item_id = event.currentTarget.getAttribute("item_id");
+      let class_reference = event.currentTarget.getAttribute("class_reference");
 
-  created() {
-    Axios.get(this.domain_for_external_js_css_file + "api/genre/")
-      .then((response) => {
-        this.beats_genre = response;
-      })
-      .catch((err) => console.log(err));
-
-    Axios.get(this.domain_for_external_js_css_file + "api/newestbeats/")
-      .then((response) => {
-        this.latest_beat = response;
-        if (this.latest_beat != "") {
-          this.isloading_latest_beat = true;
-        }
-
-        Axios.get(
-          this.domain_for_external_js_css_file +
-            "api/tags/" +
-            this.latest_beat.data[0].id
-        ).then((response) => {
-          response.data.forEach((element) => {
-            this.tags.push(element.tags);
-          });
-          console.log(this.tags);
-        });
-      })
-      .catch((err) => console.log(err));
-  },
-  updated() {
-    document.querySelector(
-      ".categories_block"
-    ).children[0].style.borderBottomStyle = "solid";
-
-    Axios.get(
-      this.domain_for_external_js_css_file +
-        "api/select_depending_on_genre/" +
-        document.querySelector(".categories_block").children[1].textContent
-    )
-      .then((response) => {
-        this.carou_beats_data = response;
-        this.isLoading_genre_filters = true;
-      })
-      .catch((err) => console.log(err));
+      this.$store.dispatch("play_from_elements", {
+        class_reference: class_reference,
+        audio: document.querySelector(".track"),
+        play_current: this.carou_beats_data.data[item_id],
+        play_list: this.carou_beats_data.data,
+        item_id: item_id,
+      });
+      this.$emit("open_playlist_box");
+      // this.play_list.forEach((element) => {
+      //   this.tags.push(element.tags);
+      //   console.log(this.tags);
+      // });
+    },
   },
 };
 </script>
+<style scoped>
+.slidecontainer {
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+</style>
