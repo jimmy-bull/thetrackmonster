@@ -157,7 +157,9 @@
               aria-hidden="true"
             ></i>
           </div>
-          <img class="image_carou" :src="itemCarou.image_link" />
+          <router-link :to="{ name: 'beats-desc', params: { name: itemCarou.beat_link, id:itemCarou.id } }">
+            <img class="image_carou" :src="itemCarou.image_link" />
+          </router-link>
           <div class="title_zone_carou">
             <h4>{{ itemCarou.title }}</h4>
             <div class="price_block">
@@ -165,7 +167,16 @@
                 <unicon name="shopping-bag" height="20" fill="#42b983" />
               </div>
               <div>
-                <span class="price_carou">${{ itemCarou.price }}</span>
+                <span
+                  v-if="itemCarou.downloadable == 'true'"
+                  class="price_carou"
+                  >Free</span
+                >
+                <span
+                  v-if="itemCarou.downloadable == 'false'"
+                  class="price_carou"
+                  >${{ itemCarou.price }}</span
+                >
               </div>
             </div>
           </div>

@@ -52,7 +52,14 @@
               />
             </div>
           </div>
-          <div class="price_txt somewhere_playlist">
+          <div class="price_txt somewhere_playlist" v-if="item.downloadable == 'true' ">
+            <span
+              class="somewhere_playlist"
+              style="color: white; font-size: 15px"
+              >Free</span
+            >
+          </div>
+           <div class="price_txt somewhere_playlist" v-if="item.downloadable == 'false' ">
             <span
               class="somewhere_playlist"
               style="color: white; font-size: 15px"

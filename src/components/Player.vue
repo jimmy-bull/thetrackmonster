@@ -37,7 +37,12 @@
             <unicon name="shopping-bag" width="15" height="15" fill="white" />
           </div>
         </div>
-        <div class="hide_on_576">
+        <div class="hide_on_576" v-if="play_current.downloadable == 'true' ">
+          <span style="color: white; font-size: 15px"
+            >free</span
+          >
+        </div>
+        <div class="hide_on_576" v-if="play_current.downloadable == 'false' ">
           <span style="color: white; font-size: 15px"
             >${{ play_current.price }}</span
           >

@@ -95,7 +95,7 @@ export default {
   margin-top: 60px;
   fill: #42b983;
 }
-a {
+a,input {
   text-decoration: none;
   color: #2c3e50;
 }

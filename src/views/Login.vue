@@ -27,7 +27,6 @@
           </div>
           <div class="mt-5">
             <button
-              onclick="window.location.href='#'"
               class="
                 btn_carou_buy_now_big btn_by_now_simple
                 black_on_small
@@ -45,9 +44,10 @@
             <input
               type="text"
               placeholder="E-mail adress *"
-              class="txt_email_footer special_txt col-lg-10"
+              class="txt_email_footer email_input special_txt col-lg-10"
               name="register_mail"
             />
+            <p class="error_message">{{ errorRegister }}</p>
           </div>
           <div class="cart_color_solo mt-5">
             <p>A password will be sent to your email address.</p>
@@ -59,7 +59,7 @@
           </div>
           <div class="mt-5">
             <button
-              onclick="window.location.href='#'"
+              @click="register"
               class="
                 btn_carou_buy_now_big btn_by_now_simple
                 black_on_small
@@ -80,6 +80,10 @@
 .select .select_content {
   background-color: white;
   color: #666;
+}
+.error_message {
+  color: #42b983;
+  margin-top: 20px;
 }
 
 .first_select_element {
@@ -134,6 +138,7 @@
 </style>
 <script>
 import { mapState } from "vuex";
+import Axios from "axios";
 export default {
   name: "Login",
   computed: {
@@ -157,11 +162,23 @@ export default {
 
       document.head.appendChild(scriptAdd);
     },
+    register() {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/register/" +
+          document.querySelector(".email_input").value
+      )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => console.log(err));
+    },
   },
   data() {
     return {
       value_genre: "",
       options_genre: ["Trap", "hip hop"],
+      errorRegister: "Please enter  a valid email",
     };
   },
   mounted() {
