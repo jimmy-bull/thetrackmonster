@@ -1,5 +1,11 @@
 <template>
   <div id="page-content">
+    <!-- <atom-spinner
+      v-if="loading == true"
+      :animation-duration="1000"
+      :size="60"
+      :color="'#42b983'"
+    /> -->
     <div class="container">
       <div class="row">
         <div class="mt-5 col-lg-6">
@@ -66,8 +72,23 @@
                 col-lg-10
               "
             >
-              <span class="ml-2">Register</span>
-              <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <span class="ml-2">Register</span>
+                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                <HalfCircleSpinner
+                  style="margin-left: 50px"
+                  :animation-duration="1000"
+                  :size="25"
+                  color="#2c3e50"
+                  v-if="loading == true"
+                />
+              </div>
             </button>
           </div>
         </div>
@@ -77,6 +98,14 @@
 </template>
 
 <style scoped>
+.atom-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 .select .select_content {
   background-color: white;
   color: #666;
@@ -139,11 +168,16 @@
 <script>
 import { mapState } from "vuex";
 import Axios from "axios";
+import { HalfCircleSpinner } from "epic-spinners";
 export default {
   name: "Login",
+  components: {
+    HalfCircleSpinner,
+  },
   computed: {
     ...mapState(["domain_for_external_js_css_file"]),
   },
+  created() {},
   methods: {
     importScript(script_link) {
       let scriptAdd = document.createElement("script");
@@ -163,22 +197,42 @@ export default {
       document.head.appendChild(scriptAdd);
     },
     register() {
-      Axios.get(
-        this.domain_for_external_js_css_file +
-          "api/register/" +
-          document.querySelector(".email_input").value
-      )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => console.log(err));
+      if (document.querySelector(".email_input").value.trim() != "") {
+        this.loading = true;
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/register/" +
+            document.querySelector(".email_input").value
+        )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data != "successfully connected.") {
+              this.loading = false;
+              this.errorRegister = response.data;
+            } else if (response.data == "successfully connected.") {
+              this.$swal({
+                title:
+                  "Your account has been successfully created, a password has been generated, use it to log in.",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 5000,
+              });
+              this.errorRegister = "";
+              this.loading = false;
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.errorRegister = "the field must not be empty!";
+      }
     },
   },
   data() {
     return {
       value_genre: "",
       options_genre: ["Trap", "hip hop"],
-      errorRegister: "Please enter  a valid email",
+      errorRegister: "",
+      loading: false,
     };
   },
   mounted() {
