@@ -1112,11 +1112,11 @@ export default {
       .catch((err) => console.log(err));
   },
   updated() {
-    document.querySelector(
-      ".categories_block"
-    ).children[0].style.borderBottomStyle = "solid";
-
     if (this.stopCall == 0) {
+      document.querySelector(
+        ".categories_block"
+      ).children[0].style.borderBottomStyle = "solid";
+
       Axios.get(
         this.domain_for_external_js_css_file +
           "api/select_depending_on_genre/" +

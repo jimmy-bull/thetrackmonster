@@ -1,4 +1,9 @@
 <template>
+  <Share
+    :open_modal="open_share"
+    :link_share="link_share"
+    @close_share_function="close_share_function"
+  ></Share>
   <div class="filter_zone">
     <div class="select">
       <select
@@ -167,9 +172,19 @@
           </div>
         </div>
       </div>
-      <div class="buy_share_block">
-        <div style="cursor: pointer" class="hide_on_576 somewhere_playlist">
-          <unicon class="somewhere_playlist" name="share-alt" fill="#42b983" />
+      <div class="buy_share_block somewhere_playlist">
+        <div
+          style="cursor: pointer"
+          @click="open_share_function"
+          class="hide_on_576 somewhere_playlist"
+          :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+        >
+          <unicon
+            :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+            class="somewhere_playlist"
+            name="share-alt"
+            fill="#42b983"
+          />
         </div>
         <div class="btn_buy_player somewhere_playlist hide_on_576">
           <div class="hide_on_576">
@@ -548,10 +563,13 @@ import Slider from "@vueform/slider";
 //         @remove="remove_genre"
 import axios from "axios";
 import { mapState } from "vuex";
+import Share from "@/components/Share.vue";
 export default {
   name: "Search",
   data() {
     return {
+      link_share: "",
+      open_share: false,
       selected_genre: [],
       selected_mood: [],
       selected_key: [],
@@ -595,6 +613,7 @@ export default {
   components: {
     // Multiselect,
     Slider,
+    Share,
   },
   created() {
     let axiosConfig = {
@@ -941,6 +960,15 @@ export default {
     //     ].style.background = "#eefdec";
     //   }
     // },
+    open_share_function(event) {
+      this.open_share = true;
+      this.link_share =
+        this.domain_for_external_js_css_file +
+        event.currentTarget.getAttribute("link_share");
+    },
+    close_share_function() {
+      this.open_share = false;
+    },
   },
 };
 </script>
