@@ -2,16 +2,18 @@
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
-        <div>
+        <div
+          v-if="
+            typeof latest_beat.data !== 'undefined' &&
+            latest_beat.data.length > 0
+          "
+        >
           <div
             class="first_block_first"
             v-for="(item, index) in latest_beat.data"
             :key="index"
           >
-            <div v-if="isloading_latest_beat == false">
-              <div class="loader"></div>
-            </div>
-            <div v-if="isloading_latest_beat">
+            <div>
               <img class="img_last_added" :src="item.image_link" alt="" />
             </div>
 
@@ -108,19 +110,30 @@
             </div>
           </div>
         </div>
+        <div
+          v-else
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <div class="loader"></div>
+        </div>
       </div>
       <!-- <div id="waveform"></div> -->
     </div>
   </div>
   <div class="splide_parent">
-    <div class="categories_block">
+    <div
+      class="categories_block"
+      v-if="
+        typeof beats_genre.data !== 'undefined' && beats_genre.data.length > 0
+      "
+    >
       <div
         v-for="(item, index) in beats_genre.data"
         :key="index"
         @click="search_by_genre"
       >
         <span
-          ><router-link :to="{ path: 'beats', query: { genre: item.genre } }">{{
+          ><router-link :to="{ path: 'beats', query: { q: item.genre } }">{{
             item.genre
           }}</router-link></span
         >
@@ -129,7 +142,10 @@
     <splide
       class="splide"
       :options="options"
-      v-if="isLoading_genre_filters == true"
+      v-if="
+        typeof carou_beats_data.data !== 'undefined' &&
+        carou_beats_data.data.length > 0
+      "
     >
       <splide-slide
         class="img_items"
@@ -157,7 +173,12 @@
               aria-hidden="true"
             ></i>
           </div>
-          <router-link :to="{ name: 'beats-desc', params: { name: itemCarou.beat_link, id:itemCarou.id } }">
+          <router-link
+            :to="{
+              name: 'beats-desc',
+              params: { name: itemCarou.beat_link, id: itemCarou.id },
+            }"
+          >
             <img class="image_carou" :src="itemCarou.image_link" />
           </router-link>
           <div class="title_zone_carou">
@@ -183,6 +204,12 @@
         </div>
       </splide-slide>
     </splide>
+    <div
+      v-else
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <div class="loader"></div>
+    </div>
   </div>
   <div class="product_place splide_parent">
     <div class="discover_title_small">
@@ -1054,6 +1081,7 @@ export default {
       latest_beat: "",
       isloading_latest_beat: false,
       tags: [],
+      stopCall: 0,
     };
   },
 
@@ -1088,16 +1116,19 @@ export default {
       ".categories_block"
     ).children[0].style.borderBottomStyle = "solid";
 
-    Axios.get(
-      this.domain_for_external_js_css_file +
-        "api/select_depending_on_genre/" +
-        document.querySelector(".categories_block").children[0].textContent
-    )
-      .then((response) => {
-        this.carou_beats_data = response;
-        this.isLoading_genre_filters = true;
-      })
-      .catch((err) => console.log(err));
+    if (this.stopCall == 0) {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/select_depending_on_genre/" +
+          document.querySelector(".categories_block").children[0].textContent
+      )
+        .then((response) => {
+          this.carou_beats_data = response;
+          this.isLoading_genre_filters = true;
+        })
+        .catch((err) => console.log(err));
+      this.stopCall = 1;
+    }
   },
   methods: {
     search_by_genre() {

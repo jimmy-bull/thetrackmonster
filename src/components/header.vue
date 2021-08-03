@@ -7,11 +7,11 @@
     </div>
 
     <div class="hide_on_767">
-      <router-link to="/beats">Beats</router-link>
+      <router-link to="/beats?q=all">Beats</router-link>
     </div>
-    <div class="hide_on_767">
+    <!-- <div class="hide_on_767">
       <router-link to="/shop">Shop</router-link>
-    </div>
+    </div> -->
 
     <div class="hide_on_767">
       <router-link to="/contact">Contact</router-link>
@@ -35,6 +35,7 @@
         placeholder="Search for beats "
         name=""
         id=""
+        @keyup="submit"
       />
     </div>
     <!-- <div class="with_up hide_on_767">
@@ -212,6 +213,19 @@ export default {
     open_menu() {
       document.getElementById("menu_mobile").style.width = "100%";
     },
+    submit(event) {
+      if (event.code === "Enter" && event.currentTarget.value.trim() != "") {
+        this.$router.push({
+          path: "beats",
+          query: { q: event.currentTarget.value },
+        });
+      }
+    },
   },
+  // mounted(){ alert(this.$route.query.q)
+  //   if(this.$route.query.q){
+  //     document.querySelector('.search_input').value = this.$route.query.q;
+  //   }
+  // }
 };
 </script>

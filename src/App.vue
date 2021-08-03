@@ -5,7 +5,7 @@
       <Header></Header>
     </div>
     <div style="flex-grow: 1">
-      <router-view @open_playlist_box="open_playlist_box" />
+      <router-view @open_playlist_box="open_playlist_box"  />
     </div>
     <div class="player_parent">
       <Player></Player>
@@ -71,6 +71,7 @@ export default {
         });
       }
     },
+    
   },
 };
 </script>

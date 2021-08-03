@@ -1,11 +1,5 @@
 <template>
   <div id="page-content">
-    <!-- <atom-spinner
-      v-if="loading == true"
-      :animation-duration="1000"
-      :size="60"
-      :color="'#42b983'"
-    /> -->
     <div class="container">
       <div class="row">
         <div class="mt-5 col-lg-6">
@@ -14,33 +8,51 @@
             <input
               type="text"
               placeholder="E-mail adress *"
-              class="txt_email_footer special_txt col-lg-10"
+              class="txt_email_footer special_txt col-lg-10 login_mail"
               name="login_mail"
             />
+            <p class="error_message">{{ error_email_false_login }}</p>
           </div>
           <div class="mt-5">
             <input
               type="password"
               placeholder="Password *"
-              class="txt_email_footer special_txt col-lg-10"
+              class="txt_email_footer special_txt col-lg-10 login_pass"
               name="login_pass"
             />
+            <p class="error_message">{{ error_password_false_login }}</p>
           </div>
           <div class="text-center mt-4">
-            <a class="cart_color_solo" href="newpassword.html"
-              >Lost your password?</a
-            >
+            <router-link to="/forgot-password">
+              Forgot your password ?
+            </router-link>
           </div>
           <div class="mt-5">
             <button
+              @click="login"
               class="
                 btn_carou_buy_now_big btn_by_now_simple
                 black_on_small
                 col-lg-10
               "
             >
-              <span class="ml-2">Login</span>
-              <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                <span class="ml-2">Login</span>
+                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                <HalfCircleSpinner
+                  style="margin-left: 50px"
+                  :animation-duration="1000"
+                  :size="25"
+                  color="#2c3e50"
+                  v-if="loading_co == true"
+                />
+              </div>
             </button>
           </div>
         </div>
@@ -226,6 +238,50 @@ export default {
         this.errorRegister = "the field must not be empty!";
       }
     },
+    login() {
+      if (document.querySelector(".login_mail").value.trim() == "") {
+        this.error_email_false_login = "this field must not be empty!";
+      }
+      if (document.querySelector(".login_pass").value.trim() == "") {
+        this.error_password_false_login = "this field must not be empty!";
+      }
+      if (
+        document.querySelector(".login_mail").value.trim() != "" &&
+        document.querySelector(".login_pass").value.trim() != ""
+      ) {
+        this.loading_co = true;
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/login/" +
+            document.querySelector(".login_mail").value +
+            "/" +
+            document.querySelector(".login_pass").value
+        )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data != "successfully connected.") {
+              this.loading_co = false;
+              //this.errorRegister = response.data;
+              this.$swal({
+                title: response.data,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            } else if (response.data == "successfully connected.") {
+              this.errorRegister = "";
+              this.loading_co = false;
+              this.$swal({
+                title: response.data,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    },
   },
   data() {
     return {
@@ -233,6 +289,9 @@ export default {
       options_genre: ["Trap", "hip hop"],
       errorRegister: "",
       loading: false,
+      error_email_false_login: "",
+      error_password_false_login: "",
+      loading_co: false,
     };
   },
   mounted() {

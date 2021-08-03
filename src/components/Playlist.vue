@@ -9,7 +9,11 @@
       :class_referenceP="item.id"
       :class="`playlist--${item.id}`"
     >
-      <div class="image_zone" :class="`pindex--${index}`" :class_referenceP="item.id">
+      <div
+        class="image_zone"
+        :class="`pindex--${index}`"
+        :class_referenceP="item.id"
+      >
         <div>{{ index + 1 }}</div>
         <div class="image_box">
           <img :src="item.image_link" alt="" />
@@ -52,14 +56,20 @@
               />
             </div>
           </div>
-          <div class="price_txt somewhere_playlist" v-if="item.downloadable == 'true' ">
+          <div
+            class="price_txt somewhere_playlist"
+            v-if="item.downloadable == 'true'"
+          >
             <span
               class="somewhere_playlist"
               style="color: white; font-size: 15px"
               >Free</span
             >
           </div>
-           <div class="price_txt somewhere_playlist" v-if="item.downloadable == 'false' ">
+          <div
+            class="price_txt somewhere_playlist"
+            v-if="item.downloadable == 'false'"
+          >
             <span
               class="somewhere_playlist"
               style="color: white; font-size: 15px"
@@ -208,9 +218,29 @@ export default {
         index
       ].style.background = "none";
     }
-    document.querySelector(
-      ".playlist--" + this.class_referenceProps
-    ).style.background = "#eefdec";
+    if (this.$route.path == "/beats") {
+      for (
+        let index = 0;
+        index < document.querySelector(".play_list_parent_s").children.length;
+        index++
+      ) {
+        document.querySelector(".play_list_parent_s").children[
+          index
+        ].style.background = "none";
+      }
+    }
+
+    for (
+      let index = 0;
+      index <
+      document.querySelectorAll(".playlist--" + this.class_referenceProps)
+        .length;
+      index++
+    ) {
+      document.querySelectorAll(".playlist--" + this.class_referenceProps)[
+        index
+      ].style.background = "#eefdec";
+    }
   },
   created() {
     Axios.get(this.domain_for_external_js_css_file + "api/Alltags/").then(
