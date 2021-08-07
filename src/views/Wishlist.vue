@@ -28,10 +28,10 @@
               <div
                 class="favoris_carou"
                 :foreign-id="itemCarou.id"
-                @click="favoris"
+                @click="favoris_cancel"
               >
                 <unicon
-                  name="heart"
+                  name="times"
                   height="15"
                   style="margin-top: 7px"
                   fill="#42b983"
@@ -119,6 +119,7 @@ import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Axios from "axios";
 export default {
+  name: "Wishlist",
   data() {
     return {
       beats_genre: "",
@@ -195,6 +196,41 @@ export default {
   methods: {
     go_home() {
       this.$router.push("/");
+    },
+    play_carou(event) {
+      let item_id = event.currentTarget.getAttribute("item_id");
+      let class_reference = event.currentTarget.getAttribute("class_reference");
+
+      this.$store.dispatch("play_from_elements", {
+        class_reference: class_reference,
+        audio: document.querySelector(".track"),
+        play_current: this.carou_beats_data.data[item_id],
+        play_list: this.carou_beats_data.data,
+        item_id: item_id,
+      });
+      this.$emit("open_playlist_box");
+    },
+    favoris_cancel(event) {
+      if (localStorage.getItem("session_token")) {
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/favoris_delete/" +
+            localStorage.getItem("session_token") +
+            "/" +
+            event.currentTarget.getAttribute("foreign-id")
+        )
+          .then((response) => {
+            this.carou_beats_data = response;
+            this.isLoading_genre_filters = true;
+          })
+          .catch((err) => console.log(err));
+        if (this.wishlist_count > 0) {
+          this.$store.dispatch(
+            "update_wishlist_count",
+            this.wishlist_count - 1
+          );
+        }
+      }
     },
   },
   mounted() {
