@@ -1,11 +1,11 @@
 <template>
-  <audio @timeupdate="timeupdate" @ended=" endPlay" src="" class="track"></audio>
+  <audio @timeupdate="timeupdate" @ended="endPlay" src="" class="track"></audio>
   <div class="appp">
     <div id="nav">
       <Header></Header>
     </div>
     <div style="flex-grow: 1">
-      <router-view @open_playlist_box="open_playlist_box"  />
+      <router-view @open_playlist_box="open_playlist_box" />
     </div>
     <div class="player_parent">
       <Player></Player>
@@ -24,7 +24,7 @@ import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import Player from "@/components/Player.vue";
 import { mapState } from "vuex";
-
+import Axios from "axios";
 export default {
   name: "App",
   components: {
@@ -33,7 +33,7 @@ export default {
     Player,
   },
   computed: {
-    ...mapState(["TrackCurentTime", "TrackDuration","item_id","play_list"]),
+    ...mapState(["TrackCurentTime", "TrackDuration", "item_id", "play_list","domain_for_external_js_css_file"]),
   },
   methods: {
     formatTime(sec) {
@@ -57,7 +57,8 @@ export default {
         this.TrackCurentTime
       );
     },
-    endPlay() { // THE FUTURE IS FASTER THAN YOU THINK
+    endPlay() {
+      // THE FUTURE IS FASTER THAN YOU THINK
       if (this.item_id <= this.play_list.length - 1) {
         let iteme_id = parseInt(this.item_id) + 1;
         this.$store.dispatch("play_from_elements", {
@@ -71,7 +72,21 @@ export default {
         });
       }
     },
-    
+  },
+  mounted() {
+    if (localStorage.getItem("session_token")) {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/get_favoris/" +
+          localStorage.getItem("session_token")
+      )
+        .then((response) => {
+          if (response.data != "Not connected") {
+            this.$store.dispatch("update_wishlist_count", response.data);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
   },
 };
 </script>
@@ -96,7 +111,8 @@ export default {
   margin-top: 60px;
   fill: #42b983;
 }
-a,input {
+a,
+input {
   text-decoration: none;
   color: #2c3e50;
 }

@@ -23,7 +23,9 @@
       /></router-link>
     </div>
     <div class="with_up hide_on_767">
-      <div class="count_number"><span>0</span></div>
+      <div class="count_number">
+        <span>{{ wishlist_count }}</span>
+      </div>
       <router-link to="/wishlist">
         <unicon name="heart" fill="#2c3e50"
       /></router-link>
@@ -204,8 +206,12 @@
 }
 </style>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Header",
+  computed: {
+    ...mapState(["wishlist_count"]),
+  },
   methods: {
     close_mobile_menu() {
       document.getElementById("menu_mobile").style.width = 0;

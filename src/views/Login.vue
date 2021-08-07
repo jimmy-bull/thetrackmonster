@@ -259,7 +259,10 @@ export default {
         )
           .then((response) => {
             console.log(response.data);
-            if (response.data != "successfully connected.") {
+            if (
+              response.data == "Cannot login, check your password or email." ||
+              response.data == "Enter a valid email."
+            ) {
               this.loading_co = false;
               //this.errorRegister = response.data;
               this.$swal({
@@ -268,15 +271,32 @@ export default {
                 showConfirmButton: false,
                 timer: 2000,
               });
-            } else if (response.data == "successfully connected.") {
+            } else {
               this.errorRegister = "";
               this.loading_co = false;
-              this.$swal({
-                title: response.data,
-                icon: "success",
-                showConfirmButton: false,
-                timer: 2000,
-              });
+              // this.$swal({
+              //   title: response.data,
+              //   icon: "success",
+              //   showConfirmButton: false,
+              //   timer: 2000,
+              // });
+              localStorage.setItem("session_token", response.data);
+              Axios.get(
+                this.domain_for_external_js_css_file +
+                  "api/get_favoris/" +
+                  localStorage.getItem("session_token")
+              )
+                .then((response) => {
+                  if (response.data != "Not connected") {
+                    this.$store.dispatch(
+                      "update_wishlist_count",
+                      response.data
+                    );
+                  }
+                })
+                .catch((err) => console.log(err));
+              this.$router.push("/");
+              //alert(localStorage.getItem("session_token"));
             }
           })
           .catch((err) => console.log(err));
@@ -307,6 +327,30 @@ export default {
     this.importScript("assets/js/aos.js");
     this.importScript("assets/js/home5.js");
     this.importScript("assets/js/common_page_2.js");
+    if (localStorage.getItem("session_token")) {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/token_verify/" +
+          localStorage.getItem("session_token")
+      )
+        .then((response) => {
+          console.log(response.data);
+          if (response.data == "Already connected") {
+            this.$router.push("/");
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    if (typeof this.$route.query.error != "undefined") {
+      if (this.$route.query.error == "favoris") {
+        this.$swal({
+          title: "You must log in to be able to add Beats as favorites.",
+          icon: "erro",
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      }
+    }
   },
 };
 </script>

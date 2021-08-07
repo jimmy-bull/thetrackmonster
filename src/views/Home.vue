@@ -153,12 +153,17 @@
         :key="indexCarou"
       >
         <div>
-          <div class="favoris_carou">
+          <div
+            class="favoris_carou"
+            :foreign-id="itemCarou.id"
+            @click="favoris"
+          >
             <unicon
               name="heart"
               height="15"
               style="margin-top: 7px"
               fill="#42b983"
+              :foreign-id="itemCarou.id"
             />
           </div>
           <div
@@ -1023,6 +1028,7 @@ export default {
       "play_current",
       "playing",
       "play_list",
+      "wishlist_count",
     ]),
   },
   data() {
@@ -1177,6 +1183,46 @@ export default {
       //   this.tags.push(element.tags);
       //   console.log(this.tags);
       // });
+    },
+    favoris(event) {
+      // alert(event.target.getAttribute("foreign-id"));
+      if (localStorage.getItem("session_token")) {
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/favoris/" +
+            localStorage.getItem("session_token") +
+            "/" +
+            event.target.getAttribute("foreign-id")
+        )
+          .then((response) => {
+            console.log(response.data);
+            if (response.data == "Beat already in wishlist") {
+              this.$swal({
+                title: response.data,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+            } else if (response.data == "Not connected") {
+              this.$router.push("/account?error=favoris");
+            } else {
+              this.$swal({
+                title: response.data.message,
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              // console.log(response.data);
+              this.$store.dispatch(
+                "update_wishlist_count",
+                response.data.user_favoris_count
+              );
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        this.$router.push("/account?error=favoris");
+      }
     },
   },
 };

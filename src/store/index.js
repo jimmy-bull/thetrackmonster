@@ -12,7 +12,8 @@ export default createStore({
     TrackCurentTime: 0,
     class_reference: null,
     Alltags: [],
-    item_id: null
+    item_id: null,
+    wishlist_count: 0
   },
   mutations: {
     play_pause_player(state, audio) {
@@ -122,6 +123,9 @@ export default createStore({
         }
       }
     },
+    update_wishlist_count(state, new_wishlist_count) {
+      state.wishlist_count = new_wishlist_count;
+    }
   },
   actions: {
     play_pause_player(context, audio) {
@@ -132,6 +136,9 @@ export default createStore({
     },
     play_from_elements(context, { class_reference, audio, play_current, play_list, item_id }) {
       context.commit('play_from_elements', { class_reference, audio, play_current, play_list, item_id })
+    },
+    update_wishlist_count(context, new_wishlist_count) {
+      context.commit('update_wishlist_count', new_wishlist_count)
     }
   },
   modules: {
