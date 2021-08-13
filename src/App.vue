@@ -33,7 +33,13 @@ export default {
     Player,
   },
   computed: {
-    ...mapState(["TrackCurentTime", "TrackDuration", "item_id", "play_list","domain_for_external_js_css_file"]),
+    ...mapState([
+      "TrackCurentTime",
+      "TrackDuration",
+      "item_id",
+      "play_list",
+      "domain_for_external_js_css_file",
+    ]),
   },
   methods: {
     formatTime(sec) {
@@ -73,7 +79,7 @@ export default {
       }
     },
   },
-  mounted() {
+  mounted() { console.log(localStorage.getItem("session_token"))
     if (localStorage.getItem("session_token")) {
       Axios.get(
         this.domain_for_external_js_css_file +
@@ -83,6 +89,7 @@ export default {
         .then((response) => {
           if (response.data != "Not connected") {
             this.$store.dispatch("update_wishlist_count", response.data);
+            this.$store.dispatch("is_connected_f", true);
           }
         })
         .catch((err) => console.log(err));

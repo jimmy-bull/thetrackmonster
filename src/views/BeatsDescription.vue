@@ -1,99 +1,122 @@
 <template>
   <div>
     <!-- DIV COVER AND SONG INFOS -->
+    <div v-if="typeof beat_desc.data !== 'undefined'">
+      <div
+        class="Lil_div_cover_song_info"
+        v-for="(item, index) in beat_desc.data"
+        :key="index"
+      >
+        <!-- Div SONG DETAILS AND TAG-->
+        <div class="infos_song">
+          <!-- COVER IMAGE -->
+          <div class="cover">
+            <img id="main_image" :src="item.image_link" />
+          </div>
+
+          <div class="div_song_details">
+            <!-- Div Titre son -->
+            <div class="div_songTitle_play-boutton">
+              <div
+                class="play_btn_carou"
+                :item_id="index"
+                :class_reference="item.id"
+                :genre="item.genre"
+                @click="play"
+              >
+                <i
+                  class="fa fa-play"
+                  style="color: white; margin-top: 3px; margin-left: 2px"
+                  :class="`index--${item.id}`"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <div style="margin-left: 10px">
+                <span class="title">{{ item.title }}</span>
+              </div>
+            </div>
+            <!-- End div Titre son -->
+
+            <!-- Div nom artiste -->
+            <div class="div_nom_artiste">
+              <span class="artiste_name"> @Thetrackmonster </span>
+            </div>
+            <!-- end div nom artiste -->
+
+            <!-- Div nom BPM Date -->
+            <div class="div_bpm_date">
+              <div class="little_bpm_div">BPM</div>
+              <span class="bpm_number">{{ item.bpm }}</span>
+              <span class="date">July 6, 2021</span>
+            </div>
+            <!-- end nom BPM Date -->
+
+            <div class="div_prix_share">
+              <div class="prix_share space_prix">
+                <img href="#" class="icons_price_share" />
+                <span>
+                  <unicon
+                    class="somewhere_playlist"
+                    name="shopping-bag"
+                    width="15"
+                    height="15"
+                    fill="white"
+                  />${{ item.price }}</span
+                >
+              </div>
+
+              <div class="prix_share">
+                <span>
+                  <unicon
+                    class="somewhere_playlist"
+                    name="share-alt"
+                    fill="white"
+                    width="15"
+                    height="15"
+                  />
+                  Share</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SONG TAGS DIV-->
+        <div class="div_song_tags">
+          <div
+            class="tags"
+            v-for="(tags_item, tags_index) in tags"
+            :key="tags_index"
+          >
+            <router-link
+              style="color: #42b983"
+              class="link somewhere_playlist"
+              :to="{ path: '/beats', query: { q: tags_item } }"
+            >
+              #{{ tags_item }}
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
-      class="Lil_div_cover_song_info"
-      v-for="(item, index) in beat_desc.data"
-      :key="index"
+      v-else
+      style="display: flex; justify-content: center; align-items: center"
     >
-      <!-- Div SONG DETAILS AND TAG-->
-      <div class="infos_song">
-        <!-- COVER IMAGE -->
-        <div class="cover">
-          <img id="main_image" :src="item.image_link" />
-        </div>
-
-        <div class="div_song_details">
-          <!-- Div Titre son -->
-          <div class="div_songTitle_play-boutton">
-            <div class="play_btn_carou">
-              <i
-                class="fa fa-play"
-                style="color: white; margin-top: 3px; margin-left: 2px"
-                aria-hidden="true"
-              ></i>
-            </div>
-            <div style="margin-left: 10px">
-              <span class="title">{{ item.title }}</span>
-            </div>
-          </div>
-          <!-- End div Titre son -->
-
-          <!-- Div nom artiste -->
-          <div class="div_nom_artiste">
-            <span class="artiste_name"> @Thetrackmonster </span>
-          </div>
-          <!-- end div nom artiste -->
-
-          <!-- Div nom BPM Date -->
-          <div class="div_bpm_date">
-            <div class="little_bpm_div">BPM</div>
-            <span class="bpm_number">{{ item.bpm }}</span>
-            <span class="date">July 6, 2021</span>
-          </div>
-          <!-- end nom BPM Date -->
-
-          <div class="div_prix_share">
-            <div class="prix_share space_prix">
-              <img href="#" class="icons_price_share" />
-              <span>
-                <unicon
-                  class="somewhere_playlist"
-                  name="shopping-bag"
-                  width="15"
-                  height="15"
-                  fill="white"
-                />${{ item.price }}</span
-              >
-            </div>
-
-            <div class="prix_share">
-              <span>
-                <unicon
-                  class="somewhere_playlist"
-                  name="share-alt"
-                  fill="white"
-                  width="15"
-                  height="15"
-                />
-                Share</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SONG TAGS DIV-->
-      <div class="div_song_tags">
-        <div
-          class="tags"
-          v-for="(tags_item, tags_index) in tags"
-          :key="tags_index"
-        >
-          #{{ tags_item }}
-        </div>
-      </div>
+      <div class="loader"></div>
     </div>
 
     <div class="comment_block">
-      <div><input placeholder="Write a comment" type="text" /></div>
+      <div>
+        <input class="comment_zone" placeholder="Write a comment" type="text" />
+      </div>
     </div>
-    <div class="btn_block">
-      <div class="btn_buy_player"><span>Send</span></div>
+    <div class="btn_block" @click="send_comment">
+      <div class="btn_buy_player"><span>Add a comment</span></div>
     </div>
-    <div class="comment_my_block">
+    <div class="comment_my_block" v-if="typeof comments.data !== 'undefined'">
       <h2>Comment</h2>
-      <div class="comment_element">
+      <div class="comment_element"  v-for='(item, index)  in comments.data'  :key='index'>
         <div class="div_img">
           <img
             style="
@@ -102,54 +125,62 @@
               border-radius: 50%;
               object-fit: cover;
             "
-            src="https://en.pressemag.fr/wp-content/uploads/2021/01/DaBaby-Press-Photo-1_Photo-Credit_Jackie-Dimailig.jpg"
+            src="../../public/logo.png"
             alt=""
           />
         </div>
         <div class="comment_txt_block">
           <div>
-            <span>Bully j</span>
-            <span style="font-size: 13px; color: #42b983"> 2 days ago</span>
+            <span>****{{item.user_email}}</span>
+            <span style="font-size: 13px; color: #42b983;margin-left:20px"> {{  Date(item.created_at) }}</span>
           </div>
-          <div style="font-size:14px;margin-top:10px">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias
-            laborum officiis ex totam recusandae praesentium facere quisquam
-            sapiente ad, deserunt tempora autem, necessitatibus asperiores odio
-            optio ipsa sit quod minus?
+          <div style="font-size: 14px; margin-top: 10px">
+           {{item.comment_text}}
           </div>
         </div>
       </div>
-        <div class="comment_element">
-        <div class="div_img">
-          <img
-            style="
-              width: 100%;
-              height: 100%;
-              border-radius: 50%;
-              object-fit: cover;
-            "
-            src="https://en.pressemag.fr/wp-content/uploads/2021/01/DaBaby-Press-Photo-1_Photo-Credit_Jackie-Dimailig.jpg"
-            alt=""
-          />
-        </div>
-        <div class="comment_txt_block">
-          <div>
-            <span>Bully j</span>
-            <span style="font-size: 13px; color: #42b983"> 2 days ago</span>
-          </div>
-          <div style="font-size:14px;margin-top:10px">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias
-            laborum officiis ex totam recusandae praesentium facere quisquam
-            sapiente ad, deserunt tempora autem, necessitatibus asperiores odio
-            optio ipsa sit quod minus?
-          </div>
-        </div>
+      <div v-if="comments.data.length == 0">
+        <h3>No comment yet.</h3>
       </div>
+    </div>
+    <div
+      v-else
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <div class="loader"></div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #42b983;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .comment_txt_block {
   margin-left: 2%;
 }
@@ -397,6 +428,8 @@ export default {
     return {
       beat_desc: "",
       tags: [],
+      item_id: null,
+      comments: "",
     };
   },
   computed: {
@@ -422,8 +455,75 @@ export default {
       });
       // console.log(this.tags);
     });
+    Axios.get(
+      this.domain_for_external_js_css_file +
+        "api/show_comment/" +
+        this.$route.params.id
+    ).then((response) => {
+      this.comments = response;
+      // console.log(this.tags);
+    });
   },
 
-  methods: {},
+  methods: {
+    play(event) {
+      let item_id = event.currentTarget.getAttribute("item_id");
+      let class_reference = event.currentTarget.getAttribute("class_reference");
+      let genre = event.currentTarget.getAttribute("genre");
+
+      Axios.get(
+        this.domain_for_external_js_css_file + "api/get_desc_siblings/" + genre
+      )
+        .then((response) => {
+          this.$store.dispatch("play_from_elements", {
+            class_reference: class_reference,
+            audio: document.querySelector(".track"),
+            play_current: this.beat_desc.data[item_id],
+            play_list: response.data,
+            item_id: item_id,
+          });
+          this.$emit("open_playlist_box");
+        })
+        .catch((err) => console.log(err));
+    },
+    send_comment() {
+      if (document.querySelector(".comment_zone").value.trim() != "") {
+        if (localStorage.getItem("session_token")) {
+          Axios.get(
+            this.domain_for_external_js_css_file +
+              "api/add_comment/" +
+              localStorage.getItem("session_token") +
+              "/" +
+              this.$route.params.id +
+              "/" +
+              document.querySelector(".comment_zone").value
+          )
+            .then((response) => {
+              console.log(response.data);
+              if (response.data != "Comment successfully added") {
+                this.$router.push("/account?error=favoris");
+              } else if (response.data == "Comment successfully added") {
+                this.$swal({
+                  title: "Comment successfully added",
+                  icon: "success",
+                  showConfirmButton: false,
+                  timer: 2000,
+                });
+              }
+            })
+            .catch((err) => console.log(err));
+        } else {
+          this.$router.push("/account?error=comment");
+        }
+      } else {
+        this.$swal({
+          title: "You have not written any comments",
+          icon: "error",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+    },
+  },
 };
 </script>

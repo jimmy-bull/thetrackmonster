@@ -13,7 +13,8 @@ export default createStore({
     class_reference: null,
     Alltags: [],
     item_id: null,
-    wishlist_count: 0
+    wishlist_count: 0,
+    is_connected: false
   },
   mutations: {
     play_pause_player(state, audio) {
@@ -125,6 +126,9 @@ export default createStore({
     },
     update_wishlist_count(state, new_wishlist_count) {
       state.wishlist_count = new_wishlist_count;
+    },
+    is_connected_f(state, value) {
+      state.is_connected = value
     }
   },
   actions: {
@@ -139,6 +143,9 @@ export default createStore({
     },
     update_wishlist_count(context, new_wishlist_count) {
       context.commit('update_wishlist_count', new_wishlist_count)
+    },
+    is_connected_f(context, value) {
+      context.commit('is_connected_f', value)
     }
   },
   modules: {

@@ -82,7 +82,9 @@
           </splide-slide>
         </splide>
         <div
-          v-else-if="typeof carou_beats_data.data == 'undefined'"
+          v-else-if="
+            typeof carou_beats_data.data == 'undefined' && is_connected == true
+          "
           style="display: flex; justify-content: center; align-items: center"
         >
           <div class="loader"></div>
@@ -191,6 +193,7 @@ export default {
       "playing",
       "play_list",
       "wishlist_count",
+      "is_connected",
     ]),
   },
   methods: {

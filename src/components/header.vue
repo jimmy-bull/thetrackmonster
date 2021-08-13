@@ -37,6 +37,7 @@
         placeholder="Search for beats "
         name=""
         id=""
+        autocomplete="false"
         @keyup="submit"
       />
     </div>
@@ -47,7 +48,10 @@
       /></router-link>
     </div> -->
     <div class="with_up hide_on_767">
-      <router-link to="/account">
+      <router-link v-if="is_connected == false" to="/account">
+        <unicon name="user" fill="#2c3e50"
+      /></router-link>
+      <router-link v-if="is_connected == true" to="/my-space">
         <unicon name="user" fill="#2c3e50"
       /></router-link>
     </div>
@@ -210,8 +214,9 @@ import { mapState } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapState(["wishlist_count"]),
+    ...mapState(["wishlist_count", "is_connected"]),
   },
+
   methods: {
     close_mobile_menu() {
       document.getElementById("menu_mobile").style.width = 0;
@@ -228,10 +233,5 @@ export default {
       }
     },
   },
-  // mounted(){ alert(this.$route.query.q)
-  //   if(this.$route.query.q){
-  //     document.querySelector('.search_input').value = this.$route.query.q;
-  //   }
-  // }
 };
 </script>

@@ -187,7 +187,7 @@ export default {
     HalfCircleSpinner,
   },
   computed: {
-    ...mapState(["domain_for_external_js_css_file"]),
+    ...mapState(["domain_for_external_js_css_file", "is_connected"]),
   },
   created() {},
   methods: {
@@ -281,6 +281,8 @@ export default {
               //   timer: 2000,
               // });
               localStorage.setItem("session_token", response.data);
+              this.$store.dispatch("is_connected_f", true);
+
               Axios.get(
                 this.domain_for_external_js_css_file +
                   "api/get_favoris/" +
@@ -295,7 +297,16 @@ export default {
                   }
                 })
                 .catch((err) => console.log(err));
-              this.$router.push("/");
+              if (typeof this.$route.query.error != "undefined") {
+                if (this.$route.query.error == "comment") {
+                  window.history.back();
+                } else {
+                  this.$router.push("/");
+                }
+              } else {
+                this.$router.push("/");
+              }
+
               //alert(localStorage.getItem("session_token"));
             }
           })
@@ -345,6 +356,14 @@ export default {
       if (this.$route.query.error == "favoris") {
         this.$swal({
           title: "You must log in to be able to add Beats as favorites.",
+          icon: "erro",
+          showConfirmButton: false,
+          timer: 4000,
+        });
+      } else if (this.$route.query.error == "comment") {
+        this.$swal({
+          title:
+            "Only registered users can add comments. Please log in or register.",
           icon: "erro",
           showConfirmButton: false,
           timer: 4000,
