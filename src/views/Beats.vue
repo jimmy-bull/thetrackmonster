@@ -4,6 +4,11 @@
     :link_share="link_share"
     @close_share_function="close_share_function"
   ></Share>
+  <FreeBeats
+    :open_modalfree="open_free"
+    :free_beats_id="free_beats_id"
+    @close_free_beats_function="close_free_beats_function"
+  ></FreeBeats>
   <div class="filter_zone">
     <div class="select">
       <select
@@ -201,6 +206,8 @@
           <div
             class="price_txt somewhere_playlist"
             v-if="item.downloadable == 'true'"
+            :free_beats_id="item.id"
+            @click="open_free_beats_function"
           >
             <span
               class="somewhere_playlist"
@@ -583,12 +590,15 @@ import Slider from "@vueform/slider";
 import axios from "axios";
 import { mapState } from "vuex";
 import Share from "@/components/Share.vue";
+import FreeBeats from "@/components/FreeBeats.vue";
 export default {
   name: "Search",
   data() {
     return {
       link_share: "",
       open_share: false,
+      open_free: false,
+      free_beats_id: 0,
       selected_genre: [],
       selected_mood: [],
       selected_key: [],
@@ -633,6 +643,7 @@ export default {
     // Multiselect,
     Slider,
     Share,
+    FreeBeats,
   },
   created() {
     let axiosConfig = {
@@ -985,8 +996,15 @@ export default {
         this.domain_for_external_js_css_file +
         event.currentTarget.getAttribute("link_share");
     },
+    open_free_beats_function(event) {
+      this.open_free = true;
+      this.free_beats_id = event.currentTarget.getAttribute("free_beats_id");
+    },
     close_share_function() {
       this.open_share = false;
+    },
+    close_free_beats_function() {
+      this.open_free = false;
     },
   },
 };

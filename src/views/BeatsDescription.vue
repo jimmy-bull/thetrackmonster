@@ -116,7 +116,11 @@
     </div>
     <div class="comment_my_block" v-if="typeof comments.data !== 'undefined'">
       <h2>Comment</h2>
-      <div class="comment_element"  v-for='(item, index)  in comments.data'  :key='index'>
+      <div
+        class="comment_element"
+        v-for="(item, index) in comments.data"
+        :key="index"
+      >
         <div class="div_img">
           <img
             style="
@@ -131,11 +135,13 @@
         </div>
         <div class="comment_txt_block">
           <div>
-            <span>****{{item.user_email}}</span>
-            <span style="font-size: 13px; color: #42b983;margin-left:20px"> {{  Date(item.created_at) }}</span>
+            <span>****{{ item.user_email }}</span>
+            <span style="font-size: 13px; color: #42b983; margin-left: 20px">
+              {{ item.date_correct }}</span
+            >
           </div>
           <div style="font-size: 14px; margin-top: 10px">
-           {{item.comment_text}}
+            {{ item.comment_text }}
           </div>
         </div>
       </div>
@@ -508,6 +514,14 @@ export default {
                   icon: "success",
                   showConfirmButton: false,
                   timer: 2000,
+                });
+                Axios.get(
+                  this.domain_for_external_js_css_file +
+                    "api/show_comment/" +
+                    this.$route.params.id
+                ).then((response) => {
+                  this.comments = response;
+                  // console.log(this.tags);
                 });
               }
             })
