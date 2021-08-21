@@ -6,7 +6,7 @@
       <span class="close" @click="close_share_function">&times;</span>
       <div>
         <h2>Free Beats Download</h2>
-        <h5 style="color: #42b983">Enter your Email Address and Full Name</h5>
+        <h5 style="color: #42b983">Enter your Email Address.</h5>
         <h4>
           I will send your free track to the email address you provide below.
           Thanks!
@@ -22,19 +22,10 @@
           data-v-26084dc2=""
         />
       </div>
-      <div class="mt-5">
-        <input
-          style="width: 95%; margin-top: 20px"
-          type="text"
-          placeholder="Full name *"
-          class="txt_email_footer email_input special_txt col-lg-12 mt-2"
-          name="register_mail"
-          data-v-26084dc2=""
-        />
-      </div>
-      <div>
+
+      <div @click="send_beat">
         <button
-          style="width: 100px; margin-top: 20px"
+          style="width: 100px; margin-top: 20px; cursor: pointer"
           class="
             btn_carou_buy_now_big btn_by_now_simple
             black_on_small
@@ -47,7 +38,7 @@
             data-v-26084dc2=""
             style="display: flex; justify-content: center; align-items: center"
           >
-            <span class="ml-2" data-v-26084dc2="">Register</span>
+            <span class="ml-2" data-v-26084dc2="">Send</span>
           </div>
         </button>
       </div>
@@ -102,7 +93,7 @@
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 100000000; /* Sit on top */
+  z-index: 100; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -173,11 +164,22 @@
 }
 </style>
 <script>
+import Axios from "axios";
+import { mapState } from "vuex";
 export default {
   name: "FreeBeats",
   components: {},
   data() {
     return {};
+  },
+  computed: {
+    ...mapState([
+      "domain_for_external_js_css_file",
+      "play_current",
+      "playing",
+      "play_list",
+      "wishlist_count",
+    ]),
   },
 
   props: {
@@ -204,6 +206,36 @@ export default {
   methods: {
     close_share_function() {
       this.$emit("close_free_beats_function");
+    },
+    send_beat() {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/free_download_send_mail/" +
+          this.free_beats_id +
+          "/" +
+          document.querySelector(".email_input").value
+      )
+        .then((response) => {
+          if (
+            response.data == "you are not authorized to access this link." ||
+            response.data == "Please enter a valid email"
+          ) {
+            this.$swal({
+              title: response.data,
+              icon: "error",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          } else {
+            this.$swal({
+              title: response.data,
+              icon: "success",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
   },
 };

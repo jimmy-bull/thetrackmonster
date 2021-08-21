@@ -194,9 +194,16 @@
         <div class="btn_buy_player somewhere_playlist hide_on_576">
           <div class="hide_on_576">
             <div class="somewhere_playlist">
-              <unicon
+              <unicon   v-if="item.downloadable == 'false'"
                 class="somewhere_playlist"
                 name="shopping-bag"
+                width="15"
+                height="15"
+                fill="white"
+              />
+              <unicon   v-if="item.downloadable == 'true'"
+                class="somewhere_playlist"
+                name="import"
                 width="15"
                 height="15"
                 fill="white"
@@ -207,7 +214,7 @@
             class="price_txt somewhere_playlist"
             v-if="item.downloadable == 'true'"
             :free_beats_id="item.id"
-            @click="open_free_beats_function"
+            @click="open_free_beats_function" 
           >
             <span
               class="somewhere_playlist"
@@ -613,7 +620,7 @@ export default {
       bpm: [95, 150],
       max_bpm: 150,
       min_bpm: 95,
-      base_url: "http://127.0.0.1:8000",
+      base_url: "https://49keysbanger.com/public/",
       options_moody: "",
       search_result: [],
       url_object: {},
@@ -729,7 +736,7 @@ export default {
         console.log(response);
       });
     axios
-      .get(this.base_url + "/api/Alltags", axiosConfig)
+      .get(this.base_url + "api/Alltags", axiosConfig)
       .then((response) => (this.tags = response));
   },
   watch: {
@@ -993,7 +1000,7 @@ export default {
     open_share_function(event) {
       this.open_share = true;
       this.link_share =
-        this.domain_for_external_js_css_file +
+        "https://49keysbanger.com/" +
         event.currentTarget.getAttribute("link_share");
     },
     open_free_beats_function(event) {

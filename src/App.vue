@@ -52,6 +52,8 @@ export default {
     },
     open_playlist_box() {
       document.querySelector(".player_parent").style.display = "block";
+      document.querySelector(".footer_block").style.paddingBottom =
+        document.querySelector(".player").offsetHeight + "px";
     },
     timeupdate() {
       this.$store.dispatch("timeupdate", document.querySelector(".track"));
@@ -78,8 +80,12 @@ export default {
         });
       }
     },
+    sizet() {
+      document.querySelector(".footer_block").style.paddingBottom =
+        document.querySelector(".player").offsetHeight + 10 + "px";
+    },
   },
-  mounted() { console.log(localStorage.getItem("session_token"))
+  mounted() {
     if (localStorage.getItem("session_token")) {
       Axios.get(
         this.domain_for_external_js_css_file +
@@ -94,6 +100,9 @@ export default {
         })
         .catch((err) => console.log(err));
     }
+    this.$nextTick(function () {
+      window.addEventListener("resize", this.sizet);
+    });
   },
 };
 </script>

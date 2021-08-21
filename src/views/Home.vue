@@ -1,4 +1,9 @@
 <template>
+  <Share
+    :open_modal="open_share"
+    :link_share="link_share"
+    @close_share_function="close_share_function"
+  ></Share>
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
@@ -14,7 +19,14 @@
             :key="index"
           >
             <div>
-              <img class="img_last_added" :src="item.image_link" alt="" />
+              <router-link
+                :to="{
+                  name: 'beats-desc',
+                  params: { name: item.beat_link, id: item.id },
+                }"
+              >
+                <img class="img_last_added" :src="item.image_link" alt="" />
+              </router-link>
             </div>
 
             <div>
@@ -46,9 +58,20 @@
                     ></i>
                   </span>
                 </div>
-                <div>
-                  <span style="margin-top: 5px">
-                    <unicon name="share-alt" fill="#42b983"
+                <div
+                  @click="open_share_function"
+                  :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+                >
+                  <span
+                    style="margin-top: 5px"
+                    :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+                  >
+                    <unicon
+                      name="share-alt"
+                      :link_share="
+                        'beats-desc/' + item.beat_link + '/' + item.id
+                      "
+                      fill="#42b983"
                   /></span>
                 </div>
               </div>
@@ -221,22 +244,22 @@
       <span>Discover</span>
     </div>
     <div class="discover_title_big">
-      <span>Shop Categories</span>
+      <span>Licensing Info</span>
     </div>
     <splide :options="options_cate">
       <splide-slide>
         <div style="overflow: hidden">
           <div class="img_cate_gorie_carou_block">
             <div class="top_effect_block_txt">
-              <h3>In earheadset</h3>
+              <h6>$19.99-$29.99</h6>
             </div>
             <div class="top_effect_block" style=""></div>
             <div class="title_on_blur">
-              <h3>In earheadset</h3>
+              <h5>MP3 Lease</h5>
             </div>
             <img
               class="img_cate_gorie_carou"
-              src="https://static.lexpress.fr/medias_12180/w_1000,c_fill,g_north/apple-airpods-pro_6236430.jpg"
+              src="https://actunet.net/wp-content/uploads/2019/09/Digital-Music-Distribution-Companies-2.jpg"
             />
             <div class="bottom_effect_block_txt">
               <div>
@@ -253,27 +276,22 @@
               ></div>
             </div>
           </div>
-          <div
-            class="blur_ground_carou"
-            style="
-              background: url('https://static.lexpress.fr/medias_12180/w_1000,c_fill,g_north/apple-airpods-pro_6236430.jpg');
-            "
-          ></div>
+          <div class="blur_ground_carou" style="background: black"></div>
         </div>
       </splide-slide>
       <splide-slide>
         <div style="overflow: hidden">
           <div class="img_cate_gorie_carou_block">
             <div class="top_effect_block_txt">
-              <h3>In earheadset</h3>
+              <h6 class="wave-price">Only $39.99</h6>
             </div>
             <div class="top_effect_block" style=""></div>
             <div class="title_on_blur">
-              <h3>In earheadset</h3>
+              <h5>WAV Lease</h5>
             </div>
             <img
               class="img_cate_gorie_carou"
-              src="https://sc04.alicdn.com/kf/HTB15z5Lj67nBKNjSZLeq6zxCFXa5.jpg"
+              src="https://musicdistribution.guru/wp-content/uploads/2019/10/music-streaming.jpg"
             />
             <div class="bottom_effect_block_txt">
               <div>
@@ -290,27 +308,22 @@
               ></div>
             </div>
           </div>
-          <div
-            class="blur_ground_carou"
-            style="
-              background: url('https://sc04.alicdn.com/kf/HTB15z5Lj67nBKNjSZLeq6zxCFXa5.jpg');
-            "
-          ></div>
+          <div class="blur_ground_carou" style="background: #fd7e39"></div>
         </div>
       </splide-slide>
       <splide-slide>
         <div style="overflow: hidden">
           <div class="img_cate_gorie_carou_block">
             <div class="top_effect_block_txt">
-              <h3>In earheadset 2</h3>
+              <h6>Only $79.99</h6>
             </div>
             <div class="top_effect_block" style=""></div>
             <div class="title_on_blur">
-              <h3>In earheadset 1</h3>
+              <h5>Trackouts</h5>
             </div>
             <img
               class="img_cate_gorie_carou"
-              src="https://media.materiel.net/cms/materiel_net/Guides_d_achat/Guide-casques-audio/page3_image2.jpg"
+              src="https://objectifsmartphone.fr/wp-content/uploads/2020/03/Apple-Music-hero-005.jpg"
             />
             <div class="bottom_effect_block_txt">
               <div>
@@ -327,27 +340,22 @@
               ></div>
             </div>
           </div>
-          <div
-            class="blur_ground_carou"
-            style="
-              background: url('https://media.materiel.net/cms/materiel_net/Guides_d_achat/Guide-casques-audio/page3_image2.jpg');
-            "
-          ></div>
+          <div class="blur_ground_carou" style="background: #ee686a"></div>
         </div>
       </splide-slide>
       <splide-slide>
         <div style="overflow: hidden">
           <div class="img_cate_gorie_carou_block">
             <div class="top_effect_block_txt">
-              <h3>In earheadset</h3>
+              <h6>Only $199.99</h6>
             </div>
             <div class="top_effect_block" style=""></div>
             <div class="title_on_blur">
-              <h3>In earheadset</h3>
+              <h6>Unlimited License</h6>
             </div>
             <img
               class="img_cate_gorie_carou"
-              src="https://ae01.alicdn.com/kf/H99cb34bd88d8465db5cfbc73acc106dea/Autocollant-pour-couteurs-sans-fil-couleur-Pure-en-vinyle-pour-Beats-Solo-2-solo-3-pour.jpg_q50.jpg"
+              src="https://9b16f79ca967fd0708d1-2713572fef44aa49ec323e813b06d2d9.ssl.cf2.rackcdn.com/1140x_a10-7_cTC/NS-WKMAG0730-1595944356.jpg"
             />
             <div class="bottom_effect_block_txt">
               <div>
@@ -364,12 +372,7 @@
               ></div>
             </div>
           </div>
-          <div
-            class="blur_ground_carou"
-            style="
-              background: url('https://ae01.alicdn.com/kf/H99cb34bd88d8465db5cfbc73acc106dea/Autocollant-pour-couteurs-sans-fil-couleur-Pure-en-vinyle-pour-Beats-Solo-2-solo-3-pour.jpg_q50.jpg');
-            "
-          ></div>
+          <div class="blur_ground_carou" style="background: #000000"></div>
         </div>
       </splide-slide>
     </splide>
@@ -384,7 +387,7 @@
           <img
             class="image_carou"
             style="border-radius: 3px"
-            src="https://img.redbull.com/images/c_crop,w_2100,h_1400,x_0,y_0,f_auto,q_auto/c_scale,w_1500/redbullcom/2020/1/22/pxdp8bfw4cobruzwobjm/uk_drill_artists_2020"
+            src="https://m.media-amazon.com/images/I/71v0GVNo8XL._AC_SL1388_.jpg"
           />
           <div class="title_zone_carou">
             <h2>Drill</h2>
@@ -406,7 +409,7 @@
           <img
             class="image_carou"
             style="border-radius: 3px"
-            src="https://i.scdn.co/image/ab67706c0000bebb1f4d6d643db0a0f2b84bceaa"
+            src="https://www.oladerinnews.com/wp-content/uploads/2021/07/Burna-Boy-Wizkid.jpeg"
           />
           <div class="title_zone_carou">
             <h2>Afro Beats</h2>
@@ -429,10 +432,10 @@
           <img
             class="image_carou"
             style="border-radius: 3px"
-            src="https://cdn.shopify.com/s/files/1/2312/4771/products/TRAPSOUL-DADCAP-FRONT_1024x.png?v=1600976888"
+            src="https://hollywoodlife.com/wp-content/uploads/2020/07/ti-jeezy-gucci-mane-feud-ap-ftr.jpg"
           />
           <div class="title_zone_carou">
-            <h2>Trap Soul</h2>
+            <h2>Trap Music</h2>
             <div class="price_block">
               <div style="padding: 0px 10px 0px 10px">
                 <p style="font-size: 14px">
@@ -499,7 +502,7 @@
   margin: 1%;
 }
 .blur_ground_carou {
-  height: 600px;
+  height: 300px;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -510,7 +513,7 @@
   position: absolute;
   z-index: 100000;
   width: 100%;
-  height: 600px;
+  height: 300px;
   font-size: 31px;
   color: white;
   font-weight: bolder;
@@ -523,7 +526,7 @@
   z-index: 1000000000;
   font-size: 31px;
   color: white;
-  bottom: -600px;
+  bottom: -300px;
   font-weight: bolder;
   transition: ease 0.3s all;
   display: flex;
@@ -539,13 +542,13 @@
   transform: rotate(270deg);
   font-size: 31px;
   color: white;
-  top: -600px;
+  top: -6300px;
   font-weight: bolder;
-  left: -50px;
+  /* left: -50px; */
   transition: ease 0.3s all;
 }
 .img_cate_gorie_carou_block:hover .title_on_blur {
-  bottom: -600px;
+  bottom: -300px;
 }
 .img_cate_gorie_carou_block:hover .top_effect_block {
   display: block;
@@ -574,7 +577,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 600px;
+  height: 300px;
   cursor: pointer;
   width: 100%;
 }
@@ -778,6 +781,12 @@
   }
 }
 @media only screen and (max-width: 767px) {
+  .hot_artist_image {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50%;
+    object-fit: cover;
+  }
   .first_block > div {
     flex-direction: column;
   }
@@ -794,6 +803,9 @@
   }
 }
 @media only screen and (max-width: 576px) {
+  .img_cate_gorie_carou_block:hover .top_effect_block_txt {
+    top: 0px;
+  }
   .discover_title_big {
     font-size: 20px;
   }
@@ -806,7 +818,7 @@
     font-size: 13px;
   }
   .blur_ground_carou {
-    height: 400px;
+    height: 300px;
   }
   .img_cate_gorie_carou {
     width: 80%;
@@ -814,7 +826,7 @@
     object-fit: cover;
   }
   .title_on_blur {
-    bottom: -600px;
+    bottom: -300px;
   }
   .top_effect_block {
     display: block;
@@ -837,6 +849,9 @@
   }
 }
 @media only screen and (max-width: 576px) {
+  .top_effect_block_txt {
+    left: 0px;
+  }
   .first_block_first {
     flex-direction: column;
   }
@@ -1014,6 +1029,7 @@ import { mapState } from "vuex";
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Axios from "axios";
+import Share from "@/components/Share.vue";
 // import axios from "axios";
 export default {
   name: "Home",
@@ -1021,6 +1037,7 @@ export default {
     // HelloWorld
     Splide,
     SplideSlide,
+    Share,
   },
   computed: {
     ...mapState([
@@ -1033,6 +1050,8 @@ export default {
   },
   data() {
     return {
+      link_share: "",
+      open_share: false,
       beats_genre: "",
       wavesurfer: "",
       options: {
@@ -1092,6 +1111,7 @@ export default {
   },
 
   created() {
+    //alert(this.domain_for_external_js_css_file + "api/newestbeats/")
     Axios.get(this.domain_for_external_js_css_file + "api/genre/")
       .then((response) => {
         this.beats_genre = response;
@@ -1118,41 +1138,38 @@ export default {
       .catch((err) => console.log(err));
   },
   updated() {
-    if (this.stopCall == 0) {
-      document.querySelector(
-        ".categories_block"
-      ).children[0].style.borderBottomStyle = "solid";
+    if (
+      typeof this.beats_genre.data !== "undefined" &&
+      this.beats_genre.data.length
+    ) {
+      if (this.stopCall == 0) {
+        document.querySelector(
+          ".categories_block"
+        ).children[0].style.borderBottomStyle = "solid";
 
-      Axios.get(
-        this.domain_for_external_js_css_file +
-          "api/select_depending_on_genre/" +
-          document.querySelector(".categories_block").children[0].textContent
-      )
-        .then((response) => {
-          this.carou_beats_data = response;
-          this.isLoading_genre_filters = true;
-        })
-        .catch((err) => console.log(err));
-      this.stopCall = 1;
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/select_depending_on_genre/" +
+            document.querySelector(".categories_block").children[0].textContent
+        )
+          .then((response) => {
+            this.carou_beats_data = response;
+            this.isLoading_genre_filters = true;
+          })
+          .catch((err) => console.log(err));
+        this.stopCall = 1;
+      }
     }
   },
   methods: {
-    search_by_genre() {
-      // for (let i = 0; i < event.currentTarget.parentNode.children.length; i++) {
-      //   event.currentTarget.parentNode.children[i].style.borderBottomStyle =
-      //     "none";
-      // }
-      // event.currentTarget.style.borderBottomStyle = "solid";
-      // Axios.get(
-      //   this.domain_for_external_js_css_file +
-      //     "api/select_depending_on_genre/" +
-      //     event.currentTarget.textContent
-      // )
-      //   .then((response) => {
-      //     this.carou_beats_data = response;
-      //     console.log(this.carou_beats_data);
-      //   })
-      //   .catch((err) => console.log(err));
+    open_share_function(event) {
+      this.open_share = true;
+      this.link_share =
+        "https://49keysbanger.com/" +
+        event.currentTarget.getAttribute("link_share");
+    },
+    close_share_function() {
+      this.open_share = false;
     },
     play(event) {
       let item_id = event.currentTarget.getAttribute("item_id");

@@ -221,7 +221,7 @@ h3 {
 <style scoped src="../assets/aos.css">
 </style>
 <style scoped>
-@import "http://127.0.0.1:8000/assets/css/animate.min.css";
+@import "https://49keysbanger.com/server-side/storage/app/public/assets/css/animate.min.css";
 </style>
 <style scoped src="../assets/main.css">
 </style>
@@ -289,7 +289,7 @@ export default {
       let scriptAdd = document.createElement("script");
       scriptAdd.setAttribute(
         "src",
-        this.domain_for_external_js_css_file + script_link
+        "https://49keysbanger.com/server-side/storage/app/public/" + script_link
       );
       document.body.appendChild(scriptAdd);
     },
@@ -297,7 +297,7 @@ export default {
       let scriptAdd = document.createElement("script");
       scriptAdd.setAttribute(
         "src",
-        this.domain_for_external_js_css_file + script_link
+        "https://49keysbanger.com/server-side/storage/app/public/" + script_link
       );
 
       document.head.appendChild(scriptAdd);

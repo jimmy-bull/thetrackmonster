@@ -1,4 +1,14 @@
 <template>
+  <FreeBeats
+    :open_modalfree="open_free"
+    :free_beats_id="free_beats_id"
+    @close_free_beats_function="close_free_beats_function"
+  ></FreeBeats>
+  <Share
+    :open_modal="open_share"
+    :link_share="link_share"
+    @close_share_function="close_share_function"
+  ></Share>
   <div>
     <!-- DIV COVER AND SONG INFOS -->
     <div v-if="typeof beat_desc.data !== 'undefined'">
@@ -47,14 +57,29 @@
             <div class="div_bpm_date">
               <div class="little_bpm_div">BPM</div>
               <span class="bpm_number">{{ item.bpm }}</span>
-              <span class="date">July 6, 2021</span>
+              <span class="date">{{ item.correct_date }}</span>
             </div>
             <!-- end nom BPM Date -->
 
             <div class="div_prix_share">
               <div class="prix_share space_prix">
                 <img href="#" class="icons_price_share" />
-                <span>
+                <span
+                  v-if="item.downloadable == 'true'"
+                  :free_beats_id="item.id"
+                  @click="open_free_beats_function"
+                >
+                  <unicon
+                    v-if="item.downloadable == 'true'"
+                    class="somewhere_playlist"
+                    name="import"
+                    width="15"
+                    height="15"
+                    fill="white"
+                  />
+                  Free</span
+                >
+                <span v-if="item.downloadable == 'false'">
                   <unicon
                     class="somewhere_playlist"
                     name="shopping-bag"
@@ -66,13 +91,17 @@
               </div>
 
               <div class="prix_share">
-                <span>
+                <span
+                  @click="open_share_function"
+                  :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+                >
                   <unicon
                     class="somewhere_playlist"
                     name="share-alt"
                     fill="white"
                     width="15"
                     height="15"
+                    :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
                   />
                   Share</span
                 >
@@ -427,6 +456,8 @@
 <script>
 //https://www.youtube.com/watch?v=2TIHglVz9NQ
 import { mapState } from "vuex";
+import FreeBeats from "@/components/FreeBeats.vue";
+import Share from "@/components/Share.vue";
 import Axios from "axios";
 export default {
   name: "Beats-desc",
@@ -436,7 +467,15 @@ export default {
       tags: [],
       item_id: null,
       comments: "",
+      open_free: false,
+      free_beats_id: 0,
+      link_share: "",
+      open_share: false,
     };
+  },
+  components: {
+    FreeBeats,
+    Share,
   },
   computed: {
     ...mapState(["domain_for_external_js_css_file"]),
@@ -472,6 +511,22 @@ export default {
   },
 
   methods: {
+    open_share_function(event) {
+      this.open_share = true;
+      this.link_share =
+        "https://49keysbanger.com/" +
+        event.currentTarget.getAttribute("link_share");
+    },
+    close_share_function() {
+      this.open_share = false;
+    },
+    close_free_beats_function() {
+      this.open_free = false;
+    },
+    open_free_beats_function(event) {
+      this.open_free = true;
+      this.free_beats_id = event.currentTarget.getAttribute("free_beats_id");
+    },
     play(event) {
       let item_id = event.currentTarget.getAttribute("item_id");
       let class_reference = event.currentTarget.getAttribute("class_reference");

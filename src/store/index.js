@@ -7,7 +7,7 @@ export default createStore({
     playing: false,
     has_created_playlist: false,
     wavesurferState: false,
-    domain_for_external_js_css_file: 'http://127.0.0.1:8000/',
+    domain_for_external_js_css_file: 'https://49keysbanger.com/public/',
     TrackDuration: 10,
     TrackCurentTime: 0,
     class_reference: null,
