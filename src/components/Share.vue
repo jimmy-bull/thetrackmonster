@@ -136,6 +136,7 @@ export default {
       required: true,
     },
   },
+  
 
   updated() {
     if (this.open_modal == true) {

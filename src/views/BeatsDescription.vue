@@ -49,7 +49,7 @@
 
             <!-- Div nom artiste -->
             <div class="div_nom_artiste">
-              <span class="artiste_name"> @Thetrackmonster </span>
+              <span class="artiste_name"> @49keysbanger </span>
             </div>
             <!-- end div nom artiste -->
 

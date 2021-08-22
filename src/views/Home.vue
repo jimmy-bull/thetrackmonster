@@ -263,7 +263,12 @@
             />
             <div class="bottom_effect_block_txt">
               <div>
-                <h6>Discover</h6>
+                <h6>
+                  <a target="_blank" style="color:white"
+                    href="https://49keysbanger.com/server-side/storage/app/public/contract/contrat-mp3.pdf"
+                    >Read</a
+                  >
+                </h6>
               </div>
               <div
                 style="
@@ -798,7 +803,7 @@
     margin: 2px;
   }
   .blog_items {
-    width: 100%;
+    width: 90%;
     margin-top: 20px !important;
   }
 }

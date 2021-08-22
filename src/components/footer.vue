@@ -80,7 +80,15 @@ a {
 }
 @media only screen and (max-width: 576px) {
   .footer_block > div {
-    margin: 0px 5% 50px 2%;
+    margin: 0px 2% 50px 2%;
+  }
+  a {
+    font-size: 13px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .footer_block > div {
+    margin: 0px 1% 50px 1%;
   }
   .footer_block {
   }

@@ -1,5 +1,30 @@
 <template>
   <div class="play_list_parent">
+    <div id="myModal__" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" @click="close_share_function">&times;</span>
+        <div>
+          <h2>Share Track</h2>
+          <h5 style="color: #42b983">MARKETPLACE FULL URL</h5>
+        </div>
+
+        <div>
+          <div class="search_div">
+            <div class="search_input">
+              <span>{{ link_share }}</span>
+            </div>
+            <div
+              class="copy__"
+              @click="copy"
+              style="color: #42b983; cursor: pointer"
+            >
+              Copy
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div
       class="play_list_block_playlist"
       v-for="(item, index) in play_list"
@@ -19,7 +44,14 @@
           <img :src="item.image_link" alt="" />
         </div>
         <div>
-          <span class="somewhere_playlist">{{ item.title }}</span>
+          <router-link
+            :to="{
+              name: 'beats-desc',
+              params: { name: item.beat_link, id: item.id },
+            }"
+          >
+            <span class="somewhere_playlist">{{ item.title }}</span>
+          </router-link>
         </div>
       </div>
       <div class="minute_box_big">
@@ -41,15 +73,37 @@
         </div>
       </div>
       <div class="buy_share_block">
-        <div style="cursor: pointer" class="hide_on_576 somewhere_playlist">
-          <unicon class="somewhere_playlist" name="share-alt" fill="#42b983" />
+        <div
+          @click="open_share_function"
+          :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+          style="cursor: pointer"
+          class="hide_on_576 somewhere_playlist"
+        >
+          <unicon
+            @click="open_share_function"
+            :link_share="'beats-desc/' + item.beat_link + '/' + item.id"
+            class="somewhere_playlist"
+            name="share-alt"
+            fill="#42b983"
+          />
         </div>
         <div class="btn_buy_player somewhere_playlist hide_on_576">
           <div class="hide_on_576">
             <div class="somewhere_playlist">
               <unicon
+                v-if="item.downloadable == 'false'"
                 class="somewhere_playlist"
                 name="shopping-bag"
+                width="15"
+                height="15"
+                fill="white"
+              />
+              <unicon
+                v-if="item.downloadable == 'true'"
+                :free_beats_id="item.id"
+                @click="open_free_beats_function_from_plalist"
+                class="somewhere_playlist"
+                name="import"
                 width="15"
                 height="15"
                 fill="white"
@@ -59,6 +113,8 @@
           <div
             class="price_txt somewhere_playlist"
             v-if="item.downloadable == 'true'"
+            :free_beats_id="item.id"
+            @click="open_free_beats_function_from_plalist"
           >
             <span
               class="somewhere_playlist"
@@ -81,6 +137,98 @@
     </div>
   </div>
 </template>
+<style scoped>
+.search_input {
+  width: 80%;
+  border-width: 0px;
+  box-shadow: 0 10px 15px rgb(25 25 25 / 10%);
+  padding: 10px 0px 10px 10px;
+  color: #2c3e50;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.search_div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  border-color: white;
+  border-radius: 5px;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+  .search_input {
+    margin: 50px 10% 0px 10%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .modal-content {
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .search_div {
+    flex-direction: column;
+  }
+  .search_div > div {
+    margin-bottom: 20px;
+  }
+  .search_input {
+    width: 100%;
+  }
+}
+</style>
 <style scoped>
 .image_zone {
   width: 30%;
@@ -198,6 +346,7 @@ export default {
   computed: {
     ...mapState(["play_list", "domain_for_external_js_css_file"]),
   },
+  components: {},
   props: {
     class_referenceProps: {
       type: Number,
@@ -206,6 +355,11 @@ export default {
   data() {
     return {
       tags: "",
+      open_free: false,
+      free_beats_id: 0,
+      link_share: "",
+      open_share: false,
+      open_modal: false,
     };
   },
   updated() {
@@ -250,6 +404,30 @@ export default {
     );
   },
   methods: {
+    open_share_function(event) {
+      this.link_share =
+        "https://49keysbanger.com/" +
+        event.currentTarget.getAttribute("link_share");
+      document.getElementById("myModal__").style.display = "block";
+      document.querySelector("body").style.overflow = "hidden";
+      document.querySelector(".copy__").textContent = "Copy";
+    },
+    copy(event) {
+      var textArea = document.createElement("textarea");
+      textArea.value = this.link_share;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("Copy");
+      textArea.remove();
+      event.currentTarget.textContent = "Copied";
+    },
+    close_share_function() {
+      document.getElementById("myModal__").style.display = "none";
+      document.querySelector("body").style.overflow = "auto";
+    },
+    open_free_beats_function_from_plalist() {
+      this.$emit("open_free_beats_function_from_plalist");
+    },
     play_liste(event) {
       if (!event.target.matches(".somewhere_playlist")) {
         for (

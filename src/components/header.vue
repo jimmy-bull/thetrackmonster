@@ -67,58 +67,99 @@
       </div>
     </div>
     <div class="link_menu_mobile">
-      <div class="">
-        <router-link to="/beats">Beats</router-link>
+      <div class="with_up link_block_mobile">
+        <div>
+          <router-link to="/" @click="close_mobile_menu">
+            <unicon name="estate" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/" @click="close_mobile_menu">Home</router-link>
+        </div>
       </div>
-      <hr />
-      <div class="">
-        <router-link to="/contact">Contact</router-link>
+      <div class="with_up link_block_mobile">
+        <div>
+          <router-link to="/beats?q=all" @click="close_mobile_menu">
+            <unicon name="music" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/beats?q=all" @click="close_mobile_menu"
+            >Beats</router-link
+          >
+        </div>
       </div>
-      <hr />
+      <div class="with_up link_block_mobile">
+        <div>
+          <router-link to="/contact" @click="close_mobile_menu">
+            <unicon name="comment-alt-medical" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/contact" @click="close_mobile_menu"
+            >Contact</router-link
+          >
+        </div>
+      </div>
+
       <div class="with_up link_block_mobile">
         <div>
           <div class="count_number_phone"><span>0</span></div>
-          <router-link to="/cart">
+          <router-link to="/cart" @click="close_mobile_menu">
             <unicon name="shopping-bag" fill="#2c3e50"
           /></router-link>
         </div>
-        <div style="text-indent: 10px">
-          <router-link to="/wishlist">Cart</router-link>
-        </div>
-      </div>
-      <hr />
-      <div class="with_up link_block_mobile">
-        <div class="count_number_phone"><span>0</span></div>
-        <router-link to="/wishlist">
-          <unicon name="heart" fill="#2c3e50"
-        /></router-link>
-        <div style="text-indent: 10px">
-          <router-link to="/wishlist">wishlist</router-link>
+        <div style="text-indent: 20px">
+          <router-link to="/cart" @click="close_mobile_menu">Cart</router-link>
         </div>
       </div>
 
-      <hr />
-      <!-- <div class="with_up link_block_mobile">
-        <div class="count_number_phone"><span>0</span></div>
-        <router-link to="/wishlist">
-          <unicon name="bell" fill="#2c3e50"
-        /></router-link>
-        <div style="text-indent: 10px">
-          <router-link to="/wishlist">Notification</router-link>
-        </div>
-      </div> -->
-      <hr />
-
       <div class="with_up link_block_mobile">
-        <div class="count_number_phone"><span>0</span></div>
-        <router-link to="/wishlist">
-          <unicon name="user" fill="#2c3e50"
-        /></router-link>
-        <div style="text-indent: 10px">
-          <router-link to="/wishlist">Login</router-link>
+        <div>
+          <div class="count_number_phone">
+            <span>{{ wishlist_count }}</span>
+          </div>
+          <router-link to="/wishlist" @click="close_mobile_menu">
+            <unicon name="heart" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/wishlist" @click="close_mobile_menu"
+            >wishlist</router-link
+          >
         </div>
       </div>
-      <hr />
+
+      <div class="with_up link_block_mobile" v-if="is_connected == false">
+        <div>
+          <router-link to="/account" @click="close_mobile_menu">
+            <unicon name="user" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/account" @click="close_mobile_menu"
+            >Login</router-link
+          >
+        </div>
+      </div>
+      <div class="with_up link_block_mobile" v-if="is_connected == true">
+        <div>
+          <router-link to="/my-space" @click="close_mobile_menu">
+            <unicon name="user" fill="#2c3e50"
+          /></router-link>
+        </div>
+
+        <div style="text-indent: 20px">
+          <router-link to="/my-space" @click="close_mobile_menu"
+            >My Space</router-link
+          >
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -188,6 +229,9 @@
   }
   .link_menu_mobile {
     padding: 20px;
+  }
+  .link_menu_mobile > div {
+    margin-bottom: 20px;
   }
   .count_number_phone {
     position: absolute;

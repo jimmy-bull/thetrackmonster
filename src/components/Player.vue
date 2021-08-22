@@ -1,4 +1,35 @@
 <template style="position:relative;">
+  <FreeBeats
+    :open_modalfree="open_free"
+    :free_beats_id="free_beats_id"
+    @close_free_beats_function="close_free_beats_function"
+  ></FreeBeats>
+  <!-- share Modal -->
+  <div id="myModal_" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" @click="close_share_function">&times;</span>
+      <div>
+        <h2>Share Track</h2>
+        <h5 style="color: #42b983">MARKETPLACE FULL URL</h5>
+      </div>
+
+      <div>
+        <div class="search_div">
+          <div class="search_input">
+            <span>{{ link_share }}</span>
+          </div>
+          <div
+            class="copy_"
+            @click="copy"
+            style="color: #42b983; cursor: pointer"
+          >
+            Copy
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="player_block">
     <div class="player">
       <div class="silder_progress_block">
@@ -17,32 +48,67 @@
           <div><span class="minute">0</span></div>
         </div>
       </div>
-      <div class="player_image_box hide_on_576">
+      <router-link
+        class="player_image_box hide_on_576"
+        :to="{
+          name: 'beats-desc',
+          params: { name: play_current.beat_link, id: play_current.id },
+        }"
+      >
         <img class="player_image" :src="play_current.image_link" alt="" />
-      </div>
+      </router-link>
       <div class="title">
-        <div>
+        <router-link
+          :to="{
+            name: 'beats-desc',
+            params: { name: play_current.beat_link, id: play_current.id },
+          }"
+        >
           <span class="title">{{ play_current.title }}</span>
-        </div>
+        </router-link>
         <div style="font-size: 11px; margin-top: 5px; color: #ccc">
-          TheTrackMonster
+          @49keysbanger
         </div>
       </div>
-      <div style="cursor: pointer" class="hide_on_576">
-        <unicon name="share-alt" fill="#42b983" />
+
+      <div
+        @click="open_share_function"
+        :link_share="
+          'beats-desc/' + play_current.beat_link + '/' + play_current.id
+        "
+        style="cursor: pointer"
+        class="hide_on_576"
+      >
+        <unicon
+          :link_share="
+            'beats-desc/' + play_current.beat_link + '/' + play_current.id
+          "
+          name="share-alt"
+          fill="#42b983"
+        />
       </div>
       <div class="btn_buy_player hide_on_576">
         <div class="hide_on_576">
-          <div>
+          <div v-if="play_current.downloadable == 'false'">
             <unicon name="shopping-bag" width="15" height="15" fill="white" />
           </div>
-        </div>
-        <div class="hide_on_576" v-if="play_current.downloadable == 'true' ">
-          <span style="color: white; font-size: 15px"
-            >free</span
+          <div
+            v-if="play_current.downloadable == 'true'"
+            :free_beats_id="play_current.id"
+            @click="open_free_beats_function"
           >
+            <unicon name="import" width="15" height="15" fill="white" />
+          </div>
         </div>
-        <div class="hide_on_576" v-if="play_current.downloadable == 'false' ">
+        <div
+          class="hide_on_576"
+          :free_beats_id="play_current.id"
+          @click="open_free_beats_function"
+          v-if="play_current.downloadable == 'true'"
+        >
+          <span style="color: white; font-size: 15px">free</span>
+        </div>
+        <div class="hide_on_576" v-if="play_current.downloadable == 'false'">
           <span style="color: white; font-size: 15px"
             >${{ play_current.price }}</span
           >
@@ -125,10 +191,105 @@
   </div>
 
   <Playlist
+    @open_free_beats_function_from_plalist="
+      open_free_beats_function_from_plalist
+    "
     class="play_list_block"
     :class_referenceProps="class_reference"
   ></Playlist>
 </template>
+<style scoped>
+.search_input {
+  width: 80%;
+  border-width: 0px;
+  box-shadow: 0 10px 15px rgb(25 25 25 / 10%);
+  padding: 10px 0px 10px 10px;
+  color: #2c3e50;
+  overflow: hidden;
+  border-radius: 5px;
+}
+.search_div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 100; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+  border-color: white;
+  border-radius: 5px;
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+  .search_input {
+    margin: 50px 10% 0px 10%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .modal-content {
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  .search_div {
+    flex-direction: column;
+  }
+  .search_div > div {
+    margin-bottom: 20px;
+  }
+  .search_input {
+    width: 100%;
+  }
+}
+</style>
 <style scoped>
 .minute_block {
   position: absolute;
@@ -218,7 +379,7 @@
   border-color: #42b983;
   background: white;
   width: 100%;
-  z-index: 10000000;
+  z-index: 10;
   overflow: scroll;
 }
 .play_zone {
@@ -260,7 +421,7 @@
   position: fixed;
   bottom: 0;
   width: 100%;
-  z-index: 10000;
+  z-index: 10;
 }
 .player > div {
   margin: 0px 15px 0px 15px;
@@ -288,12 +449,14 @@
 <script>
 import Slider from "@vueform/slider";
 import Playlist from "@/components/Playlist.vue";
+import FreeBeats from "@/components/FreeBeats.vue";
 import { mapState } from "vuex";
 export default {
   name: "Player",
   components: {
     Slider,
     Playlist,
+    FreeBeats,
   },
   data() {
     return {
@@ -303,6 +466,11 @@ export default {
       is_open: false,
       volume_mute: false,
       loop: false,
+      open_free: false,
+      free_beats_id: 0,
+      link_share: "",
+      open_share: false,
+      open_modal: false,
     };
   },
   computed: {
@@ -319,6 +487,38 @@ export default {
   },
   mounted() {},
   methods: {
+    open_share_function(event) {
+      this.link_share =
+        "https://49keysbanger.com/" +
+        event.currentTarget.getAttribute("link_share");
+      document.getElementById("myModal_").style.display = "block";
+      document.querySelector("body").style.overflow = "hidden";
+      document.querySelector(".copy_").textContent = "Copy";
+    },
+    copy(event) {
+      var textArea = document.createElement("textarea");
+      textArea.value = this.link_share;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      textArea.remove();
+      event.currentTarget.textContent = "Copied";
+    },
+    close_share_function() {
+      document.getElementById("myModal_").style.display = "none";
+      document.querySelector("body").style.overflow = "auto";
+    },
+    close_free_beats_function() {
+      this.open_free = false;
+    },
+    open_free_beats_function(event) {
+      this.open_free = true;
+      this.free_beats_id = event.currentTarget.getAttribute("free_beats_id");
+    },
+    open_free_beats_function_from_plalist() {
+      this.open_free = true;
+      this.free_beats_id = event.currentTarget.getAttribute("free_beats_id");
+    },
     open_playlist() {
       if (this.is_open == false) {
         document.querySelector(".player").style.bottom = 250 + "px";

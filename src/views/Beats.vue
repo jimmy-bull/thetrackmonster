@@ -140,7 +140,7 @@
         <div>
           <span class="somewhere_playlist"
             ><router-link
-              class="somewhere_playlist"
+              class="somewhere_playlist title__"
               :to="{
                 name: 'beats-desc',
                 params: { name: item.beat_link, id: item.id },
@@ -579,6 +579,9 @@ select {
   }
   .play_list_block_playlist {
     margin: 0px 10px 0px 10px;
+  }
+  .title__{
+    font-size:13px;
   }
 }
 @media only screen and (max-width: 360px) {
