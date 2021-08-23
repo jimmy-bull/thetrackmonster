@@ -10,19 +10,17 @@
         <router-link to="/">Home</router-link>
       </div>
       <div>
-        <router-link to="/beats">Beats</router-link>
+        <router-link to="/beats?q=all">Beats</router-link>
       </div>
       <div>
-        <router-link to="/shop">Shop</router-link>
+        <router-link to="/contact">Contact</router-link>
       </div>
     </div>
-    <div>
-      <router-link to="/contact">Contact</router-link>
-    </div>
+
     <div class="vertical_link_footer">
-      <div>
-        <router-link to="/contact">Licensing Info</router-link>
-      </div>
+      <!-- <div>
+        <router-link to="/">Licensing Info</router-link>
+      </div> -->
       <div>
         <router-link to="/contact">Terms of use</router-link>
       </div>

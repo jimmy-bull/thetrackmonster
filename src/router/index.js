@@ -77,7 +77,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/ForgotPassword.vue')
+    component: () => import(/* webpackChunkName: "ForgotPassword" */ '../views/ForgotPassword.vue')
   },
   {
     path: '/my-space',
@@ -85,8 +85,14 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/UserSpace.vue')
+    component: () => import(/* webpackChunkName: "UserSpace" */ '../views/UserSpace.vue')
   },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue')
+  },
+  //{ path: '*', redirect: '/404' },
 ]
 
 const router = createRouter({

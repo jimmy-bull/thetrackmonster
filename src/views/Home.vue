@@ -248,137 +248,157 @@
     </div>
     <splide :options="options_cate">
       <splide-slide>
-        <div style="overflow: hidden">
-          <div class="img_cate_gorie_carou_block">
-            <div class="top_effect_block_txt">
-              <h6>$19.99-$29.99</h6>
-            </div>
-            <div class="top_effect_block" style=""></div>
-            <div class="title_on_blur">
-              <h5>MP3 Lease</h5>
-            </div>
-            <img
-              class="img_cate_gorie_carou"
-              src="https://actunet.net/wp-content/uploads/2019/09/Digital-Music-Distribution-Companies-2.jpg"
-            />
-            <div class="bottom_effect_block_txt">
-              <div>
-                <h6>
-                  <a target="_blank" style="color:white"
-                    href="https://49keysbanger.com/server-side/storage/app/public/contract/contrat-mp3.pdf"
-                    >Read</a
-                  >
-                </h6>
+        <a
+          target="_blank"
+          style="color: white"
+          href="https://49keysbanger.com/server-side/storage/app/public/contract/contrat-mp3.pdf"
+        >
+          <div style="overflow: hidden">
+            <div class="img_cate_gorie_carou_block">
+              <div class="top_effect_block_txt">
+                <h6>$19.99-$29.99</h6>
               </div>
-              <div
-                style="
-                  border-style: solid;
-                  height: 0px;
-                  width: 50px;
-                  border-width: 1px;
-                  margin-top: 12px;
-                "
-              ></div>
+              <div class="top_effect_block" style=""></div>
+              <div class="title_on_blur">
+                <h5>MP3 Lease</h5>
+              </div>
+              <img
+                class="img_cate_gorie_carou"
+                src="https://actunet.net/wp-content/uploads/2019/09/Digital-Music-Distribution-Companies-2.jpg"
+              />
+              <div class="bottom_effect_block_txt">
+                <div>
+                  <h6>Read</h6>
+                </div>
+                <div
+                  style="
+                    border-style: solid;
+                    height: 0px;
+                    width: 50px;
+                    border-width: 1px;
+                    margin-top: 12px;
+                  "
+                ></div>
+              </div>
             </div>
+
+            <div class="blur_ground_carou" style="background: black"></div>
           </div>
-          <div class="blur_ground_carou" style="background: black"></div>
-        </div>
+        </a>
       </splide-slide>
       <splide-slide>
-        <div style="overflow: hidden">
-          <div class="img_cate_gorie_carou_block">
-            <div class="top_effect_block_txt">
-              <h6 class="wave-price">Only $39.99</h6>
-            </div>
-            <div class="top_effect_block" style=""></div>
-            <div class="title_on_blur">
-              <h5>WAV Lease</h5>
-            </div>
-            <img
-              class="img_cate_gorie_carou"
-              src="https://musicdistribution.guru/wp-content/uploads/2019/10/music-streaming.jpg"
-            />
-            <div class="bottom_effect_block_txt">
-              <div>
-                <h6>Discover</h6>
+        <a
+          target="_blank"
+          style="color: white"
+          href="https://49keysbanger.com/server-side/storage/app/public/contract/wave-contract.pdf"
+        >
+          <div style="overflow: hidden">
+            <div class="img_cate_gorie_carou_block">
+              <div class="top_effect_block_txt">
+                <h6 class="wave-price">Only $39.99</h6>
               </div>
-              <div
-                style="
-                  border-style: solid;
-                  height: 0px;
-                  width: 50px;
-                  border-width: 1px;
-                  margin-top: 12px;
-                "
-              ></div>
+              <div class="top_effect_block" style=""></div>
+              <div class="title_on_blur">
+                <h5>WAV Lease</h5>
+              </div>
+              <img
+                class="img_cate_gorie_carou"
+                src="https://musicdistribution.guru/wp-content/uploads/2019/10/music-streaming.jpg"
+              />
+              <div class="bottom_effect_block_txt">
+                <div>
+                  <h6>Discover</h6>
+                </div>
+                <div
+                  style="
+                    border-style: solid;
+                    height: 0px;
+                    width: 50px;
+                    border-width: 1px;
+                    margin-top: 12px;
+                  "
+                ></div>
+              </div>
             </div>
+            <div class="blur_ground_carou" style="background: #fd7e39"></div>
           </div>
-          <div class="blur_ground_carou" style="background: #fd7e39"></div>
-        </div>
+        </a>
       </splide-slide>
       <splide-slide>
-        <div style="overflow: hidden">
-          <div class="img_cate_gorie_carou_block">
-            <div class="top_effect_block_txt">
-              <h6>Only $79.99</h6>
-            </div>
-            <div class="top_effect_block" style=""></div>
-            <div class="title_on_blur">
-              <h5>Trackouts</h5>
-            </div>
-            <img
-              class="img_cate_gorie_carou"
-              src="https://objectifsmartphone.fr/wp-content/uploads/2020/03/Apple-Music-hero-005.jpg"
-            />
-            <div class="bottom_effect_block_txt">
-              <div>
-                <h6>Discover</h6>
+        <a
+          target="_blank"
+          style="color: white"
+          href="https://49keysbanger.com/server-side/storage/app/public/contract/wave-trackouts-contract.pdf"
+        >
+          <div style="overflow: hidden">
+            <div class="img_cate_gorie_carou_block">
+              <div class="top_effect_block_txt">
+                <h6>Only $79.99</h6>
               </div>
-              <div
-                style="
-                  border-style: solid;
-                  height: 0px;
-                  width: 50px;
-                  border-width: 1px;
-                  margin-top: 12px;
-                "
-              ></div>
+              <div class="top_effect_block" style=""></div>
+              <div class="title_on_blur">
+                <h5>Trackouts</h5>
+              </div>
+              <img
+                class="img_cate_gorie_carou"
+                src="https://objectifsmartphone.fr/wp-content/uploads/2020/03/Apple-Music-hero-005.jpg"
+              />
+              <div class="bottom_effect_block_txt">
+                <div>
+                  <h6>Discover</h6>
+                </div>
+                <div
+                  style="
+                    border-style: solid;
+                    height: 0px;
+                    width: 50px;
+                    border-width: 1px;
+                    margin-top: 12px;
+                  "
+                ></div>
+              </div>
             </div>
+            <div class="blur_ground_carou" style="background: #ee686a"></div>
           </div>
-          <div class="blur_ground_carou" style="background: #ee686a"></div>
-        </div>
+        </a>
       </splide-slide>
       <splide-slide>
-        <div style="overflow: hidden">
-          <div class="img_cate_gorie_carou_block">
-            <div class="top_effect_block_txt">
-              <h6>Only $199.99</h6>
-            </div>
-            <div class="top_effect_block" style=""></div>
-            <div class="title_on_blur">
-              <h6>Unlimited License</h6>
-            </div>
-            <img
-              class="img_cate_gorie_carou"
-              src="https://9b16f79ca967fd0708d1-2713572fef44aa49ec323e813b06d2d9.ssl.cf2.rackcdn.com/1140x_a10-7_cTC/NS-WKMAG0730-1595944356.jpg"
-            />
-            <div class="bottom_effect_block_txt">
-              <div>
-                <h6>Discover</h6>
+        <a
+          target="_blank"
+          style="color: white"
+          href="https://49keysbanger.com/server-side/storage/app/public/contract/Unlimited-License.pdf"
+        >
+          <div style="overflow: hidden">
+            <div class="img_cate_gorie_carou_block">
+              <div class="top_effect_block_txt">
+                <h6>Only $199.99</h6>
               </div>
-              <div
-                style="
-                  border-style: solid;
-                  height: 0px;
-                  width: 50px;
-                  border-width: 1px;
-                  margin-top: 12px;
-                "
-              ></div>
+              <div class="top_effect_block" style=""></div>
+              <div class="title_on_blur">
+                <h6>Unlimited License</h6>
+              </div>
+              <img
+                class="img_cate_gorie_carou"
+                src="https://9b16f79ca967fd0708d1-2713572fef44aa49ec323e813b06d2d9.ssl.cf2.rackcdn.com/1140x_a10-7_cTC/NS-WKMAG0730-1595944356.jpg"
+              />
+              <div class="bottom_effect_block_txt">
+                <div>
+                  <h6>Discover</h6>
+                </div>
+                <div
+                  style="
+                    border-style: solid;
+                    height: 0px;
+                    width: 50px;
+                    border-width: 1px;
+                    margin-top: 12px;
+                  "
+                ></div>
+              </div>
             </div>
+            <div class="blur_ground_carou" style="background: #000000"></div>
           </div>
-          <div class="blur_ground_carou" style="background: #000000"></div>
-        </div>
+        </a>
       </splide-slide>
     </splide>
 
