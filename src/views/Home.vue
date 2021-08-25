@@ -4,6 +4,7 @@
     :link_share="link_share"
     @close_share_function="close_share_function"
   ></Share>
+  <Cartmodal />
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
@@ -775,10 +776,12 @@
   margin: 0px 25px 0px 0px;
 }
 .img_last_added {
-  width: 300px;
+  width: 200px;
   border-radius: 10px;
   cursor: pointer;
   background: #f5f5f5;
+  height: 150px;
+  object-fit: cover;
 }
 .tags {
   display: flex;
@@ -1057,6 +1060,7 @@ import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Axios from "axios";
 import Share from "@/components/Share.vue";
 import Contact from "@/views/Contact.vue";
+import Cartmodal from "@/components/Cartmodal.vue";
 // import axios from "axios";
 export default {
   name: "Home",
@@ -1066,6 +1070,7 @@ export default {
     SplideSlide,
     Share,
     Contact,
+    Cartmodal,
   },
   computed: {
     ...mapState([

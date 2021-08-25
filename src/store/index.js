@@ -14,7 +14,8 @@ export default createStore({
     Alltags: [],
     item_id: null,
     wishlist_count: 0,
-    is_connected: false
+    is_connected: false,
+    cart: {},
   },
   mutations: {
     play_pause_player(state, audio) {

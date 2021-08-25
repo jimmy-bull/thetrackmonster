@@ -206,6 +206,7 @@ export default {
     return {
       value_genre: "",
       options_genre: ["Trap", "hip hop"],
+      test: [],
     };
   },
   mounted() {
@@ -222,5 +223,9 @@ export default {
     this.importScript("assets/js/radio_button.js");
     // this.importScript("assets/js/carousel/big.js");
   },
+  // created() {
+  //   this.test.push({ image: "jimmy", price: "ok", license: "", title: "" });
+  //   console.log(this.test);
+  // },
 };
 </script>
