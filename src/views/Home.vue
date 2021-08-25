@@ -476,7 +476,7 @@
       </div>
     </div>
   </div>
-  <div class="flex-container">
+  <!-- <div class="flex-container">
     <div class="contact_title">
       <h1>CONTACT</h1>
     </div>
@@ -510,7 +510,8 @@
     <div style="display: flex; justify-content: flex-end; width: 100%">
       <input class="envoi-btn" type="submit" value="ENVOYER MESSAGE" />
     </div>
-  </div>
+  </div> -->
+  <Contact></Contact>
 </template>
 
 <style scoped>
@@ -1055,6 +1056,7 @@ import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Axios from "axios";
 import Share from "@/components/Share.vue";
+import Contact from "@/views/Contact.vue";
 // import axios from "axios";
 export default {
   name: "Home",
@@ -1063,6 +1065,7 @@ export default {
     Splide,
     SplideSlide,
     Share,
+    Contact,
   },
   computed: {
     ...mapState([

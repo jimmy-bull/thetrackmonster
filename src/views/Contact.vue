@@ -5,37 +5,75 @@
     </div>
     <div class="input_side">
       <div>
-        <input type="text" i name="name" class="animation_input" />
-        <label for="Post-name" class="text_input animation_champ"> Nom </label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          class="animation_input name_c"
+        />
+        <!-- <label for="Post-name" class="text_input animation_champ"> Nom </label> -->
+        <p class="error">{{ name_error }}</p>
       </div>
+
       <div style="margin-left: 20px">
-        <input type="text" name="email" class="animation_input" />
-        <label for="Post-name" class="text_input animation_champ">
+        <input
+          type="text"
+          name="email"
+          placeholder="E-mail"
+          class="animation_input mail"
+        />
+        <!-- <label for="Post-name" class="text_input animation_champ">
           E-mail
-        </label>
+        </label> -->
+        <p class="error">{{ mail_error }}</p>
       </div>
     </div>
     <div class="box_objet">
-      <input type="text" name="subject" class="animation_input" />
-
-      <label for="Post-name" class="text_input animation_champ">
+      <input
+        type="text"
+        name="subject"
+        placeholder="Subject"
+        class="animation_input subject"
+      />
+      <!-- <label for="Post-name" class="text_input animation_champ">
         Subject
-      </label>
+      </label> -->
+      <p class="error">{{ subject_error }}</p>
     </div>
 
     <div class="box_objet">
-      <input type="text" name="message" class="animation_input" />
-
-      <label for="Post-name" class="text_input animation_champ">
+      <input
+        type="text"
+        name="message"
+        placeholder="MESSAGE"
+        class="animation_input message"
+      />
+      <p class="error">{{ message_error }}</p>
+      <!-- <label for="Post-name" class="text_input animation_champ">
         MESSAGE
-      </label>
+      </label> -->
     </div>
-    <div style="display: flex; justify-content: flex-end; width: 100%">
-      <input class="envoi-btn" type="submit" value="ENVOYER MESSAGE" />
+    <div
+      @click="envoi_btn"
+      style="display: flex; justify-content: flex-end; width: 100%"
+    >
+      <div class="envoi-btn">
+        ENVOYER MESSAGE
+        <HalfCircleSpinner
+          style="margin-left: 50px"
+          :animation-duration="1000"
+          :size="25"
+          color="#2c3e50"
+          v-if="loading_co == true"
+        />
+      </div>
     </div>
   </div>
 </template>
 <style scoped>
+.error {
+  color: #42b983;
+}
 .contact_title {
   display: flex;
   justify-content: center;
@@ -100,14 +138,15 @@ input[type="text"] {
   opacity: 0.9;
   transition: 0.4s ease;
   color: white;
+  font-size: 13px;
 }
 
-.envoi-btn:hover {
+/* .envoi-btn:hover {
   background-color: #2c3e50;
   color: white;
   opacity: 1;
   transition: 0.4s ease;
-}
+} */
 
 input {
   outline: 0;
@@ -170,9 +209,118 @@ label {
     margin: 150px 5% 0 5%;
   }
 }
+
+@media only screen and (max-width: 576px) {
+  .error {
+    font-size: 10px;
+  }
+  .envoi-btn {
+    margin: 20px 0px;
+    background-color: #42b983;
+    color: black;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: 300;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: 0.4s ease;
+    color: white;
+    font-size: 10px;
+  }
+}
 </style>
 <script>
+import Axios from "axios";
+import { mapState } from "vuex";
+import { HalfCircleSpinner } from "epic-spinners";
 export default {
   name: "Contact",
+  data() {
+    return {
+      name_error: "",
+      mail_error: "",
+      subject_error: "",
+      message_error: "",
+      loading: false,
+    };
+  },
+  components: {
+    HalfCircleSpinner,
+  },
+  computed: {
+    ...mapState([
+      "domain_for_external_js_css_file",
+      "play_current",
+      "playing",
+      "play_list",
+      "wishlist_count",
+    ]),
+  },
+  methods: {
+    envoi_btn() {
+      if (document.querySelector(".message").value.trim() == "") {
+        this.message_error = "The field must not be empty!";
+      } else {
+        this.message_error = "";
+      }
+      if (document.querySelector(".name_c").value.trim() == "") {
+        this.name_error = "The field must not be empty!";
+      } else {
+        this.name_error = "";
+      }
+
+      if (document.querySelector(".mail").value.trim() == "") {
+        this.mail_error = "The field must not be empty!";
+      } else {
+        this.mail_error = "";
+      }
+
+      if (document.querySelector(".subject").value.trim() == "") {
+        this.subject_error = "The field must not be empty!";
+      } else {
+        this.subject_error = "";
+      }
+      if (
+        document.querySelector(".message").value.trim() != "" &&
+        document.querySelector(".name_c").value.trim() != "" &&
+        document.querySelector(".mail").value.trim() != "" &&
+        document.querySelector(".subject").value.trim() != ""
+      ) {
+        this.loading = true;
+        Axios.get(
+          this.domain_for_external_js_css_file +
+            "api/email_me/" +
+            document.querySelector(".name_c").value.trim() +
+            "/" +
+            document.querySelector(".mail").value.trim() +
+            "/" +
+            document.querySelector(".subject").value.trim() +
+            "/" +
+            document.querySelector(".message").value.trim()
+        )
+          .then((response) => {
+            if (response.data == "Please enter a valid email") {
+              this.$swal({
+                title: response.data,
+                icon: "error",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              this.loading = false;
+            } else {
+              this.$swal({
+                title: "message sent successfully",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000,
+              });
+              this.loading = false;
+            }
+          })
+          .catch((err) => console.log(err));
+      }
+    },
+  },
 };
 </script>

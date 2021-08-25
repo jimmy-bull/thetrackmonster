@@ -2,20 +2,32 @@
   <div id="page-content">
     <!--CART MAIN ZONE -->
     <div class="container" style="margin-top: 100px">
-      <h1 class="text-center" style="color: rgb(102, 102, 102)">Cart</h1>
+      <h1 class="text-center" style="color: rgb(102, 102, 102)">Cart Review</h1>
       <div class="row">
         <div class="col-lg-8 col-12" style="margin-top: 100px">
           <hr />
           <div class="row">
             <div class="col-lg-2 col-md-2 col-4">
-              <img class="col-lg-12" src="assets/img/gridy4.jpg" alt="" />
+              <img
+                class="col-lg-12"
+                src="https://content.beatstars.com/fit-in/100x100/filters:format(.jpeg):quality(50):fill(000000)/users/prod/1361959/image/1629565512/239478097-165997705584211.jpg"
+                alt=""
+              />
             </div>
-            <div class="col-lg-4 col-8 col-md-5 mt-2">
-              <div><span class="cart_color">Nike Air Max 97</span></div>
-              <div><span class="cart_color">Color: White</span></div>
-              <div><span class="cart_color">Size: 45</span></div>
+            <div class="col-lg-6 col-8 col-md-5 mt-2">
+              <div>
+                <span class="cart_color"
+                  >Over The Top by Pluto, Quantich, Michael Fournier</span
+                >
+              </div>
+              <div>
+                <span class="cart_color" style="font-size: 13px; color: grey"
+                  >TRACK•MP3 Lease (MP3)</span
+                >
+              </div>
+              <!-- <div><span class="cart_color">Size: 45</span></div> -->
             </div>
-            <div class="col-lg-2 col-4 col-md-2 mt-2">
+            <!-- <div class="col-lg-2 col-4 col-md-2 mt-2">
               <multiselect
                 class="select_style"
                 placeholder="Quantity"
@@ -23,7 +35,7 @@
                 id="select_genre"
                 v-model="value_genre"
               ></multiselect>
-            </div>
+            </div> -->
             <div class="col-lg-2 col-md-2 col-4 mt-3">
               <div class="cart_color">$839</div>
             </div>
@@ -64,7 +76,7 @@
                 onclick="window.location.href='#'"
                 class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
               >
-                <span class="ml-2">Continue Shopping</span>
+                <span class="ml-2">Go to home page</span>
                 <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
               </button>
             </div>
@@ -81,7 +93,7 @@
           </div>
 
           <hr />
-          <h6 style="color: rgb(102, 102, 102)">Cart Totals</h6>
+          <!-- <h6 style="color: rgb(102, 102, 102)">Cart Totals</h6>
           <div class="radio_englobe">
             <div class="radio_button_parent ml-1 row">
               <div class="radio_button_sub_parent">
@@ -97,7 +109,7 @@
               <div class="cart_color ml-2">Flate Rate: $10.00</div>
             </div>
           </div>
-          <hr />
+          <hr /> -->
           <div class="row">
             <div style="color: rgb(102, 102, 102)" class="col-lg-8 col-8">
               Total
@@ -113,7 +125,7 @@
                 col-lg-12
               "
             >
-              <span class="ml-2">Proceed To Checkout</span>
+              <span class="ml-2">PAY VIA PAYPAL OR CREDIT CARD</span>
               <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
             </button>
           </div>
@@ -126,7 +138,7 @@
           onclick="window.location.href='#'"
           class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
         >
-          <span class="ml-2">Continue Shopping</span>
+          <span class="ml-2">Go to home page</span>
           <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
         </button>
       </div>
@@ -162,11 +174,11 @@
 <style src="@vueform/multiselect/themes/default.css"></style>
 <script lang="ts">
 import { mapState } from "vuex";
-import Multiselect from "@vueform/multiselect";
+// import Multiselect from "@vueform/multiselect";
 export default {
   name: "Cart",
   components: {
-    Multiselect,
+    // Multiselect,
   },
   computed: {
     ...mapState(["domain_for_external_js_css_file"]),
