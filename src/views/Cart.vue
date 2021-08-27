@@ -1,55 +1,47 @@
 <template>
   <div id="page-content">
     <!--CART MAIN ZONE -->
-    <div class="container" style="margin-top: 100px">
+    <div class="container" style="margin-top: 50px">
       <h1 class="text-center" style="color: rgb(102, 102, 102)">Cart Review</h1>
-      <div class="row">
-        <div class="col-lg-8 col-12" style="margin-top: 100px">
+      <div class="row" v-if="is_empty_cart == false">
+        <div class="col-lg-8 col-12" style="margin-top: 50px">
           <hr />
-          <div class="row">
-            <div class="col-lg-2 col-md-2 col-4">
-              <img
-                class="col-lg-12"
-                src="https://content.beatstars.com/fit-in/100x100/filters:format(.jpeg):quality(50):fill(000000)/users/prod/1361959/image/1629565512/239478097-165997705584211.jpg"
-                alt=""
-              />
-            </div>
-            <div class="col-lg-6 col-8 col-md-5 mt-2">
-              <div>
-                <span class="cart_color"
-                  >Over The Top by Pluto, Quantich, Michael Fournier</span
-                >
+          <div v-for="(item, index) in cartInobjectArray" :key="index">
+            <div class="row">
+              <div class="col-lg-2 col-md-2 col-3">
+                <img class="col-lg-12" :src="item.image" alt="" />
               </div>
-              <div>
-                <span class="cart_color" style="font-size: 13px; color: grey"
-                  >TRACK•MP3 Lease (MP3)</span
-                >
+              <div class="col-lg-6 col-5 col-md-5">
+                <div>
+                  <span class="cart_color">{{ item.title }}</span>
+                </div>
+                <div>
+                  <span class="cart_color" style="font-size: 13px; color: grey"
+                    >TRACK• {{ item.license }}</span
+                  >
+                </div>
               </div>
-              <!-- <div><span class="cart_color">Size: 45</span></div> -->
-            </div>
-            <!-- <div class="col-lg-2 col-4 col-md-2 mt-2">
-              <multiselect
-                class="select_style"
-                placeholder="Quantity"
-                :options="options_genre"
-                id="select_genre"
-                v-model="value_genre"
-              ></multiselect>
-            </div> -->
-            <div class="col-lg-2 col-md-2 col-4 mt-3">
-              <div class="cart_color">$839</div>
-            </div>
-            <div class="col-lg-1 col-md-1 col-4 mt-3">
-              <div>
-                <span
-                  class="close close_main_menu text-right"
-                  style="font-size: 20px"
-                  >×</span
-                >
+
+              <div class="col-lg-2 col-md-2 col-2 mt-3">
+                <div class="cart_color">${{ item.price }}</div>
+              </div>
+              <div
+                @click="delete_in_cart"
+                :id_to_delete="item.id"
+                class="col-lg-1 col-md-1 col-2 mt-3"
+              >
+                <div>
+                  <span
+                    class="close close_main_menu text-right"
+                    style="font-size: 20px; cursor: pointer"
+                    >×</span
+                  >
+                </div>
               </div>
             </div>
+            <hr />
           </div>
-          <hr />
+
           <div class="d-flex justify-content-end">
             <div class="p-2">
               <input
@@ -62,7 +54,7 @@
 
             <div class="p-2">
               <button
-                onclick="window.location.href='#'"
+                @click="apply_coupon"
                 class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
               >
                 <span class="ml-2">Apply Coupon</span>
@@ -72,13 +64,14 @@
           </div>
           <div class="d-flex justify-content-center mt-5">
             <div class="p-2 continue_S1">
-              <button
+              <router-link
+                to="/"
                 onclick="window.location.href='#'"
                 class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
               >
                 <span class="ml-2">Go to home page</span>
                 <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-              </button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -89,10 +82,20 @@
             <div class="col-lg-8 col-8">
               <h6 style="color: rgb(102, 102, 102)">SubTotal</h6>
             </div>
-            <div>$839</div>
+            <div>${{ cart_total }}</div>
           </div>
 
           <hr />
+
+          <div class="row">
+            <div class="col-lg-8 col-8">
+              <h6 style="color: rgb(102, 102, 102)">Discount</h6>
+            </div>
+            <div>$0</div>
+          </div>
+
+          <hr />
+
           <!-- <h6 style="color: rgb(102, 102, 102)">Cart Totals</h6>
           <div class="radio_englobe">
             <div class="radio_button_parent ml-1 row">
@@ -114,7 +117,7 @@
             <div style="color: rgb(102, 102, 102)" class="col-lg-8 col-8">
               Total
             </div>
-            <div class="col-lg-4 col-4">$839</div>
+            <div class="col-lg-4 col-4">${{ cart_total }}</div>
           </div>
           <div class="mt-4">
             <button
@@ -132,6 +135,22 @@
         </div>
       </div>
     </div>
+    <div v-if="is_empty_cart == true">
+      <h5 class="text-center mt-3" style="color: rgb(102, 102, 102)">
+        You have not added any item in your cart.
+      </h5>
+      <div class="d-flex justify-content-center mt-3">
+        <div class="p-2 continue_S1">
+          <router-link
+            to="/"
+            class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
+          >
+            <span class="ml-2">Go to home page</span>
+            <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+          </router-link>
+        </div>
+      </div>
+    </div>
     <div class="d-flex justify-content-center mt-5">
       <div class="p-2 continue_S2">
         <button
@@ -146,9 +165,6 @@
   </div>
 </template>
 <style scoped>
-.btn_carou_buy_now_big {
-  /* background-color: #42b983 !important; */
-}
 </style>
 <style scoped src="../assets/custom.css">
 </style>
@@ -201,12 +217,57 @@ export default {
 
       document.head.appendChild(scriptAdd);
     },
+    takeunique(data, key) {
+      //GET UNIQUE VALUES FROM OBJECT OF ARRAYS
+      return [...new Map(data.map((x) => [key(x), x])).values()];
+    },
+    apply_coupon() {
+      this.$swal({
+        title: "Invalid promo code !",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    },
+    delete_in_cart(event) {
+      //    alert(event.currentTarget.getAttribute("id_to_delete"));
+      this.cartInobjectArray.forEach((element, index) => {
+        if (
+          this.cartInobjectArray[index].id ==
+          event.currentTarget.getAttribute("id_to_delete")
+        ) {
+           this.cart_total -= parseInt(this.cartInobjectArray[index].price);
+          this.cartInobjectArray.splice([index], 1);
+          localStorage.setItem(
+            "cart_session",
+            JSON.stringify(this.cartInobjectArray)
+          );
+          this.$store.dispatch(
+            "update_cart_count",
+            this.takeunique(
+              JSON.parse(localStorage.getItem("cart_session")),
+              (it) => it.id
+            ).length
+          );
+         
+          if (this.cartInobjectArray.length == 0) {
+            localStorage.removeItem("cart_session");
+            this.is_empty_cart = true;
+          }
+        }
+      });
+
+      // console.log(this.cartInobjectArray);
+    },
   },
   data() {
     return {
       value_genre: "",
       options_genre: ["Trap", "hip hop"],
       test: [],
+      is_empty_cart: true,
+      cartInobjectArray: [],
+      cart_total: 0,
     };
   },
   mounted() {
@@ -223,9 +284,19 @@ export default {
     this.importScript("assets/js/radio_button.js");
     // this.importScript("assets/js/carousel/big.js");
   },
-  // created() {
-  //   this.test.push({ image: "jimmy", price: "ok", license: "", title: "" });
-  //   console.log(this.test);
-  // },
+  created() {
+    if (localStorage.getItem("cart_session")) {
+      this.is_empty_cart = false;
+
+      this.cartInobjectArray = this.takeunique(
+        JSON.parse(localStorage.getItem("cart_session")),
+        (it) => it.id
+      );
+      console.log(this.cartInobjectArray);
+      this.cartInobjectArray.forEach((element, index) => {
+        this.cart_total += parseInt(this.cartInobjectArray[index].price);
+      });
+    }
+  },
 };
 </script>

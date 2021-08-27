@@ -4,7 +4,7 @@
     :link_share="link_share"
     @close_share_function="close_share_function"
   ></Share>
-  <Cartmodal />
+
   <div class="home">
     <div class="first_block_parent">
       <div class="first_block">
@@ -223,7 +223,12 @@
                   >Free</span
                 >
                 <span
+                  @click="open_cartModal_function"
                   v-if="itemCarou.downloadable == 'false'"
+                  :price_get="itemCarou.price"
+                  :image_get="itemCarou.image_link"
+                  :title_get="itemCarou.title"
+                  :id_get="itemCarou.id"
                   class="price_carou"
                   >${{ itemCarou.price }}</span
                 >
@@ -1060,7 +1065,7 @@ import "@splidejs/splide/dist/css/themes/splide-default.min.css";
 import Axios from "axios";
 import Share from "@/components/Share.vue";
 import Contact from "@/views/Contact.vue";
-import Cartmodal from "@/components/Cartmodal.vue";
+
 // import axios from "axios";
 export default {
   name: "Home",
@@ -1070,7 +1075,6 @@ export default {
     SplideSlide,
     Share,
     Contact,
-    Cartmodal,
   },
   computed: {
     ...mapState([
@@ -1081,9 +1085,13 @@ export default {
       "wishlist_count",
     ]),
   },
+
   data() {
     return {
+      price_get: 0,
+      open_cartModal: false,
       link_share: "",
+      cartData: {},
       open_share: false,
       beats_genre: "",
       wavesurfer: "",
@@ -1201,9 +1209,13 @@ export default {
         "https://49keysbanger.com/" +
         event.currentTarget.getAttribute("link_share");
     },
+    open_cartModal_function(event) {
+      this.$emit("open_cartModal_function_from_app", event);
+    },
     close_share_function() {
       this.open_share = false;
     },
+
     play(event) {
       let item_id = event.currentTarget.getAttribute("item_id");
       let class_reference = event.currentTarget.getAttribute("class_reference");

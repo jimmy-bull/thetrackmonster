@@ -15,7 +15,7 @@ export default createStore({
     item_id: null,
     wishlist_count: 0,
     is_connected: false,
-    cart: {},
+    cart_count: 0,
   },
   mutations: {
     play_pause_player(state, audio) {
@@ -130,7 +130,10 @@ export default createStore({
     },
     is_connected_f(state, value) {
       state.is_connected = value
-    }
+    },
+    update_cart_count(state, new_cart_count) {
+      state.cart_count = new_cart_count;
+    },
   },
   actions: {
     play_pause_player(context, audio) {
@@ -144,6 +147,9 @@ export default createStore({
     },
     update_wishlist_count(context, new_wishlist_count) {
       context.commit('update_wishlist_count', new_wishlist_count)
+    },
+    update_cart_count(context, new_cart_count) {
+      context.commit('update_cart_count', new_cart_count)
     },
     is_connected_f(context, value) {
       context.commit('is_connected_f', value)

@@ -17,7 +17,9 @@
       <router-link to="/contact">Contact</router-link>
     </div>
     <div class="with_up hide_on_767">
-      <div class="count_number"><span>0</span></div>
+      <div class="count_number">
+        <span>{{ cart_count }}</span>
+      </div>
       <router-link to="/cart">
         <unicon name="shopping-bag" fill="#2c3e50"
       /></router-link>
@@ -107,7 +109,9 @@
 
       <div class="with_up link_block_mobile">
         <div>
-          <div class="count_number_phone"><span>0</span></div>
+          <div class="count_number_phone">
+            <span>{{ cart_count }}</span>
+          </div>
           <router-link to="/cart" @click="close_mobile_menu">
             <unicon name="shopping-bag" fill="#2c3e50"
           /></router-link>
@@ -258,7 +262,7 @@ import { mapState } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapState(["wishlist_count", "is_connected"]),
+    ...mapState(["wishlist_count", "is_connected", "cart_count"]),
   },
 
   methods: {
@@ -276,6 +280,21 @@ export default {
         });
       }
     },
+    takeunique(data, key) {
+      //GET UNIQUE VALUES FROM OBJECT OF ARRAYS
+      return [...new Map(data.map((x) => [key(x), x])).values()];
+    },
+  },
+  created() {
+    if (localStorage.getItem("cart_session")) {
+      this.$store.dispatch(
+        "update_cart_count",
+        this.takeunique(
+          JSON.parse(localStorage.getItem("cart_session")),
+          (it) => it.id
+        ).length
+      );
+    }
   },
 };
 </script>

@@ -356,7 +356,7 @@ export default {
       if (this.$route.query.error == "favoris") {
         this.$swal({
           title: "You must log in to be able to add Beats as favorites.",
-          icon: "erro",
+          icon: "error",
           showConfirmButton: false,
           timer: 4000,
         });

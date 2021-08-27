@@ -1,11 +1,20 @@
 <template>
   <audio @timeupdate="timeupdate" @ended="endPlay" src="" class="track"></audio>
+  <CartModal
+    :open_cartModal="open_cartModal"
+    :price_get="price_get"
+    :data="cartData"
+    @close_cartModal_function="close_cartModal_function"
+  />
   <div class="appp">
     <div id="nav">
       <Header></Header>
     </div>
     <div style="flex-grow: 1">
-      <router-view @open_playlist_box="open_playlist_box" />
+      <router-view
+        @open_playlist_box="open_playlist_box"
+        @open_cartModal_function_from_app="open_cartModal_function_from_app"
+      />
     </div>
     <div class="player_parent">
       <Player></Player>
@@ -25,12 +34,23 @@ import Footer from "@/components/Footer.vue";
 import Player from "@/components/Player.vue";
 import { mapState } from "vuex";
 import Axios from "axios";
+import CartModal from "@/components/CartModal.vue";
 export default {
   name: "App",
+  data() {
+    return {
+      price_get: 0,
+      open_cartModal: false,
+      link_share: "",
+      cartData: {},
+      open_share: false,
+    };
+  },
   components: {
     Header,
     Footer,
     Player,
+    CartModal,
   },
   computed: {
     ...mapState([
@@ -42,6 +62,18 @@ export default {
     ]),
   },
   methods: {
+    open_cartModal_function_from_app(event) {
+      this.open_cartModal = true; //price_get
+      this.price_get = event.currentTarget.getAttribute("price_get");
+      //let cartData = {};
+      this.cartData.price = event.currentTarget.getAttribute("price_get");
+      this.cartData.id = event.currentTarget.getAttribute("id_get");
+      this.cartData.image = event.currentTarget.getAttribute("image_get");
+      this.cartData.title = event.currentTarget.getAttribute("title_get");
+    },
+    close_cartModal_function() {
+      this.open_cartModal = false;
+    },
     formatTime(sec) {
       let minutes = Math.floor(sec / 60);
       let seconds = Math.floor(sec - minutes * 60);
