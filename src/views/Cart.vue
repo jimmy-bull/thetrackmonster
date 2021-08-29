@@ -121,15 +121,16 @@
           </div>
           <div class="mt-4">
             <button
-              onclick="window.location.href='#'"
+              id="bouton-paypal"
+              style="background:none;box-shadow:none"
               class="
                 btn_carou_buy_now_big btn_by_now_simple
                 black_on_small
                 col-lg-12
               "
             >
-              <span class="ml-2">PAY VIA PAYPAL OR CREDIT CARD</span>
-              <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              <!-- <span class="ml-2">PAY VIA PAYPAL OR CREDIT CARD</span> -->
+              <!-- <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i> -->
             </button>
           </div>
         </div>
@@ -236,7 +237,7 @@ export default {
           this.cartInobjectArray[index].id ==
           event.currentTarget.getAttribute("id_to_delete")
         ) {
-           this.cart_total -= parseInt(this.cartInobjectArray[index].price);
+          this.cart_total -= parseInt(this.cartInobjectArray[index].price);
           this.cartInobjectArray.splice([index], 1);
           localStorage.setItem(
             "cart_session",
@@ -249,7 +250,7 @@ export default {
               (it) => it.id
             ).length
           );
-         
+
           if (this.cartInobjectArray.length == 0) {
             localStorage.removeItem("cart_session");
             this.is_empty_cart = true;
@@ -297,6 +298,7 @@ export default {
         this.cart_total += parseInt(this.cartInobjectArray[index].price);
       });
     }
+      this.importScript("assets/js/paypal.js"); //
   },
 };
 </script>

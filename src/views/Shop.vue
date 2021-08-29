@@ -920,7 +920,7 @@
 <style scoped src="../assets/aos.css">
 </style>
 <style scoped>
-@import "http://127.0.0.1:8000/assets/css/animate.min.css";
+@import "https://49keysbanger.com/server-side/storage/app/public/assets/css/animate.min.css";
 </style>
 <style scoped src="../assets/main.css">
 </style>
