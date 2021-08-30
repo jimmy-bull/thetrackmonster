@@ -656,6 +656,7 @@ export default {
     FreeBeats,
   },
   created() {
+     window.scrollTo(0,0);
     let axiosConfig = {
       headers: {
         "Content-Type": "audio/mp3",

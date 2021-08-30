@@ -284,6 +284,7 @@ export default {
     this.importScript("assets/js/aos.js");
     this.importScript("assets/js/radio_button.js");
     // this.importScript("assets/js/carousel/big.js");
+     window.scrollTo(0,0);
   },
   created() {
     if (localStorage.getItem("cart_session")) {

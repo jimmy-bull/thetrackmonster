@@ -408,31 +408,35 @@
       </splide-slide>
     </splide>
 
-    <div class="discover_title_big" style="margin-top: 20px">
+    <div class="discover_title_big" style=" display: flex;
+  justify-content: center;margin-top:50px">
       <span>Blog</span>
     </div>
 
     <div class="blog_grid" style="">
       <div class="blog_items">
         <div>
-          <img
-            class="image_carou"
-            style="border-radius: 3px"
-            src="https://m.media-amazon.com/images/I/71v0GVNo8XL._AC_SL1388_.jpg"
-          />
-          <div class="title_zone_carou">
-            <h2>Drill</h2>
-            <div class="price_block">
-              <div style="padding: 0px 10px 0px 10px">
-                <p style="font-size: 14px">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Cupiditate, maiores qui nesciunt tenetur minima optio nisi
-                  rerum quis quas error.
-                </p>
+          <router-link to="/blog-drill">
+            <img
+              class="image_carou"
+              style="border-radius: 3px"
+              src="https://cdn.shopify.com/s/files/1/0747/3829/products/mHP2070_1024x1024.jpg?v=1571444675"
+            />
+            <div class="title_zone_carou">
+              <h2>Drill</h2>
+              <div class="price_block">
+                <div style="padding: 0px 10px 0px 10px">
+                  <p style="font-size: 14px">
+                    Drill is a style of rap music originating in the south side,
+                    in chicago at the beginning of 2010. It is defined by its
+                    dark, violent, nihilistic lyrical content and its rhythms
+                    influenced by the trap.
+                  </p>
+                </div>
               </div>
+              <h2 style="font-size: 12px; color: #ccc">Last Update: Dec 29</h2>
             </div>
-            <h2 style="font-size: 12px; color: #ccc">Last Update: Dec 29</h2>
-          </div>
+          </router-link>
         </div>
       </div>
       <div class="blog_items">
@@ -440,16 +444,17 @@
           <img
             class="image_carou"
             style="border-radius: 3px"
-            src="https://www.oladerinnews.com/wp-content/uploads/2021/07/Burna-Boy-Wizkid.jpeg"
+            src="https://honestmediablog.files.wordpress.com/2017/04/afrobeatcoverart_fotor.jpg?w=363"
           />
           <div class="title_zone_carou">
-            <h2>Afro Beats</h2>
+            <h2>Afro Beat</h2>
             <div class="price_block">
               <div style="padding: 0px 10px 0px 10px">
                 <p style="font-size: 14px">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Cupiditate, maiores qui nesciunt tenetur minima optio nisi
-                  rerum quis quas error.
+                  Afrobeat is a musical genre derived from a blend of
+                  traditional Nigerian music, jazz, highlife, funk and vocals
+                  accompanied by percussion and vocal styles, popularized in
+                  Africa in the 1970s.
                 </p>
               </div>
             </div>
@@ -458,12 +463,12 @@
         </div>
       </div>
 
-      <div class="blog_items">
+      <!-- <div class="blog_items">
         <div>
           <img
             class="image_carou"
             style="border-radius: 3px"
-            src="https://hollywoodlife.com/wp-content/uploads/2020/07/ti-jeezy-gucci-mane-feud-ap-ftr.jpg"
+            src="https://thefader-res.cloudinary.com/private_images/w_640,c_limit,f_auto,q_auto:eco/Screen_Shot_2016-06-24_at_2.19.48_PM_uwjjng/gucci-mane-all-my-children-cover-art-frko-interview.jpg"
           />
           <div class="title_zone_carou">
             <h2>Trap Music</h2>
@@ -476,10 +481,10 @@
                 </p>
               </div>
             </div>
-            <h2 style="font-size: 12px; color: #ccc">Last Update: Dec 29</h2>
+            <h2 style="font-size: 12px; color: #ccc">Last Update: Sept 05</h2>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <!-- <div class="flex-container">
@@ -1152,6 +1157,7 @@ export default {
   },
 
   created() {
+     window.scrollTo(0,0);
     //alert(this.domain_for_external_js_css_file + "api/newestbeats/")
     Axios.get(this.domain_for_external_js_css_file + "api/genre/")
       .then((response) => {

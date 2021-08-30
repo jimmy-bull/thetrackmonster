@@ -481,6 +481,7 @@ export default {
     ...mapState(["domain_for_external_js_css_file"]),
   },
   created() {
+     window.scrollTo(0,0);
     Axios.get(
       this.domain_for_external_js_css_file +
         "api/beat_desc/" +

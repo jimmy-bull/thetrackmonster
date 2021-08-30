@@ -88,6 +88,22 @@ const routes = [
     component: () => import(/* webpackChunkName: "UserSpace" */ '../views/UserSpace.vue')
   },
   {
+    path: '/blog-drill',
+    name: 'Drill',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "UserSpace" */ '../views/Drill.vue')
+  },
+  {
+    path: '/blog-afro',
+    name: 'Afro',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "UserSpace" */ '../views/Afro.vue')
+  },
+  {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
     component: () => import(/* webpackChunkName: "NotFound" */ '../views/NotFound.vue')
@@ -97,7 +113,8 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  
 })
 
 export default router
