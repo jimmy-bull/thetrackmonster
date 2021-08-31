@@ -29,9 +29,9 @@
 
 <script>
 //08163080149
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Player from "@/components/Player";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Player from "./components/Player";
 import { mapState } from "vuex";
 import Axios from "axios";
 import CartModal from "@/components/CartModal";
