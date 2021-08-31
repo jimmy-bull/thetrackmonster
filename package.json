@@ -14,7 +14,7 @@
     "@vueform/multiselect": "^2.0.1",
     "@vueform/slider": "^2.0.3",
     "axios": "^0.21.1",
-    "core-js": "^3.6.5",
+    "core-js": "^3.16.4",
     "epic-spinners": "^1.1.0",
     "jquery": "^3.6.0",
     "sweetalert2": "^11.0.20",
