@@ -87,11 +87,67 @@
             fill="#42b983"
           />
         </div>
-        <div class="btn_buy_player somewhere_playlist hide_on_576">
+        <div
+          class="btn_buy_player somewhere_playlist hide_on_576"
+          v-if="item.downloadable == 'true'"
+        >
           <div class="hide_on_576">
             <div class="somewhere_playlist">
               <unicon
                 v-if="item.downloadable == 'false'"
+                class="somewhere_playlist"
+                name="shopping-bag"
+                width="15"
+                height="15"
+                fill="white"
+              />
+              <unicon
+                v-if="item.downloadable == 'true'"
+                :free_beats_id="item.id"
+                @click="open_free_beats_function_from_plalist"
+                class="somewhere_playlist"
+                name="import"
+                width="15"
+                height="15"
+                fill="white"
+              />
+            </div>
+          </div>
+          <div
+            class="price_txt somewhere_playlist"
+            v-if="item.downloadable == 'true'"
+            :free_beats_id="item.id"
+            @click="open_free_beats_function_from_plalist"
+          >
+            <span
+              class="somewhere_playlist"
+              style="color: white; font-size: 15px"
+              >Free</span
+            >
+          </div>
+          <div
+            class="price_txt somewhere_playlist"
+            v-if="item.downloadable == 'false'"
+          >
+            <span
+              class="somewhere_playlist"
+              style="color: white; font-size: 15px"
+              >${{ item.price }}</span
+            >
+          </div>
+        </div>
+        <div
+          class="btn_buy_player somewhere_playlist hide_on_576"
+          v-if="item.downloadable == 'false'"
+          @click="open_cartModal_function_playlist"
+          :price_get="item.price"
+          :image_get="item.image_link"
+          :title_get="item.title"
+          :id_get="item.id"
+        >
+          <div class="hide_on_576">
+            <div class="somewhere_playlist">
+              <unicon
                 class="somewhere_playlist"
                 name="shopping-bag"
                 width="15"
@@ -427,6 +483,9 @@ export default {
     },
     open_free_beats_function_from_plalist() {
       this.$emit("open_free_beats_function_from_plalist");
+    },
+    open_cartModal_function_playlist(event) {
+      this.$emit("open_cartModal_function_playlist", event);
     },
     play_liste(event) {
       if (!event.target.matches(".somewhere_playlist")) {

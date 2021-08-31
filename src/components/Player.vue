@@ -87,31 +87,41 @@
           fill="#42b983"
         />
       </div>
-      <div class="btn_buy_player hide_on_576">
+      <div
+        class="btn_buy_player hide_on_576"
+        @click="open_cartModal_function"
+        :price_get="play_current.price"
+        :image_get="play_current.image_link"
+        :title_get="play_current.title"
+        :id_get="play_current.id"
+        v-if="play_current.downloadable == 'false'"
+      >
         <div class="hide_on_576">
-          <div v-if="play_current.downloadable == 'false'">
+          <div>
             <unicon name="shopping-bag" width="15" height="15" fill="white" />
           </div>
-          <div
-            v-if="play_current.downloadable == 'true'"
-            :free_beats_id="play_current.id"
-            @click="open_free_beats_function"
-          >
-            <unicon name="import" width="15" height="15" fill="white" />
-          </div>
         </div>
-        <div
-          class="hide_on_576"
-          :free_beats_id="play_current.id"
-          @click="open_free_beats_function"
-          v-if="play_current.downloadable == 'true'"
-        >
-          <span style="color: white; font-size: 15px">free</span>
-        </div>
-        <div class="hide_on_576" v-if="play_current.downloadable == 'false'">
+
+        <div class="hide_on_576">
           <span style="color: white; font-size: 15px"
             >${{ play_current.price }}</span
           >
+        </div>
+      </div>
+
+      <div
+        class="btn_buy_player hide_on_576"
+        v-if="play_current.downloadable == 'true'"
+        :free_beats_id="play_current.id"
+        @click="open_free_beats_function"
+      >
+        <div class="hide_on_576">
+          <div>
+            <unicon name="import" width="15" height="15" fill="white" />
+          </div>
+        </div>
+        <div class="hide_on_576">
+          <span style="color: white; font-size: 15px">free</span>
         </div>
       </div>
       <div class="play_zone">
@@ -194,6 +204,7 @@
     @open_free_beats_function_from_plalist="
       open_free_beats_function_from_plalist
     "
+    @open_cartModal_function_playlist="open_cartModal_function"
     class="play_list_block"
     :class_referenceProps="class_reference"
   ></Playlist>
@@ -487,6 +498,10 @@ export default {
   },
   mounted() {},
   methods: {
+    open_cartModal_function(event) {
+      this.$emit("open_cartModal_function_from_app", event);
+    },
+ 
     open_share_function(event) {
       this.link_share =
         "https://49keysbanger.com/" +

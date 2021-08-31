@@ -311,6 +311,7 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+     document.title="Welcome"
     this.importScriptHead("assets/js/jquery.js");
     this.importScriptHead("assets/js/popper.js");
     this.importScriptHead("assets/js/bootstrap.min.js"); //

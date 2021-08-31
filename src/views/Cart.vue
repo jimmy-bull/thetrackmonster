@@ -285,6 +285,7 @@ export default {
     this.importScript("assets/js/radio_button.js");
     // this.importScript("assets/js/carousel/big.js");
      window.scrollTo(0,0);
+     document.title = "Cart";
   },
   created() {
     if (localStorage.getItem("cart_session")) {

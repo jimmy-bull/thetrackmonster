@@ -191,17 +191,15 @@
             fill="#42b983"
           />
         </div>
-        <div class="btn_buy_player somewhere_playlist hide_on_576">
+        <div
+          class="btn_buy_player somewhere_playlist hide_on_576"
+          v-if="item.downloadable == 'true'"
+          :free_beats_id="item.id"
+          @click="open_free_beats_function"
+        >
           <div class="hide_on_576">
             <div class="somewhere_playlist">
-              <unicon   v-if="item.downloadable == 'false'"
-                class="somewhere_playlist"
-                name="shopping-bag"
-                width="15"
-                height="15"
-                fill="white"
-              />
-              <unicon   v-if="item.downloadable == 'true'"
+              <unicon
                 class="somewhere_playlist"
                 name="import"
                 width="15"
@@ -210,22 +208,37 @@
               />
             </div>
           </div>
-          <div
-            class="price_txt somewhere_playlist"
-            v-if="item.downloadable == 'true'"
-            :free_beats_id="item.id"
-            @click="open_free_beats_function" 
-          >
+          <div class="price_txt somewhere_playlist">
             <span
               class="somewhere_playlist"
               style="color: white; font-size: 15px"
               >Free</span
             >
           </div>
-          <div
-            class="price_txt somewhere_playlist"
-            v-if="item.downloadable == 'false'"
-          >
+        </div>
+
+        <div
+          class="btn_buy_player somewhere_playlist hide_on_576"
+          v-if="item.downloadable == 'false'"
+          @click="open_cartModal_function"
+          :price_get="item.price"
+          :image_get="item.image_link"
+          :title_get="item.title"
+          :id_get="item.id"
+        >
+          <div class="hide_on_576">
+            <div class="somewhere_playlist">
+              <unicon
+                class="somewhere_playlist"
+                name="shopping-bag"
+                width="15"
+                height="15"
+                fill="white"
+              />
+            </div>
+          </div>
+
+          <div class="price_txt somewhere_playlist">
             <span
               class="somewhere_playlist"
               style="color: white; font-size: 15px"
@@ -580,8 +593,8 @@ select {
   .play_list_block_playlist {
     margin: 0px 10px 0px 10px;
   }
-  .title__{
-    font-size:13px;
+  .title__ {
+    font-size: 13px;
   }
 }
 @media only screen and (max-width: 360px) {
@@ -656,7 +669,8 @@ export default {
     FreeBeats,
   },
   created() {
-     window.scrollTo(0,0);
+    window.scrollTo(0, 0);
+    document.title = "Beat";
     let axiosConfig = {
       headers: {
         "Content-Type": "audio/mp3",
@@ -841,6 +855,9 @@ export default {
   },
 
   methods: {
+     open_cartModal_function(event) {
+      this.$emit("open_cartModal_function_from_app", event);
+    },
     genre_select(event) {
       if (event.currentTarget.value == "Genre") {
         // alert(event.currentTarget.value);

@@ -58,5 +58,8 @@ export default {
   data() {
     return {};
   },
+  mounted(){
+     document.title="Not Found"
+  }
 };
 </script>

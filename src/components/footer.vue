@@ -22,10 +22,10 @@
         <router-link to="/">Licensing Info</router-link>
       </div> -->
       <div>
-        <router-link to="/contact">Terms of use</router-link>
+        <router-link to="/term">Terms of use</router-link>
       </div>
       <div>
-        <router-link to="/contact">Privacy policy</router-link>
+        <router-link to="/PrivacyPolicy">Privacy policy</router-link>
       </div>
     </div>
     <div class="vertical_link_footer">

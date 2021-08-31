@@ -408,8 +408,10 @@
       </splide-slide>
     </splide>
 
-    <div class="discover_title_big" style=" display: flex;
-  justify-content: center;margin-top:50px">
+    <div
+      class="discover_title_big"
+      style="display: flex; justify-content: center; margin-top: 50px"
+    >
       <span>Blog</span>
     </div>
 
@@ -434,32 +436,34 @@
                   </p>
                 </div>
               </div>
-              <h2 style="font-size: 12px; color: #ccc">Last Update: Dec 29</h2>
+              <h2 style="font-size: 12px; color: #ccc">Last Update: Sept 05</h2>
             </div>
           </router-link>
         </div>
       </div>
       <div class="blog_items">
         <div>
-          <img
-            class="image_carou"
-            style="border-radius: 3px"
-            src="https://honestmediablog.files.wordpress.com/2017/04/afrobeatcoverart_fotor.jpg?w=363"
-          />
-          <div class="title_zone_carou">
-            <h2>Afro Beat</h2>
-            <div class="price_block">
-              <div style="padding: 0px 10px 0px 10px">
-                <p style="font-size: 14px">
-                  Afrobeat is a musical genre derived from a blend of
-                  traditional Nigerian music, jazz, highlife, funk and vocals
-                  accompanied by percussion and vocal styles, popularized in
-                  Africa in the 1970s.
-                </p>
+          <router-link to="/blog-afro">
+            <img
+              class="image_carou"
+              style="border-radius: 3px"
+              src="https://honestmediablog.files.wordpress.com/2017/04/afrobeatcoverart_fotor.jpg?w=363"
+            />
+            <div class="title_zone_carou">
+              <h2>Afro Beat</h2>
+              <div class="price_block">
+                <div style="padding: 0px 10px 0px 10px">
+                  <p style="font-size: 14px">
+                    Afrobeat is a musical genre derived from a blend of
+                    traditional Nigerian music, jazz, highlife, funk and vocals
+                    accompanied by percussion and vocal styles, popularized in
+                    Africa in the 1970s.
+                  </p>
+                </div>
               </div>
+              <h2 style="font-size: 12px; color: #ccc">Last Update: Sept 05</h2>
             </div>
-            <h2 style="font-size: 12px; color: #ccc">Last Update: Dec 29</h2>
-          </div>
+          </router-link>
         </div>
       </div>
 
@@ -1157,7 +1161,8 @@ export default {
   },
 
   created() {
-     window.scrollTo(0,0);
+    document.title = "49keys";
+    window.scrollTo(0, 0);
     //alert(this.domain_for_external_js_css_file + "api/newestbeats/")
     Axios.get(this.domain_for_external_js_css_file + "api/genre/")
       .then((response) => {

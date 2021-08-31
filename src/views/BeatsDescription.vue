@@ -62,10 +62,32 @@
             <!-- end nom BPM Date -->
 
             <div class="div_prix_share">
-              <div class="prix_share space_prix">
-                <img href="#" class="icons_price_share" />
+              <div
+                class="prix_share space_prix"
+                v-if="item.downloadable == 'false'"
+                @click="open_cartModal_function"
+                :price_get="item.price"
+                :image_get="item.image_link"
+                :title_get="item.title"
+                :id_get="item.id"
+              >
+                <span>
+                  <unicon
+                    class="somewhere_playlist"
+                    name="shopping-bag"
+                    width="15"
+                    height="15"
+                    fill="white"
+                  />${{ item.price }}</span
+                >
+              </div>
+
+              <div
+                class="prix_share space_prix"
+                v-if="item.downloadable == 'true'"
+              >
+                <!-- <img href="#" class="icons_price_share" /> -->
                 <span
-                  v-if="item.downloadable == 'true'"
                   :free_beats_id="item.id"
                   @click="open_free_beats_function"
                 >
@@ -78,15 +100,6 @@
                     fill="white"
                   />
                   Free</span
-                >
-                <span v-if="item.downloadable == 'false'">
-                  <unicon
-                    class="somewhere_playlist"
-                    name="shopping-bag"
-                    width="15"
-                    height="15"
-                    fill="white"
-                  />${{ item.price }}</span
                 >
               </div>
 
@@ -481,7 +494,7 @@ export default {
     ...mapState(["domain_for_external_js_css_file"]),
   },
   created() {
-     window.scrollTo(0,0);
+    window.scrollTo(0, 0);
     Axios.get(
       this.domain_for_external_js_css_file +
         "api/beat_desc/" +
@@ -490,6 +503,7 @@ export default {
       .then((response) => {
         this.beat_desc = response;
         console.log(this.beat_desc);
+        document.title = response.data[0].title;
       })
       .catch((err) => console.log(err));
 
@@ -512,6 +526,9 @@ export default {
   },
 
   methods: {
+    open_cartModal_function(event) {
+      this.$emit("open_cartModal_function_from_app", event);
+    },
     open_share_function(event) {
       this.open_share = true;
       this.link_share =

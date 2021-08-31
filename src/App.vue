@@ -17,7 +17,7 @@
       />
     </div>
     <div class="player_parent">
-      <Player></Player>
+      <Player  @open_cartModal_function_from_app="open_cartModal_function_from_app"></Player>
     </div>
 
     <div id="footer">
