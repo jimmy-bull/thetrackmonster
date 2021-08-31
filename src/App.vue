@@ -29,12 +29,12 @@
 
 <script>
 //08163080149
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import Player from "@/components/Player.vue";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import Player from "@/components/Player";
 import { mapState } from "vuex";
 import Axios from "axios";
-import CartModal from "@/components/CartModal.vue";
+import CartModal from "@/components/CartModal";
 export default {
   name: "App",
   data() {

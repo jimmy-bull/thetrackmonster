@@ -88,8 +88,7 @@ a {
   .footer_block > div {
     margin: 0px 1% 50px 1%;
   }
-  .footer_block {
-  }
+  
 }
 </style>
 <script>
