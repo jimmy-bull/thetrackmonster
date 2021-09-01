@@ -1159,10 +1159,12 @@ export default {
       stopCall: 0,
     };
   },
+  mounted() {
+    document.title = "49keysBanger";
+    window.scrollTo(0, 0);
+  },
 
   created() {
-    document.title = "49keys";
-    window.scrollTo(0, 0);
     //alert(this.domain_for_external_js_css_file + "api/newestbeats/")
     Axios.get(this.domain_for_external_js_css_file + "api/genre/")
       .then((response) => {

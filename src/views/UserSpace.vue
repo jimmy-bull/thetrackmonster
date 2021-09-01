@@ -243,6 +243,7 @@ export default {
     return {
       error_password: "",
       loading_co: false,
+      user_orders: "",
     };
   },
   components: {
@@ -311,7 +312,7 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
-     document.title="Welcome"
+    document.title = "Welcome";
     this.importScriptHead("assets/js/jquery.js");
     this.importScriptHead("assets/js/popper.js");
     this.importScriptHead("assets/js/bootstrap.min.js"); //
@@ -335,6 +336,17 @@ export default {
           if (response.data != "Already connected") {
             this.$router.push("/");
           }
+        })
+        .catch((err) => console.log(err));
+
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/get_orders/" +
+          localStorage.getItem("session_token")
+      )
+        .then((response) => {
+         // console.log(response.data);
+          this.user_orders = response.data;
         })
         .catch((err) => console.log(err));
     } else {

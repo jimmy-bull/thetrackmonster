@@ -30,13 +30,21 @@
     </div>
     <div class="vertical_link_footer">
       <div>
-        <a href=""><unicon name="instagram" fill="#2c3e50" /></a>
+        <a
+          target="_blank"
+          href="https://www.instagram.com/49keysofficial/?hl=fr"
+          ><unicon name="instagram" fill="#2c3e50"
+        /></a>
       </div>
-      <div>
+      <!-- <div>
         <a href=""><unicon name="facebook" fill="#2c3e50" /></a>
-      </div>
+      </div> -->
       <div>
-        <a href=""><unicon name="youtube" fill="#2c3e50" /></a>
+        <a
+          target="_blank"
+          href="https://www.youtube.com/channel/UCC-fvJ5LD1azQ0rsLHPh6WA"
+          ><unicon name="youtube" fill="#2c3e50"
+        /></a>
       </div>
     </div>
   </div>
@@ -88,7 +96,6 @@ a {
   .footer_block > div {
     margin: 0px 1% 50px 1%;
   }
-  
 }
 </style>
 <script>
