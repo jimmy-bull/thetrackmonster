@@ -68,11 +68,32 @@
           </div>
         </div>
       </div>
-      <div class="menu_commande">
-        <h3 class="cc">Order</h3>
+      <h3 class="cc">Order</h3>
+
+      <div
+        class="menu_commande"
+        v-if="
+          typeof user_orders.data !== 'undefined' && user_orders.data.length > 0
+        "
+      >
         <div class="mt-5 commande_head">
           <div class="beats_block">
             <h3>Beats</h3>
+          </div>
+
+          <div class="date_block">
+            <h3>Date</h3>
+          </div>
+          <div>
+            <h3>means of payment</h3>
+          </div>
+        </div>
+        <div
+          class="commande_head"
+          v-for="(item, index) in user_orders.data"
+          :key="index"
+        >
+          <div class="beats_block">
             <div class="inline_block_beats">
               <div class="img_block">
                 <img
@@ -83,30 +104,25 @@
                     object-fit: cover;
                     border-radius: 3px;
                   "
-                  src="http://127.0.0.1:8000/images/6lack.jpeg"
+                  :src="item.image_link"
                   alt=""
                 />
               </div>
               <div>
-                <span>Lil wayne type beats</span>
+                <span>{{ item.title }}</span>
               </div>
               <div class="btn_buy_player">
-                <span style="color: white">$25</span>
+                <span style="color: white">${{ item.price }}</span>
               </div>
             </div>
           </div>
-          <div>
-            <h3>Status</h3>
+
+          <div class="date_block">
             <div style="margin-top: 30px">
-              <span style="color: #42b983">Sold</span>
+              <span>{{ item.created_at }}</span>
             </div>
           </div>
-          <div class="date_block">
-            <h3>Date</h3>
-            <div style="margin-top: 30px"><span>20/04/2021</span></div>
-          </div>
           <div>
-            <h3>means of payment</h3>
             <div
               style="margin-top: 30px; display: flex; justify-content: flex-end"
             >
@@ -115,10 +131,46 @@
           </div>
         </div>
       </div>
+      <div v-if="typeof user_orders.data == 'undefined' ">
+        <br />
+        <br />
+        <h3 style="font-size: 25px !important">
+          You haven't bought a beat yet.
+        </h3>
+      </div>
+     
     </div>
   </div>
 </template>
 <style scoped>
+.loader {
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid #42b983;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .error_message {
   color: #42b983;
   margin-top: 20px;
@@ -144,10 +196,11 @@
   width: 40%;
 }
 .date_block {
-  width: 10%;
+  width: 20%;
 }
 .commande_head {
   display: flex;
+  align-items: center;
 }
 .commande_head > div {
   color: gray;
@@ -244,6 +297,7 @@ export default {
       error_password: "",
       loading_co: false,
       user_orders: "",
+      empty_ordres: "",
     };
   },
   components: {
@@ -345,8 +399,7 @@ export default {
           localStorage.getItem("session_token")
       )
         .then((response) => {
-         // console.log(response.data);
-          this.user_orders = response.data;
+          this.user_orders = response;
         })
         .catch((err) => console.log(err));
     } else {
