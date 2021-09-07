@@ -120,18 +120,19 @@
             <div class="col-lg-4 col-4">${{ cart_total }}</div>
           </div>
           <div class="mt-4">
-            <button
-              id="bouton-paypal"
-              style="background:none;box-shadow:none"
-              class="
-                btn_carou_buy_now_big btn_by_now_simple
-                black_on_small
-                col-lg-12
-              "
-            >
-              <!-- <span class="ml-2">PAY VIA PAYPAL OR CREDIT CARD</span> -->
-              <!-- <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i> -->
-            </button>
+            <span id="bouton-paypal"></span>
+            <router-link to="/account?error=payment" id="btn_send_co">
+              <button
+                class="
+                  btn_carou_buy_now_big btn_by_now_simple
+                  black_on_small
+                  col-lg-12
+                "
+              >
+                <span class="ml-2">Please Log in to validate your order</span>
+                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+              </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -154,18 +155,21 @@
     </div>
     <div class="d-flex justify-content-center mt-5">
       <div class="p-2 continue_S2">
-        <button
-          onclick="window.location.href='#'"
+        <router-link
+          to="/"
           class="btn_carou_buy_now_big btn_by_now_simple black_on_small"
         >
           <span class="ml-2">Go to home page</span>
           <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-        </button>
+        </router-link>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
+#bouton-paypal-no-co {
+  display: none;
+}
 </style>
 <style scoped src="../assets/custom.css">
 </style>
@@ -192,6 +196,7 @@
 <script lang="ts">
 import { mapState } from "vuex";
 // import Multiselect from "@vueform/multiselect";
+import Axios from "axios";
 export default {
   name: "Cart",
   components: {
@@ -284,8 +289,29 @@ export default {
     this.importScript("assets/js/aos.js");
     this.importScript("assets/js/radio_button.js");
     // this.importScript("assets/js/carousel/big.js");
-     window.scrollTo(0,0);
-     document.title = "Cart";
+    window.scrollTo(0, 0);
+    document.title = "Cart";
+    if (localStorage.getItem("cart_session")) {
+      Axios.get(
+        this.domain_for_external_js_css_file +
+          "api/token_verify/" +
+          localStorage.getItem("session_token")
+      )
+        .then((response) => {
+          console.log(response.data);
+          if (response.data == "Already connected") {
+            document.getElementById("btn_send_co").style.display = "none";
+            document.getElementById("bouton-paypal").style.display = "block";
+          } else {
+            document.getElementById("btn_send_co").style.display = "block";
+            document.getElementById("bouton-paypal").style.display = "none";
+          }
+        })
+        .catch((err) => console.log(err));
+      //
+    } else {
+      //
+    }
   },
   created() {
     if (localStorage.getItem("cart_session")) {
@@ -299,8 +325,10 @@ export default {
       this.cartInobjectArray.forEach((element, index) => {
         this.cart_total += parseInt(this.cartInobjectArray[index].price);
       });
+    } else {
+      document.getElementById("btn_send_co").style.display = "block";
     }
-      this.importScript("assets/js/paypal.js"); //
+    this.importScript("assets/js/paypal.js"); //
   },
 };
 </script>

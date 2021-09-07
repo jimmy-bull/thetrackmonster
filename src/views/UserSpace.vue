@@ -13,11 +13,12 @@
       >
     </div>
     <div class="d-block_space">
-      <div class="menu_update">
-        <h3>Change your Password</h3>
-        <div class="mt-5 col-lg-12">
-          <h3>Update</h3>
-          <!-- <div class="mt-5">
+      <div class="menu_update d-flex justify-content-center col-lg-12">
+        <div>
+          <h3>Change your Password</h3>
+          <div class="mt-3 col-lg-12">
+            <h3>Update</h3>
+            <!-- <div class="mt-5">
             <label for="">Name</label>
             <input
               type="text"
@@ -27,118 +28,113 @@
             />
             <p class="error_message">{{ error_email_false_login }}</p>
           </div> -->
-          <div class="mt-5">
-            <label for="">New Password</label>
-            <input
-              type="password"
-              placeholder="Password *"
-              class="txt_email_footer special_txt col-lg-12 login_pass"
-              name="login_pass"
-            />
-            <p class="error_message">{{ error_password }}</p>
-          </div>
+            <div class="mt-5">
+              <label for="">New Password</label>
+              <input
+                type="password"
+                placeholder="Password *"
+                class="txt_email_footer special_txt col-lg-12 login_pass"
+                name="login_pass"
+              />
+              <p class="error_message">{{ error_password }}</p>
+            </div>
 
-          <div class="mt-5">
-            <button
-              @click="change_pass"
-              class="
-                btn_carou_buy_now_big btn_by_now_simple
-                black_on_small
-                col-lg-12
-              "
-            >
-              <div
-                style="
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
+            <div class="mt-5">
+              <button
+                @click="change_pass"
+                class="
+                  btn_carou_buy_now_big btn_by_now_simple
+                  black_on_small
+                  col-lg-12
                 "
               >
-                <span class="ml-2">Update</span>
-                <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
-                <HalfCircleSpinner
-                  style="margin-left: 50px"
-                  :animation-duration="1000"
-                  :size="25"
-                  color="#2c3e50"
-                  v-if="loading_co == true"
-                />
-              </div>
-            </button>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                >
+                  <span class="ml-2">Update</span>
+                  <i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>
+                  <HalfCircleSpinner
+                    style="margin-left: 50px"
+                    :animation-duration="1000"
+                    :size="25"
+                    color="#2c3e50"
+                    v-if="loading_co == true"
+                  />
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <h3 class="cc">Order</h3>
+      <h3 class="cc mt-5">Client Orders</h3>
 
       <div
-        class="menu_commande"
         v-if="
-          typeof user_orders.data !== 'undefined' && user_orders.data.length > 0
+          !Array.isArray(user_orders.data) &&
+          user_orders.data == 'You havent bought a beat yet.'
         "
       >
-        <div class="mt-5 commande_head">
-          <div class="beats_block">
-            <h3>Beats</h3>
-          </div>
-
-          <div class="date_block">
-            <h3>Date</h3>
-          </div>
-          <div>
-            <h3>means of payment</h3>
-          </div>
-        </div>
-        <div
-          class="commande_head"
-          v-for="(item, index) in user_orders.data"
-          :key="index"
-        >
-          <div class="beats_block">
-            <div class="inline_block_beats">
-              <div class="img_block">
-                <img
-                  style="
-                    width: 35px;
-                    height: 35px;
-                    -o-object-fit: cover;
-                    object-fit: cover;
-                    border-radius: 3px;
-                  "
-                  :src="item.image_link"
-                  alt=""
-                />
-              </div>
-              <div>
-                <span>{{ item.title }}</span>
-              </div>
-              <div class="btn_buy_player">
-                <span style="color: white">${{ item.price }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="date_block">
-            <div style="margin-top: 30px">
-              <span>{{ item.created_at }}</span>
-            </div>
-          </div>
-          <div>
-            <div
-              style="margin-top: 30px; display: flex; justify-content: flex-end"
-            >
-              <span> Paypal</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div v-if="typeof user_orders.data == 'undefined' ">
         <br />
         <br />
         <h3 style="font-size: 25px !important">
           You haven't bought a beat yet.
         </h3>
       </div>
-     
+    </div>
+    <div class="table-responsive">
+      <table
+        v-if="Array.isArray(user_orders.data)"
+        class="table mt-5 table-borderless"
+      >
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Date</th>
+            <th>File To Download</th>
+            <th>License</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in user_orders.data" :key="index">
+            <th scope="row">
+              <img
+                style="
+                  width: 35px;
+                  height: 35px;
+                  -o-object-fit: cover;
+                  object-fit: cover;
+                  border-radius: 3px;
+                "
+                :src="item.image_link"
+                alt=""
+              />
+            </th>
+            <td>
+              <div class="td_width_title">{{ item.title }}</div>
+            </td>
+            <td>${{ item.price }}</td>
+            <td>
+              <div class="td_width_date">{{ item.created_at }}</div>
+            </td>
+            <td
+              @click="download"
+              :file_name="item.file_name"
+              style="cursor: pointer; color: #42b983"
+            >
+              {{ item.file_name }}
+            </td>
+            <td style="cursor: pointer; color: #42b983">
+              <div class="td_width_date">{{ item.license }}</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -178,7 +174,7 @@
 .inline_block_beats {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .inline_block_beats > div {
   margin-top: 5%;
@@ -213,11 +209,10 @@
   width: 70%;
 }
 .d-block_space {
-  display: flex;
   margin-top: 30px;
 }
 .d-block_space > div {
-  margin: 0 3% 0 3%;
+  margin: 0 1% 0 1%;
 }
 .link_a {
   margin-left: 20px;
@@ -263,6 +258,12 @@ h3 {
   .date_block {
     width: 20%;
   }
+  .td_width_title {
+    width: 200px;
+  }
+  .td_width_date {
+    width: 120px;
+  }
 }
 </style>
 <style scoped src="../assets/custom.css">
@@ -296,7 +297,7 @@ export default {
     return {
       error_password: "",
       loading_co: false,
-      user_orders: "",
+      user_orders: [],
       empty_ordres: "",
     };
   },
@@ -362,6 +363,16 @@ export default {
       this.$router.push("/");
       this.$store.dispatch("is_connected_f", false);
       this.$store.dispatch("update_wishlist_count", 0);
+    },
+    download(event) {
+      window.open(
+        this.domain_for_external_js_css_file +
+          "api/pay_dowload/" +
+          localStorage.getItem("session_token") +
+          "/" +
+          event.currentTarget.getAttribute("file_name"),
+        "_blank"
+      );
     },
   },
   mounted() {

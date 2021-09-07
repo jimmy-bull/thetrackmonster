@@ -203,7 +203,7 @@ export default {
       let scriptAdd = document.createElement("script");
       scriptAdd.setAttribute(
         "src",
-       "https://49keysbanger.com/server-side/storage/app/public/" + script_link
+        "https://49keysbanger.com/server-side/storage/app/public/" + script_link
       );
 
       document.head.appendChild(scriptAdd);
@@ -300,6 +300,8 @@ export default {
               if (typeof this.$route.query.error != "undefined") {
                 if (this.$route.query.error == "comment") {
                   window.history.back();
+                } else if (this.$route.query.error == "payment") {
+                  window.history.back();
                 } else {
                   this.$router.push("/");
                 }
@@ -326,8 +328,8 @@ export default {
     };
   },
   mounted() {
-     window.scrollTo(0,0);
-      document.title="Login"
+    window.scrollTo(0, 0);
+    document.title = "Login";
     this.importScriptHead("assets/js/jquery.js");
     this.importScriptHead("assets/js/popper.js");
     this.importScriptHead("assets/js/bootstrap.min.js"); //
@@ -369,6 +371,14 @@ export default {
           icon: "erro",
           showConfirmButton: false,
           timer: 4000,
+        });
+      } else if (this.$route.query.error == "payment") {
+        this.$swal({
+          title:
+            "To keep track of your transactions for purchasing this beat, please create a free account here or log in.",
+          icon: "erro",
+          showConfirmButton: false,
+          timer: 5000,
         });
       }
     }
